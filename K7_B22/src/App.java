@@ -15,6 +15,7 @@ public class App {
             System.out.println("| [2]. Login                                  |");
             System.out.println("| [3]. Keluar                                 |");
             System.out.println("===============================================");
+            System.out.println(">> ");
             pilih = sc.nextLine();
             switch (pilih) {
                 case "1":
@@ -34,9 +35,9 @@ public class App {
     }
 
     public static void daftar() {
-        System.out.print("Masukkan username: ");
+        System.out.print("Masukkan Username: ");
         String username = sc.nextLine();
-        System.out.print("Masukkan password: ");
+        System.out.print("Masukkan Password: ");
         String password = sc.nextLine();
         // Tambahkan logika untuk menyimpan informasi pengguna yang baru didaftarkan
         System.out.println("Pendaftaran berhasil!");
@@ -70,6 +71,7 @@ public class App {
             System.out.println("| [4]. Delete Data |");
             System.out.println("| [5]. Keluar      |");
             System.out.println("====================");
+            System.out.print(">> ");
             pilih = sc.nextLine();
             switch (pilih) {
                 case "1":
@@ -108,6 +110,7 @@ public class App {
             System.out.println("| [3]. Konfirmasi Pengiriman  |");
             System.out.println("| [4]. Keluar                 |");
             System.out.println("===============================");
+            System.out.print(">> ");
             pilih = sc.nextLine();
             switch (pilih) {
                 case "1":
@@ -133,6 +136,43 @@ public class App {
     }
     
     public static void menuCust(){
-        System.out.println("Menu Cust");
+        while (!pilih.equals("5")) {
+            System.out.println("=====================");
+            System.out.println("|   Menu Customer   |");
+            System.out.println("=====================");
+            System.out.println("| [1]. Beli Barang  |");
+            System.out.println("| [2]. Lihat Barang |");
+            System.out.println("| [3]. Keranjang    |");
+            System.out.println("| [4]. Profile      |");
+            System.out.println("| [5]. Keluar       |");
+            System.out.println("=====================");
+            System.out.print(">> ");
+            pilih = sc.nextLine();
+            switch (pilih) {
+                case "1":
+                    System.out.println("Beli Barang");
+                    // Tambahkan logika untuk proses pembelian barang
+                    break;
+                case "2":
+                    System.out.println("Lihat Barang");
+                    // Tambahkan logika untuk melihat barang yang tersedia
+                    break;
+                case "3":
+                    System.out.println("Keranjang");
+                    // Tambahkan logika untuk melihat keranjang belanja dan melakukan pembayaran
+                    break;
+                case "4":
+                    System.out.println("Profile");
+                    // Tambahkan logika untuk melihat dan mengubah informasi profil pengguna
+                    break;
+                case "5":
+                    System.out.println("Keluar dari Menu Customer");
+                    break;
+                default:
+                    System.out.println("Input harus angka !!!");
+                    break;
+            }
+        }
     }
+    
 }
