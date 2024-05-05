@@ -1,5 +1,6 @@
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 
 import User.customer;
 
@@ -8,6 +9,7 @@ public class App {
     static boolean loggedIn = false;
     static String pilih = "";
     static int custId = 0;
+    static String username = "";
 
     static ArrayList<customer> datacust = new ArrayList<>();
 
@@ -90,6 +92,7 @@ public class App {
             if (customer.username.equals(inputUsername) && customer.password.equals(inputPassword)) {
                 System.out.println("Login berhasil!");
                 loggedIn = true;
+                username = inputUsername; 
                 custId = customer.getId();
                 menuCust();
                 loginSuccess = true;
@@ -193,6 +196,7 @@ public class App {
 
     public static void menuCust() {
         while (!pilih.equals("5")) {
+            System.out.println("Hai "+ username);
             System.out.println("=====================");
             System.out.println("|   Menu Customer   |");
             System.out.println("=====================");
@@ -215,7 +219,6 @@ public class App {
                     System.out.println("Keranjang");
                     break;
                 case "4":
-                    System.out.println("Profil");
                     menuProfile();
                     break;
                 case "5":
@@ -245,19 +248,19 @@ public class App {
                 default:
                     break;
             }
-            
         }
     }
 
     public static void profileCust() {
         for (customer customer : datacust) {
+            System.out.println("| Profil");
             if (customer.getId() == (custId)) {
-                System.out.println("Username : " + customer.getUsername());
-                System.out.println("Password : " + customer.getPassword());
-                System.out.println("Nama     : " + customer.getNama());
-                System.out.println("No. Telp : " + customer.getTelp());
-                System.out.println("Email    : " + customer.getEmail());
-                System.out.println("Alamat   : " + customer.getAlamatPengiriman());
+                System.out.println("| Username : " + customer.getUsername());
+                System.out.println("| Password : " + customer.getPassword());
+                System.out.println("| Nama     : " + customer.getNama());
+                System.out.println("| No. Telp : " + customer.getTelp());
+                System.out.println("| Email    : " + customer.getEmail());
+                System.out.println("| Alamat   : " + customer.getAlamatPengiriman());
             }
         }
     }
@@ -265,7 +268,7 @@ public class App {
     public static void ubahProfile() {
         customer customerToUpdate = null; // Deklarasikan variabel customerToUpdate untuk menyimpan pelanggan yang akan diperbarui
     
-        // Temukan pelanggan yang sesuai berdasarkan username
+        // Temukan pelanggan yang sesuai berdasarkan Id
         for (customer customer : datacust) {
             if (customer.getId() == custId) {
                 customerToUpdate = customer; // Simpan referensi pelanggan yang sesuai
@@ -305,13 +308,19 @@ public class App {
                     break;
                 case "4":
                     System.out.print("Masukkan nomor telepon baru: ");
-                    int telpBaru = Integer.parseInt(sc.nextLine());
+                    int telpBaru = cekinput(sc);
                     customerToUpdate.setTelp(telpBaru); // Ubah nomor telepon pelanggan
                     break;
                 case "5":
                     System.out.print("Masukkan email baru: ");
                     String emailBaru = sc.nextLine();
-                    customerToUpdate.setEmail(emailBaru); // Ubah email pelanggan
+                    
+                    while (!isValidEmail(emailBaru)) {
+                        System.out.println("Alamat email tidak valid. Harap masukkan alamat email yang benar.");
+                        System.out.print("Masukkan email baru: ");
+                        emailBaru = sc.nextLine();
+                    }
+                    customerToUpdate.setEmail(emailBaru);
                     break;
                 case "6":
                     System.out.print("Masukkan alamat baru: ");
@@ -328,5 +337,22 @@ public class App {
         }
     }
     
+    public static boolean isValidEmail(String email) {
+        return email.contains("@") && email.contains(".com");
+    }
+
+    public static int cekinput(Scanner sc) {
+        int input = 0; // Inisialisasi input dengan nilai default
+        while (true) {
+            try {
+                input = sc.nextInt(); // Mengambil input dari scanner
+                break; // Keluar dari loop jika input berhasil
+            } catch (InputMismatchException e) {
+                System.out.println("Input harus berupa angka. Silakan coba lagi.");
+                sc.next(); // Membersihkan buffer input setelah input tidak valid
+            }
+        }
+        return input; // Mengembalikan nilai input yang valid
+    }
 
 }
