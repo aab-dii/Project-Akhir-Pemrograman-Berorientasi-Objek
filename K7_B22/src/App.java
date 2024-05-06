@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 
 import User.customer;
+import User.admin;
+import User.kurir;
 
 public class App {
     static Scanner sc = new Scanner(System.in);
