@@ -1,6 +1,11 @@
 import java.util.Scanner;
 
 import Product.rumahTangga;
+import Product.elektronik;
+import Product.furniture;
+import Product.perkakas;
+
+import Keranjang.keranjang;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -12,14 +17,24 @@ import User.kurir;
 public class App {
     static Scanner sc = new Scanner(System.in);
     static boolean loggedIn = false;
-    static String pilih = "";
+
     static int custId = 0;
     static String username = "";
+    static boolean exit = true;
 
-    static ArrayList<customer> datacust = new ArrayList<>();
-    static ArrayList<rumahTangga> datart = new ArrayList<>();
+    static ArrayList<customer> dataCust = new ArrayList<>();
+    static ArrayList<kurir> dataKurir = new ArrayList<>();
+    static ArrayList<admin> dataAdmin = new ArrayList<>();
+
+    static ArrayList<keranjang> dataKeranjang = new ArrayList<>();
+
+    static ArrayList<rumahTangga> datArt = new ArrayList<>();
+    static ArrayList<elektronik> dataElektronik = new ArrayList<>();
+    static ArrayList<furniture> dataFurniture = new ArrayList<>();
+    static ArrayList<perkakas> dataPerkakas = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
+        String pilih = "";
         while (!pilih.equals("3")) {
             System.out.println("===============================================");
             System.out.println("| SISTEM PENDATAAN RUMAH TANGGA DAN AKSESORIS |");
@@ -56,7 +71,7 @@ public class App {
         boolean usernameExists = false;
 
         // Periksa apakah username sudah digunakan oleh pelanggan lain
-        for (customer customer : datacust) {
+        for (customer customer : dataCust) {
             if (customer.getUsername().equals(newUsername)) {
                 System.out.println("Username telah digunakan, Silahkan gunakan username lain");
                 usernameExists = true;
@@ -67,7 +82,7 @@ public class App {
         // Jika username belum digunakan, tambahkan pelanggan baru
         if (!usernameExists) {
             customer newCustomer = new customer(
-                    datacust.size() + 1, // ID pelanggan diatur sesuai dengan indeks ArrayList + 1
+                    dataCust.size() + 1, // ID pelanggan diatur sesuai dengan indeks ArrayList + 1
                     "", // Nama pelanggan sementara diatur sebagai string kosong
                     newUsername,
                     newPassword,
@@ -77,8 +92,8 @@ public class App {
                     "" // Riwayat pembelian sementara diatur sebagai string kosong
             );
 
-            // Tambahkan objek Customer baru ke dalam ArrayList datacust
-            datacust.add(newCustomer);
+            // Tambahkan objek Customer baru ke dalam ArrayList dataCust
+            dataCust.add(newCustomer);
             System.out.println("Pendaftaran berhasil!");
         }
     }
@@ -91,8 +106,8 @@ public class App {
 
         boolean loginSuccess = false;
 
-        // Iterasi melalui setiap objek Customer dalam ArrayList datacust
-        for (customer customer : datacust) {
+        // Iterasi melalui setiap objek Customer dalam ArrayList dataCust
+        for (customer customer : dataCust) {
             // Memeriksa apakah inputUsername dan inputPassword cocok dengan yang ada dalam
             // objek Customer saat ini
             if (customer.username.equals(inputUsername) && customer.password.equals(inputPassword)) {
@@ -124,15 +139,113 @@ public class App {
     }
 
     public static void menuAdmin() {
+        String pilih = "";
+        while (!pilih.equals("3")) {
+            System.out.println("Menu Admin");
+            System.out.println(" [1]. Kelola Produk ");
+            System.out.println(" [2]. Kelola Kurir ");
+            System.out.println(" [3]. Keluar");
+            System.out.print(">> ");
+            pilih = sc.nextLine();
+            switch (pilih) {
+                case "1":
+                    kelolaData();
+                    break;
+                case "2":
+                    kelolaKurir();
+                    break;
+                case "3":
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    public static void kelolaKurir() {
+        String pilih = "";
+        while (!pilih.equals("6")) {
+            System.out.println("=====================");
+            System.out.println("|    Kelola Kurir   |");
+            System.out.println("=====================");
+            System.out.println("| [1]. Tambah Kurir |");
+            System.out.println("| [2]. Lihat Kurir  |");
+            System.out.println("| [3]. Update Kurir |");
+            System.out.println("| [4]. Delete Kurir |");
+            System.out.println("| [6]. Keluar       |");
+            System.out.println("=====================");
+            System.out.println(">> ");
+            pilih = sc.nextLine();
+            switch (pilih) {
+                case "1":
+                    tambahKurir();
+                    break;
+                case "2":
+                    lihatKurir();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    public static void tambahKurir() {
+        System.out.println("Masukkan username :");
+        String username = sc.nextLine();
+        System.out.println("Masukkan password :");
+        String password = sc.nextLine();
+        System.out.println("Masukkan Nama :");
+        String nama = sc.nextLine();
+        System.out.println("Masukkan Email :");
+        String email = sc.nextLine();
+        System.out.println("Masukkan Nomor Telepon :");
+        int nomor = sc.nextInt();
+
+        boolean usernameExists = false;
+
+        for (kurir kurir : dataKurir) {
+            if (kurir.getUsername().equals(username)) {
+                System.out.println("Username telah digunakan, Silahkan gunakan username lain");
+                usernameExists = true;
+                break; // Keluar dari loop karena username sudah ditemukan
+            }
+        }
+
+        if (!usernameExists) {
+            kurir newKurir = new kurir(
+                    dataKurir.size() + 1,
+                    nama,
+                    username,
+                    password,
+                    email,
+                    nomor);
+
+            dataKurir.add(newKurir);
+            System.out.println("Pendaftaran berhasil!");
+        }
+    }
+
+    public static void lihatKurir() {
+        for (kurir kurir : dataKurir) {
+            System.out.println("Nama : " + kurir.getNama());
+            System.out.println("Email : " + kurir.getEmail());
+            System.out.println("No. Telp : " + kurir.getTelp());
+            System.out.println("Username : " + kurir.getUsername());
+            System.out.println("Password : " + kurir.getPassword());
+        }
+    }
+
+    public static void kelolaData() {
+        String pilih = "";
         while (!pilih.equals("6")) {
             System.out.println("====================");
-            System.out.println("|    Menu Admin    |");
+            System.out.println("|   Kelola Barang  |");
             System.out.println("====================");
             System.out.println("| [1]. Tambah Data |");
             System.out.println("| [2]. Lihat Data  |");
             System.out.println("| [3]. Update Data |");
             System.out.println("| [4]. Delete Data |");
-            System.out.println("| [5]. Keluar      |");
+            System.out.println("| [6]. Keluar      |");
             System.out.println("====================");
             System.out.print(">> ");
             pilih = sc.nextLine();
@@ -143,7 +256,7 @@ public class App {
                     break;
                 case "2":
                     System.out.println("Lihat Data");
-                    lihatRt();
+                    lihatData();
                     break;
                 case "3":
                     System.out.println("Update Data");
@@ -164,23 +277,29 @@ public class App {
         }
     }
 
+// Tambah Data
     public static void tambahData() {
-        printData();
-        System.out.println(">> ");
-        pilih = sc.nextLine();
-        switch (pilih) {
-            case "1":
-                tambahRt();
-                break;
-            case "2":
-                break;
-            case "3":
-                break;
-            case "4":
-                break;
-
-            default:
-                break;
+        String pilih = "";
+        while (!pilih.equals("5")) {
+            printData();
+            System.out.println(">> ");
+            pilih = sc.nextLine();
+            switch (pilih) {
+                case "1":
+                    tambahRt();
+                    break;
+                case "2":
+                    tambahPerkakas();
+                    break;
+                case "3":
+                    tambahElektronik();
+                    break;
+                case "4":
+                    tambahFurnitur();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -201,14 +320,84 @@ public class App {
         System.out.println("Merk: ");
         String merk = sc.nextLine();
 
-        rumahTangga newRumahTangga = new rumahTangga(datart.size() + 1, nama, deskripsi, harga, stok, bahan, ukuran,
+        rumahTangga newRumahTangga = new rumahTangga(datArt.size() + 1, nama, deskripsi, harga, stok, bahan, ukuran,
                 merk);
-        datart.add(newRumahTangga);
+        datArt.add(newRumahTangga);
 
         System.out.println("Data Peralatan Rumah Tangga berhasil ditambahkan.");
     }
 
+    public static void tambahElektronik() {
+        System.out.println("Masukkan data untuk Elektronik:");
+        System.out.print("Nama: ");
+        String nama = sc.nextLine();
+        System.out.print("Deskripsi: ");
+        String deskripsi = sc.nextLine();
+        System.out.print("Harga: ");
+        int harga = Integer.parseInt(sc.nextLine());
+        System.out.print("Stok: ");
+        int stok = Integer.parseInt(sc.nextLine());
+        System.out.print("Merk: ");
+        String merk = sc.nextLine();
+        System.out.println("Tipe: ");
+        String tipe = sc.nextLine();
+        System.out.println("Model: ");
+        String model = sc.nextLine();
+        System.out.println("Warna: ");
+        String warna = sc.nextLine();
+
+        elektronik newElektronik = new elektronik(dataElektronik.size() + 1, nama, deskripsi, harga, stok, merk, tipe,
+                model,
+                warna);
+
+        dataElektronik.add(newElektronik);
+
+        System.out.println("Data Elektronik berhasil ditambahkan.");
+    }
+
+    public static void tambahFurnitur() {
+        System.out.println("Masukkan data untuk Furniture:");
+        System.out.print("Nama: ");
+        String nama = sc.nextLine();
+        System.out.print("Deskripsi: ");
+        String deskripsi = sc.nextLine();
+        System.out.print("Harga: ");
+        int harga = Integer.parseInt(sc.nextLine());
+        System.out.print("Stok: ");
+        int stok = Integer.parseInt(sc.nextLine());
+        System.out.print("Merk: ");
+        String merk = sc.nextLine();
+
+        furniture newFurniture = new furniture(dataFurniture.size() + 1, nama, deskripsi, harga, stok, merk);
+
+        dataFurniture.add(newFurniture);
+
+        System.out.println("Data Furniture berhasil ditambahkan.");
+    }
+
+    public static void tambahPerkakas() {
+        System.out.println("Masukkan data untuk Perkakas:");
+        System.out.print("Nama: ");
+        String nama = sc.nextLine();
+        System.out.print("Deskripsi: ");
+        String deskripsi = sc.nextLine();
+        System.out.print("Harga: ");
+        int harga = Integer.parseInt(sc.nextLine());
+        System.out.print("Stok: ");
+        int stok = Integer.parseInt(sc.nextLine());
+        System.out.print("Merk: ");
+        String merk = sc.nextLine();
+
+        perkakas newPerkakas = new perkakas(dataPerkakas.size() + 1, nama, deskripsi, harga, stok, merk);
+
+        dataPerkakas.add(newPerkakas);
+
+        System.out.println("Data Furniture berhasil ditambahkan.");
+    }
+
+// Lihat Data
     public static void lihatData() {
+        String pilih = "";
         while (!pilih.equals("5")) {
 
             System.out.println("| Lihat Data");
@@ -220,12 +409,14 @@ public class App {
                     lihatRt();
                     break;
                 case "2":
+                    lihatPerkakas();
                     break;
                 case "3":
+                    lihatElektronik();
                     break;
                 case "4":
+                    lihatFurnitur();
                     break;
-
                 default:
                     break;
             }
@@ -233,7 +424,7 @@ public class App {
     }
 
     public static void lihatRt() {
-        for (rumahTangga rumahTangga : datart) {
+        for (rumahTangga rumahTangga : datArt) {
             System.out.println(rumahTangga.getNama());
             System.out.println(rumahTangga.getDeskripsi());
             System.out.println(rumahTangga.getHarga());
@@ -244,7 +435,42 @@ public class App {
         }
     }
 
-    public static void ubahData(){
+    public static void lihatElektronik() {
+        for (elektronik elektronik : dataElektronik) {
+            System.out.println(elektronik.getNama());
+            System.out.println(elektronik.getDeskripsi());
+            System.out.println(elektronik.getHarga());
+            System.out.println(elektronik.getStok());
+            System.out.println(elektronik.getMerk());
+            System.out.println(elektronik.getTipe());
+            System.out.println(elektronik.getModel());
+            System.out.println(elektronik.getWarna());
+        }
+    }
+
+    public static void lihatFurnitur() {
+        for (furniture furniture : dataFurniture) {
+            System.out.println(furniture.getNama());
+            System.out.println(furniture.getDeskripsi());
+            System.out.println(furniture.getHarga());
+            System.out.println(furniture.getStok());
+            System.out.println(furniture.getMerk());
+        }
+    }
+
+    public static void lihatPerkakas() {
+        for (perkakas perkakas : dataPerkakas) {
+            System.out.println(perkakas.getNama());
+            System.out.println(perkakas.getDeskripsi());
+            System.out.println(perkakas.getHarga());
+            System.out.println(perkakas.getStok());
+            System.out.println(perkakas.getMerk());
+        }
+    }
+    
+// Ubah Data
+    public static void ubahData() {
+        String pilih = "";
         while (!pilih.equals("5")) {
 
             System.out.println("| Ubah Data");
@@ -274,14 +500,14 @@ public class App {
         System.out.println("Data berapa yang ingin diubah");
         int id = sc.nextInt();
         sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
-    
-        for (rumahTangga rumahTangga : datart) {
+
+        for (rumahTangga rumahTangga : datArt) {
             if (rumahTangga.getId() == id) {
                 rtToUpdate = rumahTangga; // Simpan referensi rt yang sesuai
                 break;
             }
         }
-    
+
         if (rtToUpdate != null) {
             System.out.print("Nama: ");
             String nama = sc.nextLine();
@@ -297,7 +523,7 @@ public class App {
             String ukuran = sc.nextLine();
             System.out.print("Merk: ");
             String merk = sc.nextLine();
-    
+
             // Mengubah atribut produk yang sesuai dengan input baru
             rtToUpdate.setNama(nama);
             rtToUpdate.setDeskripsi(deskripsi);
@@ -306,15 +532,146 @@ public class App {
             rtToUpdate.setBahan(bahan);
             rtToUpdate.setUkuran(ukuran);
             rtToUpdate.setMerk(merk);
-    
+
             System.out.println("Data produk peralatan rumah tangga berhasil diubah.");
-            menuAdmin();
+            kelolaData();
         } else {
             System.out.println("Produk dengan ID " + id + " tidak ditemukan.");
         }
     }
-    
-    public static void hapusData(){
+
+    public static void ubahElektronik() {
+        elektronik elektronikToUpdate = null;
+        lihatElektronik();
+        System.out.println("Data berapa yang ingin diubah");
+        int id = sc.nextInt();
+        sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
+
+        for (elektronik elektronik : dataElektronik) {
+            if (elektronik.getId() == id) {
+                elektronikToUpdate = elektronik; // Simpan referensi rt yang sesuai
+                break;
+            }
+        }
+
+        if (elektronikToUpdate != null) {
+            System.out.print("Nama: ");
+            String nama = sc.nextLine();
+            System.out.print("Deskripsi: ");
+            String deskripsi = sc.nextLine();
+            System.out.print("Harga: ");
+            int harga = Integer.parseInt(sc.nextLine());
+            System.out.print("Stok: ");
+            int stok = Integer.parseInt(sc.nextLine());
+            System.out.print("Merk: ");
+            String merk = sc.nextLine();
+            System.out.print("Tipe: ");
+            String tipe = sc.nextLine();
+            System.out.print("Model: ");
+            String model = sc.nextLine();
+            System.out.print("Warna: ");
+            String warna = sc.nextLine();
+
+            // Mengubah atribut produk yang sesuai dengan input baru
+            elektronikToUpdate.setNama(nama);
+            elektronikToUpdate.setDeskripsi(deskripsi);
+            elektronikToUpdate.setHarga(harga);
+            elektronikToUpdate.setStok(stok);
+            elektronikToUpdate.setMerk(merk);
+            elektronikToUpdate.setTipe(tipe);
+            elektronikToUpdate.setModel(model);
+            elektronikToUpdate.setWarna(warna);
+
+            System.out.println("Data produk Elektronik berhasil diubah.");
+            kelolaData();
+        } else {
+            System.out.println("Produk dengan ID " + id + " tidak ditemukan.");
+        }
+    }
+
+    public static void ubahPerkakas() {
+        perkakas perkakasToUpdate = null;
+        lihatPerkakas();
+        System.out.println("Data berapa yang ingin diubah");
+        int id = sc.nextInt();
+        sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
+
+        for (perkakas perkakas : dataPerkakas) {
+            if (perkakas.getId() == id) {
+                perkakasToUpdate = perkakas; // Simpan referensi rt yang sesuai
+                break;
+            }
+        }
+
+        if (perkakasToUpdate != null) {
+            System.out.print("Nama: ");
+            String nama = sc.nextLine();
+            System.out.print("Deskripsi: ");
+            String deskripsi = sc.nextLine();
+            System.out.print("Harga: ");
+            int harga = Integer.parseInt(sc.nextLine());
+            System.out.print("Stok: ");
+            int stok = Integer.parseInt(sc.nextLine());
+            System.out.print("Merk: ");
+            String merk = sc.nextLine();
+
+            // Mengubah atribut produk yang sesuai dengan input baru
+            perkakasToUpdate.setNama(nama);
+            perkakasToUpdate.setDeskripsi(deskripsi);
+            perkakasToUpdate.setHarga(harga);
+            perkakasToUpdate.setStok(stok);
+            perkakasToUpdate.setMerk(merk);
+
+            System.out.println("Data produk Elektronik berhasil diubah.");
+            kelolaData();
+        } else {
+            System.out.println("Produk dengan ID " + id + " tidak ditemukan.");
+        }
+    }
+
+    public static void ubahFurniture() {
+        furniture furnitureToUpdate = null;
+        lihatFurnitur();
+        System.out.println("Data berapa yang ingin diubah");
+        int id = sc.nextInt();
+        sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
+
+        for (furniture furniture : dataFurniture) {
+            if (furniture.getId() == id) {
+                furnitureToUpdate = furniture; // Simpan referensi rt yang sesuai
+                break;
+            }
+        }
+
+        if (furnitureToUpdate != null) {
+            System.out.print("Nama: ");
+            String nama = sc.nextLine();
+            System.out.print("Deskripsi: ");
+            String deskripsi = sc.nextLine();
+            System.out.print("Harga: ");
+            int harga = Integer.parseInt(sc.nextLine());
+            System.out.print("Stok: ");
+            int stok = Integer.parseInt(sc.nextLine());
+            System.out.print("Merk: ");
+            String merk = sc.nextLine();
+
+            // Mengubah atribut produk yang sesuai dengan input baru
+            furnitureToUpdate.setNama(nama);
+            furnitureToUpdate.setDeskripsi(deskripsi);
+            furnitureToUpdate.setHarga(harga);
+            furnitureToUpdate.setStok(stok);
+            furnitureToUpdate.setMerk(merk);
+
+            System.out.println("Data produk Furniture berhasil diubah.");
+            kelolaData();
+        } else {
+            System.out.println("Produk dengan ID " + id + " tidak ditemukan.");
+        }
+    }
+
+// Hapus Data
+    public static void hapusData() {
+        String pilih = "";
         while (!pilih.equals("5")) {
 
             System.out.println("| Hapus Data");
@@ -345,8 +702,8 @@ public class App {
         System.out.println("Data berapa yang ingin dihapus");
         int id = sc.nextInt();
         sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
-    
-        for (rumahTangga rumahTangga : datart) {
+
+        for (rumahTangga rumahTangga : datArt) {
             if (rumahTangga.getId() == id) {
                 rtToRemove = rumahTangga; // Simpan referensi rt yang sesuai
                 break;
@@ -355,25 +712,93 @@ public class App {
 
         if (rtToRemove != null) {
             // Menghapus produk dari daftar produk
-            datart.remove(rtToRemove);
-    
+            datArt.remove(rtToRemove);
+
             System.out.println("Data produk peralatan rumah tangga berhasil dihapus.");
-            menuAdmin(); // Kembali ke menu admin setelah penghapusan berhasil
+            kelolaData(); // Kembali ke menu admin setelah penghapusan berhasil
         } else {
             System.out.println("Produk dengan ID " + id + " tidak ditemukan.");
         }
     }
-    
 
-    public static void printData(){
-        System.out.println("| [1]. Data Peralatan Rumah Tangga");
-        System.out.println("| [2]. Data Perkakas");
-        System.out.println("| [3]. Data Elektronik");
-        System.out.println("| [4]. Data Furniture");
-        System.out.println("| [5]. Keluar");
+    public static void hapusElektronik() {
+        elektronik elektronikToRemove = null;
+        lihatElektronik();
+        System.out.println("Data berapa yang ingin dihapus");
+        int id = sc.nextInt();
+        sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
+
+        for (elektronik elektronik : dataElektronik) {
+            if (elektronik.getId() == id) {
+                elektronikToRemove = elektronik; // Simpan referensi rt yang sesuai
+                break;
+            }
+        }
+
+        if (elektronikToRemove != null) {
+            // Menghapus produk dari daftar produk
+            dataElektronik.remove(elektronikToRemove);
+
+            System.out.println("Data produk Elektronik berhasil dihapus.");
+            kelolaData(); // Kembali ke menu admin setelah penghapusan berhasil
+        } else {
+            System.out.println("Produk dengan ID " + id + " tidak ditemukan.");
+        }
     }
 
+    public static void hapusPerkakas() {
+        perkakas perkakasToRemove = null;
+        lihatPerkakas();
+        System.out.println("Data berapa yang ingin dihapus");
+        int id = sc.nextInt();
+        sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
+
+        for (perkakas perkakas : dataPerkakas) {
+            if (perkakas.getId() == id) {
+                perkakasToRemove = perkakas; // Simpan referensi rt yang sesuai
+                break;
+            }
+        }
+
+        if (perkakasToRemove != null) {
+            // Menghapus produk dari daftar produk
+            dataPerkakas.remove(perkakasToRemove);
+
+            System.out.println("Data produk perkakas berhasil dihapus.");
+            kelolaData(); // Kembali ke menu admin setelah penghapusan berhasil
+        } else {
+            System.out.println("Produk dengan ID " + id + " tidak ditemukan.");
+        }
+    }
+
+    public static void hapusFurnitur() {
+        furniture furnitureToRemove = null;
+        lihatFurnitur();
+        System.out.println("Data berapa yang ingin dihapus");
+        int id = sc.nextInt();
+        sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
+
+        for (furniture furniture : dataFurniture) {
+            if (furniture.getId() == id) {
+                furnitureToRemove = furniture; // Simpan referensi rt yang sesuai
+                break;
+            }
+        }
+
+        if (furnitureToRemove != null) {
+            // Menghapus produk dari daftar produk
+            dataFurniture.remove(furnitureToRemove);
+
+            System.out.println("Data produk Furnitur berhasil dihapus.");
+            kelolaData(); // Kembali ke menu admin setelah penghapusan berhasil
+        } else {
+            System.out.println("Produk dengan ID " + id + " tidak ditemukan.");
+        }
+    }
+
+// Menu Kurir
     public static void menuKurir() {
+        String pilih = "";
         while (!pilih.equals("4")) {
             System.out.println("===============================");
             System.out.println("|         Menu Kurir          |");
@@ -409,7 +834,9 @@ public class App {
         }
     }
 
+// Menu Customer
     public static void menuCust() {
+        String pilih = "";
         while (!pilih.equals("5")) {
             System.out.println("Hai " + username);
             System.out.println("=====================");
@@ -425,13 +852,14 @@ public class App {
             pilih = sc.nextLine();
             switch (pilih) {
                 case "1":
-                    System.out.println("Beli Barang");
+                    menuBeli();
                     break;
                 case "2":
                     System.out.println("Lihat Barang");
                     break;
                 case "3":
                     System.out.println("Keranjang");
+                    lihatKeranjang();
                     break;
                 case "4":
                     menuProfile();
@@ -447,7 +875,121 @@ public class App {
         }
     }
 
+    public static void menuBeli() {
+        String pilih = "";
+        while (!pilih.equals("5")) {
+
+            System.out.println("Beli Barang");
+            printData();
+            pilih = sc.nextLine();
+            switch (pilih) {
+                case "1":
+                    beliRt();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+
+    public static void beliRt() {
+        while (true) {
+            System.out.println("Peralatan Rumah Tangga");
+            lihatRt();
+            System.out.println("[q]. Keluar");
+            System.out.print("Pilih ID produk yang ingin Anda beli (atau q untuk keluar): ");
+
+            // Memeriksa apakah pengguna memasukkan angka atau q untuk keluar
+            if (sc.hasNextInt()) {
+                int beli = sc.nextInt();
+                sc.nextLine(); // Membersihkan karakter baris baru di buffer
+
+                if (beli == 'q') {
+                    System.out.println("Keluar dari menu pembelian.");
+                    break; // Keluar dari loop saat pengguna memilih untuk keluar
+                }
+
+                // Mencari produk yang sesuai dengan ID yang dipilih pengguna
+                boolean produkDitemukan = false;
+                for (rumahTangga rt : datArt) {
+                    if (beli == rt.getId()) {
+                        produkDitemukan = true;
+                        keranjang newKeranjang = new keranjang(custId, beli, "rt");
+                        dataKeranjang.add(newKeranjang);
+                        System.out.println("Produk berhasil ditambahkan ke keranjang.");
+                        break; // Keluar dari loop setelah menambahkan produk ke keranjang
+                    }
+                }
+
+                // Memberikan umpan balik jika produk tidak ditemukan
+                if (!produkDitemukan) {
+                    System.out.println("Produk tidak ditemukan. Silakan masukkan ID produk yang valid.");
+                }
+            } else {
+                // Menangani input yang bukan angka
+                String input = sc.nextLine();
+                if (input.equals("q")) {
+                    System.out.println("Keluar dari menu pembelian.");
+                    break; // Keluar dari loop saat pengguna memilih untuk keluar
+                } else {
+                    System.out.println(
+                            "Input tidak valid. Harap masukkan ID produk yang ingin Anda beli atau q untuk keluar.");
+                }
+            }
+        }
+    }
+
+    public static void lihatKeranjang() {
+        String nama = "";
+        int harga = 0;
+        int total = 0;
+        for (keranjang keranjang : dataKeranjang) {
+            if (keranjang.getCustId() == custId) {
+                if (keranjang.getKode() == "rt") {
+                    for (rumahTangga rumahTangga : datArt) {
+                        if (keranjang.getIdKeranjang() == rumahTangga.getId()) {
+                            nama = rumahTangga.getNama();
+                            harga = rumahTangga.getHarga();
+                            break;
+                        }
+                    }
+                } else if (keranjang.getKode() == "elektronik") {
+                    for (elektronik elektronik : dataElektronik) {
+                        if (keranjang.getIdKeranjang() == elektronik.getId()) {
+                            nama = elektronik.getNama();
+                            harga = elektronik.getHarga();
+                            break;
+                        }
+                    }
+                }
+                else if (keranjang.getKode() == "perkakas") {
+                    for (perkakas perkakas : dataPerkakas) {
+                        if (keranjang.getIdKeranjang() == perkakas.getId()) {
+                            nama = perkakas.getNama();
+                            harga = perkakas.getHarga();
+                            break;
+                        }
+                    }
+                }
+                else if (keranjang.getKode() == "furnitur") {
+                    for (furniture furniture : dataFurniture) {
+                        if (keranjang.getIdKeranjang() == furniture.getId()) {
+                            nama = furniture.getNama();
+                            harga = furniture.getHarga();
+                            break;
+                        }
+                    }
+                }
+            }
+            total += harga;
+            System.out.println(nama + " " + harga);
+        }
+        System.out.println(total);
+    }
+
     public static void menuProfile() {
+        String pilih = "";
         while (!pilih.equals("2")) {
             profileCust();
             System.out.println("=====================");
@@ -467,7 +1009,7 @@ public class App {
     }
 
     public static void profileCust() {
-        for (customer customer : datacust) {
+        for (customer customer : dataCust) {
             System.out.println("| Profil");
             if (customer.getId() == (custId)) {
                 System.out.println("| Username : " + customer.getUsername());
@@ -485,7 +1027,7 @@ public class App {
                                           // diperbarui
 
         // Temukan pelanggan yang sesuai berdasarkan Id
-        for (customer customer : datacust) {
+        for (customer customer : dataCust) {
             if (customer.getId() == custId) {
                 customerToUpdate = customer; // Simpan referensi pelanggan yang sesuai
                 break; // Keluar dari loop setelah menemukan pelanggan yang sesuai
@@ -553,6 +1095,15 @@ public class App {
         }
     }
 
+    public static void printData() {
+        System.out.println("| [1]. Peralatan Rumah Tangga");
+        System.out.println("| [2]. Perkakas");
+        System.out.println("| [3]. Elektronik");
+        System.out.println("| [4]. Furniture");
+        System.out.println("| [5]. Keluar");
+    }
+
+// Error Handling
     public static boolean isValidEmail(String email) {
         return email.contains("@") && email.contains(".com");
     }
