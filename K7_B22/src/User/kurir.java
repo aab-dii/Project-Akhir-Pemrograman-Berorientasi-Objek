@@ -1,8 +1,8 @@
 package User;
 
 public class kurir extends user {
-    public kurir(int id, String nama, String username, String password, String email, int telp) {
-        super(id, nama, username, password, email, telp);
+    public kurir(int id, String nama, String username, String password, String email, int telp, String role) {
+        super(id, nama, username, password, email, telp, role);
     }
     @Override
     public void setUsername(String username){

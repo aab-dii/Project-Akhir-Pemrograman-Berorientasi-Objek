@@ -2,15 +2,16 @@ package Product;
 
 public abstract class product {
     protected int id, harga, stok;
-    protected String nama, deskripsi, merk;
+    protected String nama, deskripsi, merk, jenis;
 
-    public product(int id, String nama, String deskripsi, int harga, int stok, String merk){
+    public product(int id, String nama, String deskripsi, int harga, int stok, String merk, String jenis) {
         this.id = id;
         this.nama = nama;
         this.stok = stok;
         this.harga = harga;
         this.deskripsi = deskripsi;
         this.merk = merk;
+        this.jenis = jenis;
     }
 
     public int getId() {
@@ -59,6 +60,14 @@ public abstract class product {
 
     public void setMerk(String merk) {
         this.merk = merk;
+    }
+
+    public String getJenis() {
+        return jenis;
+    }
+
+    public void setJenis(String jenis) {
+        this.jenis = jenis;
     }
     
     
