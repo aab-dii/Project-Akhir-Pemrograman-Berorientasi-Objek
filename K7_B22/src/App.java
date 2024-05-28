@@ -7,6 +7,7 @@ import Product.perkakas;
 import Product.product;
 import Product.productControl;
 import Keranjang.keranjang;
+import Keranjang.keranjangControl;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class App {
     // static ArrayList<perkakas> dataPerkakas = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
+        productControl.ambilProduk();
         String pilih = "";
         while (!pilih.equals("3")) {
             System.out.println("===============================================");
@@ -157,7 +159,6 @@ public class App {
                 custId = userData.getId();
 
                 if (userData instanceof customer) {
-                    profileCust((customer) userData);
                     menuCust((customer) userData);
                 } else if (userData instanceof admin) {
                     menuAdmin((admin) userData);
@@ -310,15 +311,15 @@ public class App {
                     break;
                 case "2":
                     System.out.println("Lihat Data");
-                    // lihatData();
+                    lihatData();
                     break;
                 case "3":
                     System.out.println("Update Data");
-                    // ubahData();
+                    ubahData();
                     break;
                 case "4":
                     System.out.println("Delete Data");
-                    // hapusData();
+                    hapusData();
                     break;
                 case "5":
                     System.out.println("Keluar dari Menu Admin");
@@ -372,7 +373,7 @@ public class App {
         String bahan = sc.nextLine();
         System.out.print("Ukuran: ");
         String ukuran = sc.nextLine();
-        System.out.println("Merk: ");
+        System.out.print("Merk: ");
         String merk = sc.nextLine();
 
         // Buat objek product dengan jenis rumahTangga
@@ -466,438 +467,416 @@ public class App {
     }
 
     // Lihat Data
-    // public static void lihatData() {
-    // String pilih = "";
-    // while (!pilih.equals("5")) {
 
-    // System.out.println("| Lihat Data");
-    // printData();
-    // System.out.print(">> ");
-    // pilih = sc.nextLine();
-    // switch (pilih) {
-    // case "1":
-    // lihatRt();
-    // break;
-    // case "2":
-    // lihatPerkakas();
-    // break;
-    // case "3":
-    // lihatElektronik();
-    // break;
-    // case "4":
-    // lihatFurnitur();
-    // break;
-    // default:
-    // break;
-    // }
-    // }
-    // }
+    public static void lihatData() {
+        String pilih = "";
+        while (!pilih.equals("5")) {
+            printData();
+            System.out.print(">> ");
+            pilih = sc.nextLine();
+            switch (pilih) {
+                case "1":
+                    lihatRumahTangga();
+                    break;
+                case "2":
+                    lihatPerkakas();
+                    break;
+                case "3":
+                    lihatElektronik();
+                    break;
+                case "4":
+                    lihatFurniture();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
-    // public static void lihatRt() {
-    // for (rumahTangga rumahTangga : datArt) {
-    // System.out.println(rumahTangga.getNama());
-    // System.out.println(rumahTangga.getDeskripsi());
-    // System.out.println(rumahTangga.getHarga());
-    // System.out.println(rumahTangga.getStok());
-    // System.out.println(rumahTangga.getBahan());
-    // System.out.println(rumahTangga.getUkuran());
-    // System.out.println(rumahTangga.getMerk());
-    // }
-    // }
+    public static void lihatRumahTangga() {
+        for (rumahTangga rt : productControl.getDatArt()) {
+            rt.printProductInfo();
+        }
+    }
 
-    // public static void lihatElektronik() {
-    // for (elektronik elektronik : dataElektronik) {
-    // System.out.println(elektronik.getNama());
-    // System.out.println(elektronik.getDeskripsi());
-    // System.out.println(elektronik.getHarga());
-    // System.out.println(elektronik.getStok());
-    // System.out.println(elektronik.getMerk());
-    // System.out.println(elektronik.getTipe());
-    // System.out.println(elektronik.getModel());
-    // System.out.println(elektronik.getWarna());
-    // }
-    // }
+    public static void lihatPerkakas() {
+        for (perkakas pk : productControl.getDataPerkakas()) {
+            pk.printProductInfo();
+        }
+    }
 
-    // public static void lihatFurnitur() {
-    // for (furniture furniture : dataFurniture) {
-    // System.out.println(furniture.getNama());
-    // System.out.println(furniture.getDeskripsi());
-    // System.out.println(furniture.getHarga());
-    // System.out.println(furniture.getStok());
-    // System.out.println(furniture.getMerk());
-    // }
-    // }
+    public static void lihatElektronik() {
+        for (elektronik el : productControl.getDataElektronik()) {
+            el.printProductInfo();
+        }
+    }
 
-    // public static void lihatPerkakas() {
-    // for (perkakas perkakas : dataPerkakas) {
-    // System.out.println(perkakas.getNama());
-    // System.out.println(perkakas.getDeskripsi());
-    // System.out.println(perkakas.getHarga());
-    // System.out.println(perkakas.getStok());
-    // System.out.println(perkakas.getMerk());
-    // }
-    // }
+    public static void lihatFurniture() {
+        for (furniture fn : productControl.getDataFurniture()) {
+            fn.printProductInfo();
+        }
+    }
 
     // Ubah Data
-    // public static void ubahData() {
-    // String pilih = "";
-    // while (!pilih.equals("5")) {
 
-    // System.out.println("| Ubah Data");
-    // printData();
-    // System.out.print(">> ");
-    // pilih = sc.nextLine();
-    // switch (pilih) {
-    // case "1":
-    // ubahRt();
-    // break;
-    // case "2":
-    // break;
-    // case "3":
-    // break;
-    // case "4":
-    // break;
+    public static void ubahData() {
+        String pilih = "";
+        while (!pilih.equals("5")) {
 
-    // default:
-    // break;
-    // }
-    // }
-    // }
+            System.out.println("| Ubah Data");
+            printData();
+            System.out.print(">> ");
+            pilih = sc.nextLine();
+            switch (pilih) {
+                case "1":
+                    ubahRt();
+                    break;
+                case "2":
+                    ubahElektronik();
+                    break;
+                case "3":
+                    ubahPerkakas();
+                    break;
+                case "4":
+                    ubahFurniture();
+                    break;
 
-    // public static void ubahRt() {
-    // rumahTangga rtToUpdate = null;
-    // lihatRt();
-    // System.out.println("Data berapa yang ingin diubah");
-    // int id = sc.nextInt();
-    // sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
+                default:
+                    break;
+            }
+        }
+    }
 
-    // for (rumahTangga rumahTangga : datArt) {
-    // if (rumahTangga.getId() == id) {
-    // rtToUpdate = rumahTangga; // Simpan referensi rt yang sesuai
-    // break;
-    // }
-    // }
+    public static void ubahRt() {
+        // rumahTangga rtToUpdate = null;
+        lihatRumahTangga();
+        System.out.println("Data berapa yang ingin diubah");
+        int index = sc.nextInt() - 1;
+        sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
 
-    // if (rtToUpdate != null) {
-    // System.out.print("Nama: ");
-    // String nama = sc.nextLine();
-    // System.out.print("Deskripsi: ");
-    // String deskripsi = sc.nextLine();
-    // System.out.print("Harga: ");
-    // int harga = Integer.parseInt(sc.nextLine());
-    // System.out.print("Stok: ");
-    // int stok = Integer.parseInt(sc.nextLine());
-    // System.out.print("Bahan: ");
-    // String bahan = sc.nextLine();
-    // System.out.print("Ukuran: ");
-    // String ukuran = sc.nextLine();
-    // System.out.print("Merk: ");
-    // String merk = sc.nextLine();
+        if (index < 0 || index >= productControl.getDatArt().size()) {
+            System.out.println("Nomor urut tidak valid.");
+            return;
+        }
 
-    // // Mengubah atribut produk yang sesuai dengan input baru
-    // rtToUpdate.setNama(nama);
-    // rtToUpdate.setDeskripsi(deskripsi);
-    // rtToUpdate.setHarga(harga);
-    // rtToUpdate.setStok(stok);
-    // rtToUpdate.setBahan(bahan);
-    // rtToUpdate.setUkuran(ukuran);
-    // rtToUpdate.setMerk(merk);
+        rumahTangga rtToUpdate = productControl.getDatArt().get(index);
 
-    // System.out.println("Data produk peralatan rumah tangga berhasil diubah.");
-    // kelolaData();
-    // } else {
-    // System.out.println("Produk dengan ID " + id + " tidak ditemukan.");
-    // }
-    // }
+        // Meminta input dari pengguna untuk memperbarui atribut produk
+        System.out.print("Nama: ");
+        String nama = sc.nextLine();
+        System.out.print("Deskripsi: ");
+        String deskripsi = sc.nextLine();
+        System.out.print("Harga: ");
+        int harga = Integer.parseInt(sc.nextLine());
+        System.out.print("Stok: ");
+        int stok = Integer.parseInt(sc.nextLine());
+        System.out.print("Bahan: ");
+        String bahan = sc.nextLine();
+        System.out.print("Ukuran: ");
+        String ukuran = sc.nextLine();
+        System.out.print("Merk: ");
+        String merk = sc.nextLine();
 
-    // public static void ubahElektronik() {
-    // elektronik elektronikToUpdate = null;
-    // lihatElektronik();
-    // System.out.println("Data berapa yang ingin diubah");
-    // int id = sc.nextInt();
-    // sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
+        // Mengubah atribut produk yang sesuai dengan input baru
+        rtToUpdate.setNama(nama);
+        rtToUpdate.setDeskripsi(deskripsi);
+        rtToUpdate.setHarga(harga);
+        rtToUpdate.setStok(stok);
+        rtToUpdate.setBahan(bahan);
+        rtToUpdate.setUkuran(ukuran);
+        rtToUpdate.setMerk(merk);
 
-    // for (elektronik elektronik : dataElektronik) {
-    // if (elektronik.getId() == id) {
-    // elektronikToUpdate = elektronik; // Simpan referensi rt yang sesuai
-    // break;
-    // }
-    // }
+        try {
+            productControl.ubahProduk(rtToUpdate);
+            System.out.println("Data produk peralatan rumah tangga berhasil diubah.");
 
-    // if (elektronikToUpdate != null) {
-    // System.out.print("Nama: ");
-    // String nama = sc.nextLine();
-    // System.out.print("Deskripsi: ");
-    // String deskripsi = sc.nextLine();
-    // System.out.print("Harga: ");
-    // int harga = Integer.parseInt(sc.nextLine());
-    // System.out.print("Stok: ");
-    // int stok = Integer.parseInt(sc.nextLine());
-    // System.out.print("Merk: ");
-    // String merk = sc.nextLine();
-    // System.out.print("Tipe: ");
-    // String tipe = sc.nextLine();
-    // System.out.print("Model: ");
-    // String model = sc.nextLine();
-    // System.out.print("Warna: ");
-    // String warna = sc.nextLine();
+            // Panggil kembali metode ambilProduk untuk memperbarui ArrayList dengan data
+            // terbaru dari database
+            // productControl.ambilProduk();
 
-    // // Mengubah atribut produk yang sesuai dengan input baru
-    // elektronikToUpdate.setNama(nama);
-    // elektronikToUpdate.setDeskripsi(deskripsi);
-    // elektronikToUpdate.setHarga(harga);
-    // elektronikToUpdate.setStok(stok);
-    // elektronikToUpdate.setMerk(merk);
-    // elektronikToUpdate.setTipe(tipe);
-    // elektronikToUpdate.setModel(model);
-    // elektronikToUpdate.setWarna(warna);
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Terjadi kesalahan saat memperbarui produk di database.");
+        }
+    }
 
-    // System.out.println("Data produk Elektronik berhasil diubah.");
-    // kelolaData();
-    // } else {
-    // System.out.println("Produk dengan ID " + id + " tidak ditemukan.");
-    // }
-    // }
+    public static void ubahElektronik() {
+        // elektronik elektronikToUpdate = null;
+        lihatElektronik();
+        System.out.println("Data berapa yang ingin diubah");
+        int index = sc.nextInt() - 1;
+        sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
 
-    // public static void ubahPerkakas() {
-    // perkakas perkakasToUpdate = null;
+        if (index < 0 || index >= productControl.getDataElektronik().size()) {
+            System.out.println("Nomor urut tidak valid.");
+            return;
+        }
 
-    // lihatPerkakas();
-    // System.out.println("Data berapa yang ingin diubah");
+        elektronik elektronikToUpdate = productControl.getDataElektronik().get(index);
 
-    // int id = sc.nextInt();
-    // sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
+        System.out.print("Nama: ");
+        String nama = sc.nextLine();
+        System.out.print("Deskripsi: ");
+        String deskripsi = sc.nextLine();
+        System.out.print("Harga: ");
+        int harga = Integer.parseInt(sc.nextLine());
+        System.out.print("Stok: ");
+        int stok = Integer.parseInt(sc.nextLine());
+        System.out.print("Merk: ");
+        String merk = sc.nextLine();
+        System.out.print("Tipe: ");
+        String tipe = sc.nextLine();
+        System.out.print("Model: ");
+        String model = sc.nextLine();
+        System.out.print("Warna: ");
+        String warna = sc.nextLine();
 
-    // for (perkakas perkakas : dataPerkakas) {
-    // if (perkakas.getId() == id) {
-    // perkakasToUpdate = perkakas; // Simpan referensi rt yang
-    // // sesuai
-    // break;
-    // }
-    // }
+        // Mengubah atribut produk yang sesuai dengan input baru
+        elektronikToUpdate.setNama(nama);
+        elektronikToUpdate.setDeskripsi(deskripsi);
+        elektronikToUpdate.setHarga(harga);
+        elektronikToUpdate.setStok(stok);
+        elektronikToUpdate.setMerk(merk);
+        elektronikToUpdate.setTipe(tipe);
+        elektronikToUpdate.setModel(model);
+        elektronikToUpdate.setWarna(warna);
 
-    // if (perkakasToUpdate != null) {
-    // System.out.print("Nama: ");
-    // String nama = sc.nextLine();
-    // System.out.print("Deskripsi: ");
-    // String deskripsi = sc.nextLine();
-    // System.out.print("Harga: ");
-    // int harga = Integer.parseInt(sc.nextLine());
-    // System.out.print("Stok: ");
-    // int stok = Integer.parseInt(sc.nextLine());
-    // System.out.print("Merk: ");
-    // String merk = sc.nextLine();
+        try {
+            productControl.ubahProduk(elektronikToUpdate);
+            System.out.println("Data produk peralatan rumah tangga berhasil diubah.");
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Terjadi kesalahan saat memperbarui produk di database.");
+        }
+    }
 
-    // // Mengubah atribut produk yang sesuai dengan input baru
-    // perkakasToUpdate.setNama(nama);
-    // perkakasToUpdate.setDeskripsi(deskripsi);
-    // perkakasToUpdate.setHarga(harga);
-    // perkakasToUpdate.setStok(stok);
-    // perkakasToUpdate.setMerk(merk);
+    public static void ubahPerkakas() {
+        lihatPerkakas();
+        System.out.println("Data berapa yang ingin diubah");
+        int index = sc.nextInt() - 1;
+        sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
 
-    // System.out.println("Data produk Elektronik berhasil diubah.");
+        if (index < 0 || index >= productControl.getDataPerkakas().size()) {
+            System.out.println("Nomor urut tidak valid.");
+            return;
+        }
 
-    // kelolaData();
-    // } else {
-    // System.out.println("Produk dengan ID " + id + " tidak ditemukan.");
-    // }
-    // }
+        perkakas perkakasToUpdate = productControl.getDataPerkakas().get(index);
 
-    // public static void ubahFurniture() {
-    // furniture furnitureToUpdate = null;
+        System.out.print("Nama: ");
+        String nama = sc.nextLine();
+        System.out.print("Deskripsi: ");
+        String deskripsi = sc.nextLine();
+        System.out.print("Harga: ");
+        int harga = Integer.parseInt(sc.nextLine());
+        System.out.print("Stok: ");
+        int stok = Integer.parseInt(sc.nextLine());
+        System.out.print("Merk: ");
+        String merk = sc.nextLine();
 
-    // lihatFurnitur();
-    // System.out.println("Data berapa yang ingin diubah");
+        // Mengubah atribut produk yang sesuai dengan input baru
+        perkakasToUpdate.setNama(nama);
+        perkakasToUpdate.setDeskripsi(deskripsi);
+        perkakasToUpdate.setHarga(harga);
+        perkakasToUpdate.setStok(stok);
+        perkakasToUpdate.setMerk(merk);
 
-    // int id = sc.nextInt();
-    // sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
+        try {
+            productControl.ubahProduk(perkakasToUpdate);
+            System.out.println("Data produk peralatan rumah tangga berhasil diubah.");
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Terjadi kesalahan saat memperbarui produk di database.");
+        }
+    }
 
-    // for (furniture furniture : dataFurniture) {
-    // if (furniture.getId() == id) {
-    // furnitureToUpdate = furniture; // Simpan referensi rt
-    // // yang sesuai
-    // break;
-    // }
-    // }
+    public static void ubahFurniture() {
+        lihatFurniture();
+        System.out.println("Data berapa yang ingin diubah");
+        int index = sc.nextInt() - 1;
+        sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
 
-    // if (furnitureToUpdate != null) {
-    // System.out.print("Nama: ");
-    // String nama = sc.nextLine();
-    // System.out.print("Deskripsi: ");
-    // String deskripsi = sc.nextLine();
-    // System.out.print("Harga: ");
-    // int harga = Integer.parseInt(sc.nextLine());
-    // System.out.print("Stok: ");
-    // int stok = Integer.parseInt(sc.nextLine());
-    // System.out.print("Merk: ");
-    // String merk = sc.nextLine();
+        if (index < 0 || index >= productControl.getDataPerkakas().size()) {
+            System.out.println("Nomor urut tidak valid.");
+            return;
+        }
 
-    // // Mengubah atribut produk yang sesuai dengan input baru
-    // furnitureToUpdate.setNama(nama);
-    // furnitureToUpdate.setDeskripsi(deskripsi);
-    // furnitureToUpdate.setHarga(harga);
-    // furnitureToUpdate.setStok(stok);
-    // furnitureToUpdate.setMerk(merk);
+        furniture furnitureToUpdate = productControl.getDataFurniture().get(index);
 
-    // System.out.println("Data produk Furniture berhasil diubah.");
+        System.out.print("Nama: ");
+        String nama = sc.nextLine();
+        System.out.print("Deskripsi: ");
+        String deskripsi = sc.nextLine();
+        System.out.print("Harga: ");
+        int harga = Integer.parseInt(sc.nextLine());
+        System.out.print("Stok: ");
+        int stok = Integer.parseInt(sc.nextLine());
+        System.out.print("Merk: ");
+        String merk = sc.nextLine();
 
-    // kelolaData();
-    // } else {
-    // System.out.println("Produk dengan ID " + id + " tidak ditemukan.");
-    // }
-    // }
+        // Mengubah atribut produk yang sesuai dengan input baru
+        furnitureToUpdate.setNama(nama);
+        furnitureToUpdate.setDeskripsi(deskripsi);
+        furnitureToUpdate.setHarga(harga);
+        furnitureToUpdate.setStok(stok);
+        furnitureToUpdate.setMerk(merk);
+
+        try {
+            productControl.ubahProduk(furnitureToUpdate);
+            System.out.println("Data produk peralatan rumah tangga berhasil diubah.");
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Terjadi kesalahan saat memperbarui produk di database.");
+        }
+    }
 
     // Hapus Data
-    // public static void hapusData() {
-    // String pilih = "";
-    // while (!pilih.equals("5")) {
 
-    // System.out.println("| Hapus Data");
-    // printData();
-    // System.out.print(">> ");
-    // pilih = sc.nextLine();
-    // switch (pilih) {
-    // case "1":
-    // hapusRt();
-    // break;
-    // case "2":
-    // break;
-    // case "3":
-    // break;
-    // case "4":
-    // break;
+    public static void hapusData() {
+        String pilih = "";
+        while (!pilih.equals("5")) {
 
-    // default:
-    // break;
-    // }
-    // }
+            System.out.println("| Hapus Data");
+            printData();
+            System.out.print(">> ");
+            pilih = sc.nextLine();
+            switch (pilih) {
+                case "1":
+                    hapusRt();
+                    break;
+                case "2":
+                    hapusElektronik();
+                    break;
+                case "3":
+                    hapusPerkakas();
+                    break;
+                case "4":
+                    hapusFurnitur();
+                    break;
 
-    // }
+                default:
+                    break;
+            }
+        }
 
-    // public static void hapusRt() {
-    // rumahTangga rtToRemove = null;
+    }
 
-    // lihatRt();System.out.println("Data berapa yang ingin dihapus");
+    public static void hapusRt() {
+        lihatRumahTangga();
+        System.out.println("Data berapa yang ingin dihapus");
 
-    // int id = sc.nextInt();sc.nextLine(); // Menangkap karakter baris baru yang
-    // tersisa di dalam buffer
+        int index = sc.nextInt() - 1;
+        sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
 
-    // for(
-    // rumahTangga rumahTangga:datArt)
-    // {
-    // if (rumahTangga.getId() == id) {
-    // rtToRemove = rumahTangga; // Simpan referensi rt yang
-    // // sesuai
-    // break;
-    // }
-    // }
+        if (index < 0 || index >= productControl.getDatArt().size()) {
+            System.out.println("Nomor urut tidak valid.");
+            return;
+        }
 
-    // if(rtToRemove!=null)
-    // {
-    // // Menghapus produk dari daftar produk
-    // datArt.remove(rtToRemove);
+        rumahTangga rtToDelete = productControl.getDatArt().get(index);
 
-    // System.out.println("Data produk peralatan rumah tangga berhasil dihapus.");
-    // kelolaData(); // Kembali ke menu admin
-    // // setelah penghapusan
-    // // berhasil
-    // }else
-    // {
-    // System.out.println("Produk dengan ID " + id + " tidak ditemukan.");
-    // }}
+        try {
+            productControl.hapusProduk(rtToDelete.getId(), rtToDelete.getJenis());
 
-    // public static void hapusElektronik() {
-    // elektronik elektronikToRemove = null;
+            System.out.println("Data produk peralatan rumah tangga berhasil dihapus.");
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Terjadi kesalahan saat menghapus produk dari database.");
+        }
+    }
 
-    // lihatElektronik();System.out.println("Data berapa yang ingin dihapus");
+    public static void hapusElektronik() {
+        // Dapatkan objek elektronik yang akan dihapus dari dataElektronik
+        elektronik elektronikToRemove = null;
 
-    // int id = sc.nextInt();sc.nextLine(); // Menangkap karakter baris baru yang
-    // tersisa di dalam buffer
+        // Tampilkan daftar produk elektronik
+        lihatElektronik();
+        System.out.println("Data berapa yang ingin dihapus");
 
-    // for(
-    // elektronik elektronik:dataElektronik)
-    // {
-    // if (elektronik.getId() == id) {
-    // elektronikToRemove = elektronik; // Simpan referensi
-    // // rt yang sesuai
-    // break;
-    // }
-    // }
+        // Baca nomor urut produk yang akan dihapus dari input pengguna
+        int index = sc.nextInt() - 1;
+        sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
 
-    // if(elektronikToRemove!=null)
-    // {
-    // // Menghapus produk dari daftar produk
-    // dataElektronik.remove(elektronikToRemove);
+        // Periksa apakah nomor urut valid
+        if (index < 0 || index >= productControl.getDataElektronik().size()) {
+            System.out.println("Nomor urut tidak valid.");
+            return;
+        }
 
-    // System.out.println("Data produk Elektronik berhasil dihapus.");
-    // kelolaData(); // Kembali ke menu admin setelah
-    // // penghapusan berhasil
-    // }else
-    // {
-    // System.out.println("Produk dengan ID " + id + " tidak ditemukan.");
-    // }}
+        // Dapatkan objek elektronik yang akan dihapus berdasarkan indeks
+        elektronikToRemove = productControl.getDataElektronik().get(index);
 
-    // public static void hapusPerkakas() {
-    // perkakas perkakasToRemove = null;
+        // Hapus produk elektronik dari database
+        try {
+            productControl.hapusProduk(elektronikToRemove.getId(), elektronikToRemove.getJenis());
+            System.out.println("Data produk Elektronik berhasil dihapus.");
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Terjadi kesalahan saat menghapus produk Elektronik dari database.");
+        }
+    }
 
-    // lihatPerkakas();System.out.println("Data berapa yang ingin dihapus");
+    public static void hapusPerkakas() {
+        // Dapatkan objek perkakas yang akan dihapus dari dataPerkakas
+        perkakas perkakasToRemove = null;
 
-    // int id = sc.nextInt();sc.nextLine(); // Menangkap karakter baris baru yang
-    // tersisa di dalam buffer
+        // Tampilkan daftar produk perkakas
+        lihatPerkakas();
+        System.out.println("Data berapa yang ingin dihapus");
 
-    // for(
-    // perkakas perkakas:dataPerkakas)
-    // {
-    // if (perkakas.getId() == id) {
-    // perkakasToRemove = perkakas; // Simpan referensi rt yang
-    // // sesuai
-    // break;
-    // }
-    // }
+        // Baca nomor urut produk yang akan dihapus dari input pengguna
+        int index = sc.nextInt() - 1;
+        sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
 
-    // if(perkakasToRemove!=null)
-    // {
-    // // Menghapus produk dari daftar produk
-    // dataPerkakas.remove(perkakasToRemove);
+        // Periksa apakah nomor urut valid
+        if (index < 0 || index >= productControl.getDataPerkakas().size()) {
+            System.out.println("Nomor urut tidak valid.");
+            return;
+        }
 
-    // System.out.println("Data produk perkakas berhasil dihapus.");
-    // kelolaData(); // Kembali ke menu admin setelah
-    // // penghapusan berhasil
-    // }else
-    // {
-    // System.out.println("Produk dengan ID " + id + " tidak ditemukan.");
-    // }}
+        // Dapatkan objek perkakas yang akan dihapus berdasarkan indeks
+        perkakasToRemove = productControl.getDataPerkakas().get(index);
 
-    // public static void hapusFurnitur() {
-    // furniture furnitureToRemove = null;
+        // Hapus produk perkakas dari database
+        try {
+            productControl.hapusProduk(perkakasToRemove.getId(), perkakasToRemove.getJenis());
+            System.out.println("Data produk Perkakas berhasil dihapus.");
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Terjadi kesalahan saat menghapus produk Perkakas dari database.");
+        }
+    }
 
-    // lihatFurnitur();System.out.println("Data berapa yang ingin dihapus");
+    public static void hapusFurnitur() {
+        // Dapatkan objek furnitur yang akan dihapus dari dataFurniture
+        furniture furnitureToRemove = null;
 
-    // int id = sc.nextInt();sc.nextLine(); // Menangkap karakter baris baru yang
-    // tersisa di dalam buffer
+        // Tampilkan daftar produk furnitur
+        lihatFurniture();
+        System.out.println("Data berapa yang ingin dihapus");
 
-    // for(
-    // furniture furniture:dataFurniture)
-    // {
-    // if (furniture.getId() == id) {
-    // furnitureToRemove = furniture; // Simpan referensi rt yang sesuai
-    // break;
-    // }
-    // }
+        // Baca nomor urut produk yang akan dihapus dari input pengguna
+        int index = sc.nextInt() - 1;
+        sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
 
-    // if(furnitureToRemove!=null)
-    // {
-    // // Menghapus produk dari daftar produk
-    // dataFurniture.remove(furnitureToRemove);
+        // Periksa apakah nomor urut valid
+        if (index < 0 || index >= productControl.getDataFurniture().size()) {
+            System.out.println("Nomor urut tidak valid.");
+            return;
+        }
 
-    // System.out.println("Data produk Furnitur berhasil dihapus.");
-    // kelolaData(); // Kembali ke menu admin setelah
-    // // penghapusan berhasil
-    // }else
-    // {
-    // System.out.println("Produk dengan ID " + id + " tidak ditemukan.");
-    // }
-    // }
+        // Dapatkan objek furnitur yang akan dihapus berdasarkan indeks
+        furnitureToRemove = productControl.getDataFurniture().get(index);
+
+        // Hapus produk furnitur dari database
+        try {
+            productControl.hapusProduk(furnitureToRemove.getId(), furnitureToRemove.getJenis());
+            System.out.println("Data produk Furnitur berhasil dihapus.");
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Terjadi kesalahan saat menghapus produk Furnitur dari database.");
+        }
+    }
 
     // Menu Kurir
     // public static void menuKurir() {
@@ -946,25 +925,21 @@ public class App {
             System.out.println("|   Menu Customer   |");
             System.out.println("=====================");
             System.out.println("| [1]. Beli Barang  |");
-            System.out.println("| [2]. Lihat Barang |");
-            System.out.println("| [3]. Keranjang    |");
-            System.out.println("| [4]. Profile      |");
+            System.out.println("| [2]. Keranjang    |");
+            System.out.println("| [3]. Profile      |");
             System.out.println("| [5]. Keluar       |");
             System.out.println("=====================");
             System.out.print(">> ");
             pilih = sc.nextLine();
             switch (pilih) {
                 case "1":
-                    // menuBeli();
+                    menuBeli();
                     break;
                 case "2":
-                    System.out.println("Lihat Barang");
+                    System.out.println("Keranjang");
+                    menuKeranjang(customer);
                     break;
                 case "3":
-                    System.out.println("Keranjang");
-                    // lihatKeranjang();
-                    break;
-                case "4":
                     menuProfile(customer);
                     break;
                 case "5":
@@ -981,70 +956,102 @@ public class App {
     public static void menuBeli() {
         String pilih = "";
         while (!pilih.equals("5")) {
-
             System.out.println("Beli Barang");
             printData();
             pilih = sc.nextLine();
             switch (pilih) {
                 case "1":
-                    // beliRt();
+                    beliRt();
                     break;
-
                 default:
                     break;
             }
         }
     }
 
-    // public static void beliRt() {
-    // while (true) {
-    // System.out.println("Peralatan Rumah Tangga");
-    // lihatRt();
-    // System.out.println("[q]. Keluar");
-    // System.out.print("Pilih ID produk yang ingin Anda beli (atau q untuk keluar):
-    // ");
+    public static void menuKeranjang(customer customer) {
+        String pilih = "";
+        while (!pilih.equals("2")) {
+            keranjangControl.lihatKeranjang(customer);
+            System.out.println("Ingin Chekout?");
+            System.out.println("1. Ya");
+            System.out.println("2. Tidak");
+            pilih = sc.nextLine();
+            switch (pilih) {
+                case "1":
+                    
+                    break;
+                case "2":
+                    break;
+                default:
+                    System.out.println("Pilihan tidak tersedia");
+                    break;
+            }
+        }
+    }
 
-    // // Memeriksa apakah pengguna memasukkan angka atau q untuk keluar
-    // if (sc.hasNextInt()) {
-    // int beli = sc.nextInt();
-    // sc.nextLine(); // Membersihkan karakter baris baru di buffer
+    public static void menuCheckOut(){
+        System.out.println("tes");
+    }
 
-    // if (beli == 'q') {
-    // System.out.println("Keluar dari menu pembelian.");
-    // break; // Keluar dari loop saat pengguna memilih untuk keluar
-    // }
+    public static void beliRt() {
+        while (true) {
+            System.out.println("Peralatan Rumah Tangga");
+            lihatRumahTangga();
+            System.out.println("[q]. Keluar");
+            System.out.print("Pilih ID produk yang ingin Anda beli (atau q untuk keluar):");
 
-    // // Mencari produk yang sesuai dengan ID yang dipilih pengguna
-    // boolean produkDitemukan = false;
-    // for (rumahTangga rt : datArt) {
-    // if (beli == rt.getId()) {
-    // produkDitemukan = true;
-    // keranjang newKeranjang = new keranjang(custId, beli, "rt");
-    // dataKeranjang.add(newKeranjang);
-    // System.out.println("Produk berhasil ditambahkan ke keranjang.");
-    // break; // Keluar dari loop setelah menambahkan produk ke keranjang
-    // }
-    // }
+            // Memeriksa apakah pengguna memasukkan angka atau q untuk keluar
+            if (sc.hasNextInt()) {
+                int beli = sc.nextInt();
+                sc.nextLine(); // Membersihkan karakter baris baru di buffer
 
-    // // Memberikan umpan balik jika produk tidak ditemukan
-    // if (!produkDitemukan) {
-    // System.out.println("Produk tidak ditemukan. Silakan masukkan ID produk yang
-    // valid.");
-    // }
-    // } else {
-    // // Menangani input yang bukan angka
-    // String input = sc.nextLine();
-    // if (input.equals("q")) {
-    // System.out.println("Keluar dari menu pembelian.");
-    // break; // Keluar dari loop saat pengguna memilih untuk keluar
-    // } else {
-    // System.out.println(
-    // "Input tidak valid. Harap masukkan ID produk yang ingin Anda beli atau q
-    // untuk keluar.");
-    // }
-    // }
-    // }
-    // }
+                if (beli == 'q') {
+                    System.out.println("Keluar dari menu pembelian.");
+                    break; // Keluar dari loop saat pengguna memilih untuk keluar
+                }
+
+                int index = sc.nextInt() - 1;
+                sc.nextLine();
+                // Mencari produk yang sesuai dengan ID yang dipilih pengguna
+                if (index < 0 || index >= productControl.getDatArt().size()) {
+                    System.out.println("Nomor urut tidak valid.");
+                    return;
+                }
+
+                rumahTangga rtBeli = productControl.getDatArt().get(index);
+
+                System.out.println("Masukkan jumlah yang inign dibeli");
+                int jumlah = sc.nextInt();
+
+                if (jumlah < 0 || jumlah > rtBeli.getStok()) {
+                    System.out.println("Jumlah yang anda beli melebihi stok");
+                    break;
+                }
+
+                keranjang newKeranjang = new keranjang(0, custId, rtBeli.getId(), jumlah);
+
+                try {
+                    keranjangControl.tambahKeranjang(newKeranjang);
+                    System.out.println("Produk berhasil ditambahkan ke keranjang.");
+                } catch (SQLException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                    System.out.println("Terjadi kesalahan saat menambahkan produk ke keranjang.");
+                }
+
+            } else {
+                // Menangani input yang bukan angka
+                String input = sc.nextLine();
+                if (input.equals("q")) {
+                    System.out.println("Keluar dari menu pembelian.");
+                    break; // Keluar dari loop saat pengguna memilih untuk keluar
+                } else {
+                    System.out.println(
+                            "Input tidak valid. Harap masukkan ID produk yang ingin Anda beli atau q untuk keluar.");
+                }
+            }
+        }
+    }
 
     // public static void lihatKeranjang() {
     // String nama = "";

@@ -1,14 +1,14 @@
 package Keranjang;
 
 public class keranjang {
-    protected int custId, idKeranjang;
-    protected String kode;
+    protected int custId, idKeranjang, idProduk, jumlah;
 
     // Konstruktor 
-    public keranjang(int custId, int idKeranjang, String kode) {
-        this.custId = custId;
+    public keranjang(int idKeranjang,int custId,  int idProduk, int jumlah) {
         this.idKeranjang = idKeranjang;
-        this.kode = kode;
+        this.custId = custId;
+        this.idProduk = idProduk;
+        this.jumlah = jumlah;
     }
     
     // Getter dan setter
@@ -28,11 +28,20 @@ public class keranjang {
         this.idKeranjang = idKeranjang;
     }
 
-    public String getKode() {
-        return kode;
+    public int getIdProduk() {
+        return idProduk;
     }
 
-    public void setKode(String kode) {
-        this.kode = kode;
+    public void setIdProduk(int idProduk) {
+        this.idProduk = idProduk;
     }
+
+    public int getJumlah() {
+        return jumlah;
+    }
+
+    public void setJumlah(int jumlah) {
+        this.jumlah = jumlah;
+    }
+
 }
