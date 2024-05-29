@@ -6,10 +6,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import Connection.DatabaseConnection;
+import Product.rumahTangga;
 
 public class userControl {
+    private static ArrayList<kurir> dataKurir = new ArrayList<>();
+
     public static void registerCustomer(customer newCustomer) throws SQLException, ClassNotFoundException {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -155,7 +159,6 @@ public class userControl {
     }
 }
 
-
     public static void updateCustomer(int id, String kolom, String nilaiBaru) throws SQLException, ClassNotFoundException {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -198,5 +201,78 @@ public class userControl {
                 connection.close();
             }
         }
+    }
+
+    public static void lihatKurir() throws SQLException, ClassNotFoundException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        dataKurir.clear();
+
+        try {
+            connection = DatabaseConnection.getConnection();
+            String sql = "SELECT * FROM tbuser WHERE role = 'kurir'";
+            statement = connection.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String nama = resultSet.getString("nama");
+                int telp = resultSet.getInt("telp");
+                String email = resultSet.getString("email");
+                String username = resultSet.getString("username");
+                String password = resultSet.getString("password");
+
+                
+                kurir newKurir = new kurir(id, nama,username,password, email,telp,"kurir");
+                dataKurir.add(newKurir);
+
+                System.out.println("Nama: " + nama);
+                System.out.println("Telepon: " + telp);
+                System.out.println("Email: " + email);
+                System.out.println("-------------------------------");
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public static void hapusKurir(int id) throws SQLException, ClassNotFoundException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+    
+        try {
+            connection = DatabaseConnection.getConnection();
+            String sql = "DELETE FROM tbuser WHERE id = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+            System.out.println("Kurir berhasil dihapus.");
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Terjadi kesalahan saat menghapus kurir dari database.");
+        } finally {
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+    
+    public static ArrayList<kurir> getDataKurir() {
+        return dataKurir;
     }
 }

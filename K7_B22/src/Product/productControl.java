@@ -30,7 +30,7 @@ public class productControl {
             statement.setString(5, newProduct.getMerk());
             statement.setString(6, newProduct.getJenis());
             statement.executeUpdate();
-            ambilProduk();
+            lihatProduk();
         } finally {
             if (statement != null) {
                 statement.close();
@@ -41,7 +41,7 @@ public class productControl {
         }
     }
 
-    public static void ambilProduk() {
+    public static void lihatProduk() {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -145,7 +145,7 @@ public class productControl {
             statement.setString(6, newProduct.getJenis());
             statement.setInt(7, newProduct.getId());
             statement.executeUpdate();
-            ambilProduk();
+            lihatProduk();
         } finally {
             if (statement != null) statement.close();
             if (connection != null) connection.close();
@@ -167,7 +167,7 @@ public class productControl {
     
             // Mengeksekusi pernyataan SQL untuk menghapus produk
             statement.executeUpdate();
-            ambilProduk();
+            lihatProduk();
             // Hapus objek dari ArrayList berdasarkan jenisnya
             // switch (jenis.toLowerCase()) {
             //     case "perkakas":

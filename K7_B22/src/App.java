@@ -40,7 +40,7 @@ public class App {
     // static ArrayList<perkakas> dataPerkakas = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
-        productControl.ambilProduk();
+        productControl.lihatProduk();
         String pilih = "";
         while (!pilih.equals("3")) {
             System.out.println("===============================================");
@@ -108,15 +108,17 @@ public class App {
         if (!usernameExists) {
             System.out.print("Masukkan Password: ");
             String newPassword = sc.nextLine();
-            System.out.println("Masukkan Nama :");
+            sc.nextLine();
+            System.out.print("Masukkan Nama :");
             String nama = sc.nextLine();
-            System.out.print("Masukkan email baru: ");
+            System.out.print("Masukkan email: ");
             String email = sc.nextLine();
             while (!isValidEmail(email)) {
                 System.out.println("Alamat email tidak valid. Harap masukkan alamat email yang benar.");
                 System.out.print("Masukkan email baru: ");
                 email = sc.nextLine();
             }
+            System.out.println("Masukkan Nomor Telepon :");
             int telp = cekinput(sc);
 
             try {
@@ -264,7 +266,7 @@ public class App {
             System.out.println("=====================");
             System.out.println("| [1]. Tambah Kurir |");
             System.out.println("| [2]. Lihat Kurir |");
-            System.out.println("| [4]. Delete Kurir |");
+            System.out.println("| [3]. Delete Kurir |");
             System.out.println("| [6]. Keluar |");
             System.out.println("=====================");
             System.out.println(">> ");
@@ -274,8 +276,16 @@ public class App {
                     daftarKurir();
                     break;
                 case "2":
-                    // lihatKurir();
+                    try {
+                        userControl.lihatKurir();
+                    } catch (SQLException | ClassNotFoundException e) {
+                        e.printStackTrace();
+                        // Anda bisa menambahkan logika penanganan kesalahan tambahan di sini
+                        System.out.println("Terjadi kesalahan saat mengambil data kurir: " + e.getMessage());
+                    }
                     break;
+                case "3":
+                    hapusKurir();
                 default:
                     break;
             }
@@ -913,6 +923,36 @@ public class App {
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             System.out.println("Terjadi kesalahan saat menghapus produk Furnitur dari database.");
+        }
+    }
+
+    public static void lihatKurir(){
+        try {
+            userControl.lihatKurir();
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            // Anda bisa menambahkan logika penanganan kesalahan tambahan di sini
+            System.out.println("Terjadi kesalahan saat mengambil data kurir: " + e.getMessage());
+        }
+    }
+    public static void hapusKurir(){
+        lihatKurir();
+        System.out.println("Pilih kurir yang ingin dihapus");
+
+        int index = sc.nextInt() - 1;
+        sc.nextLine(); 
+
+        if (index < 0 || index >= userControl.getDataKurir().size()) {
+            System.out.println("Nomor urut tidak valid.");
+            return;
+        }
+        kurir krToDelete = userControl.getDataKurir().get(index);
+        try {
+            userControl.hapusKurir(krToDelete.getId());
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Terjadi kesalahan saat menghapus produk dari database.");
         }
     }
 
