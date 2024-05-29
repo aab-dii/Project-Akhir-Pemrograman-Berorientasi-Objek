@@ -40,7 +40,7 @@ public class keranjangControl {
         }
     }
 
-    public static void lihatKeranjang(customer customer) {
+    public static void lihatKeranjang(customer customer) throws SQLException, ClassNotFoundException{
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -55,8 +55,12 @@ public class keranjangControl {
             int no = 0;
 
             while (resultSet.next()) {
+                int idKeranjang = resultSet.getInt("idKeranjang");
                 int idProdukK = resultSet.getInt("idProduk");
                 int jumlah = resultSet.getInt("jumlah");
+
+                keranjang newKeranjang = new keranjang(idKeranjang, customer.getId(), idProdukK, jumlah);
+                dataKeranjang.add(newKeranjang);
 
                 String sql2 = "SELECT nama,harga FROM tbproduk WHERE id = ?";
                 PreparedStatement statement2 = connection.prepareStatement(sql2);
@@ -76,18 +80,45 @@ public class keranjangControl {
                 statement2.close();
             }
             System.out.println("Total Harga : Rp. " + total);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
         } finally {
-            try {
-                if (resultSet != null) resultSet.close();
-                if (statement != null) statement.close();
-                if (connection != null) connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
             }
         }
     }
+
+    public static ArrayList<keranjang> getKeranjang(){
+        return dataKeranjang;
+    }
+
+    public static void hapusKeranjang(int idKeranjang)throws SQLException, ClassNotFoundException{
+        Connection connection = null;
+        PreparedStatement statement = null;
+    
+        try {
+            connection = DatabaseConnection.getConnection();
+            String sql = "DELETE FROM tbproduk WHERE id = ?";
+            statement = connection.prepareStatement(sql);
+            
+            // Mengatur parameter ID
+            statement.setInt(1, idKeranjang);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Terjadi kesalahan saat menghapus produk dari database.");
+        } finally {
+            // Menutup statement dan koneksi
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+}
 
     public static void checkOut(){
         System.out.println("================================");

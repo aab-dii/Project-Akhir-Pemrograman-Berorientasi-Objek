@@ -43,11 +43,12 @@ public class pesananControl {
         }
     }
 
-    public static void lihatPesanan() {
+    public static void lihatPesananAdmin() {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         int total = 0;
+        dataPesanan.clear();
 
         try {
             connection = DatabaseConnection.getConnection();
@@ -90,6 +91,67 @@ public class pesananControl {
             }
         }
     }
+
+    public static void lihatPesananCust(int id)throws SQLException, ClassNotFoundException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        int total = 0;
+        // dataPesanan.clear();
+
+        try {
+            connection = DatabaseConnection.getConnection();
+            String sql = "SELECT * FROM tbpesanan WHERE idCust = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
+            int no = 0;
+            
+            while (resultSet.next()) {
+                int idPesanan = resultSet.getInt("idPesanan");
+                int idCust = resultSet.getInt("idCust");
+                int idProdukK = resultSet.getInt("idProduk");
+                int jumlah = resultSet.getInt("jumlah");
+                String status = resultSet.getString("status");
+
+                pesanan newPesanan = new pesanan(idPesanan,idCust,idProdukK,jumlah,status);
+                dataPesanan.add(newPesanan);
+
+                String sql2 = "SELECT nama,harga FROM tbproduk WHERE id = ?";
+                PreparedStatement statement2 = connection.prepareStatement(sql2);
+                statement2.setInt(1, idProdukK);
+                ResultSet resultSet2 = statement2.executeQuery();
+
+                no++;
+                if (resultSet2.next()) {
+                    String nama = resultSet2.getString("nama");
+                    int harga = resultSet2.getInt("harga");
+                    System.out.println(no + "  Nama Barang: " + nama);
+                    System.out.println("   Jumlah barang: " + jumlah);
+                    System.out.println("------------------------------------");
+                    total += jumlah*harga;
+                }
+                resultSet2.close();
+                statement2.close();
+            }
+            System.out.println("Total Harga : Rp. " + total);
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) resultSet.close();
+                if (statement != null) statement.close();
+                if (connection != null) connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static ArrayList<pesanan> getPesanan(){
+        return dataPesanan;
+    }
+
     public static void updatePesanan(pesanan newPesanan) throws SQLException, ClassNotFoundException {
         Connection connection = null;
         PreparedStatement statement = null;

@@ -1011,6 +1011,7 @@ public class App {
             System.out.println("| [1]. Beli Barang  |");
             System.out.println("| [2]. Keranjang    |");
             System.out.println("| [3]. Profile      |");
+            System.out.println("| [4]. Pesanan      |");
             System.out.println("| [5]. Keluar       |");
             System.out.println("=====================");
             System.out.print(">> ");
@@ -1026,6 +1027,9 @@ public class App {
                 case "3":
                     menuProfile(customer);
                     break;
+                case "4":
+                    menuPesanan(customer);
+                    break;
                 case "5":
                     System.out.println("Keluar dari Menu Customer");
                     loggedIn = false;
@@ -1037,6 +1041,15 @@ public class App {
         }
     }
 
+    public static void menuPesanan(customer customer) {
+        try {
+            pesananControl.lihatPesananCust(customer.getId());
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Terjadi kesalahan saat menampilkan pesanan.");
+        }
+    }
+    
     public static void menuBeli() {
         String pilih = "";
         while (!pilih.equals("5")) {
@@ -1054,28 +1067,47 @@ public class App {
     }
 
     public static void menuKeranjang(customer customer) {
-        String pilih = "";
-        while (!pilih.equals("2")) {
-            keranjangControl.lihatKeranjang(customer);
-            System.out.println("Ingin Chekout?");
-            System.out.println("1. Ya");
-            System.out.println("2. Tidak");
-            pilih = sc.nextLine();
-            switch (pilih) {
-                case "1":
-
-                    break;
-                case "2":
-                    break;
-                default:
-                    System.out.println("Pilihan tidak tersedia");
-                    break;
+        try {
+            String pilih = " ";
+            while (!pilih.equals("1") && !pilih.equals("2")) {
+                keranjangControl.lihatKeranjang(customer);
+                System.out.println("Ingin CheckOut?");
+                System.out.println("1. Ya");
+                System.out.println("2. Tidak");
+                pilih = sc.nextLine();
+                switch (pilih) {
+                    case "1":
+                        menuCheckOut();
+                        break;
+                    case "2":
+                        break;
+                    default:
+                        System.out.println("Pilihan tidak tersedia");
+                        break;
+                }
             }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Terjadi kesalahan saat memuat keranjang.");
         }
     }
 
     public static void menuCheckOut() {
-        System.out.println("tes");
+        for (Keranjang.keranjang keranjang : keranjangControl.getKeranjang()) {
+            int idKeranjang = keranjang.getIdKeranjang();
+            int idCust = keranjang.getCustId();
+            int idProduk = keranjang.getIdProduk();
+            int jumlah = keranjang.getJumlah();
+            pesanan newPesanan = new pesanan(0, idCust, idProduk, jumlah, "Pesanan Diproses");
+            try {
+                pesananControl.tambahPesanan(newPesanan);
+                keranjangControl.hapusKeranjang(idKeranjang);
+            } catch (SQLException | ClassNotFoundException e) {
+                e.printStackTrace();
+                System.out.println("Terjadi kesalahan saat menambahkan produk ke keranjang.");
+            }
+        }
+        System.out.println("Produk berhasil dibeli.");
     }
 
     public static void beliRt() {
@@ -1126,15 +1158,16 @@ public class App {
                         System.out.println("Terjadi kesalahan saat menambahkan produk ke keranjang.");
                     }
                 } else if (cekBeli.equals("2")) {
-                keranjang newKeranjang = new keranjang(0, custId, rtBeli.getId(), jumlah);
+                    keranjang newKeranjang = new keranjang(0, custId, rtBeli.getId(), jumlah);
 
-                try {
-                    keranjangControl.tambahKeranjang(newKeranjang);
-                    System.out.println("Produk berhasil ditambahkan ke keranjang.");
-                } catch (SQLException | ClassNotFoundException e) {
-                    e.printStackTrace();
-                    System.out.println("Terjadi kesalahan saat menambahkan produk ke keranjang.");
-                }}else{
+                    try {
+                        keranjangControl.tambahKeranjang(newKeranjang);
+                        System.out.println("Produk berhasil ditambahkan ke keranjang.");
+                    } catch (SQLException | ClassNotFoundException e) {
+                        e.printStackTrace();
+                        System.out.println("Terjadi kesalahan saat menambahkan produk ke keranjang.");
+                    }
+                } else {
                     System.out.println("Input Salah");
                 }
 
