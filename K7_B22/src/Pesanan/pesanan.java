@@ -1,15 +1,24 @@
 package Pesanan;
 
 public class pesanan {
-    private int idPesanan, idCust, idProduk;
+    private int idPesanan, idCust, idProduk, jumlah;
     private String status;
-    public pesanan(int idPesanan, int idCust, int idProduk, String status) {
+    public pesanan(int idPesanan, int idCust, int idProduk, int jumlah, String status) {
         this.idPesanan = idPesanan;
         this.idCust = idCust;
         this.idProduk = idProduk;
+        this.jumlah = jumlah;
         this.status = status;
     }
     
+    public int getJumlah() {
+        return jumlah;
+    }
+
+    public void setJumlah(int jumlah) {
+        this.jumlah = jumlah;
+    }
+
     public int getIdPesanan() {
         return idPesanan;
     }

@@ -186,12 +186,15 @@ public class userControl {
 
         try {
             connection = DatabaseConnection.getConnection();
-            String sql = "INSERT INTO tbuser (username, password, role) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO tbuser (nama, username, password, email, telp, role) VALUES (?, ?, ?, ?, ?, ?)";
             statement = connection.prepareStatement(sql);
 
-            statement.setString(1, newkurir.getUsername());
-            statement.setString(2, newkurir.getPassword());
-            statement.setString(3, newkurir.getRole());
+            statement.setString(1, newkurir.getNama());
+            statement.setString(2, newkurir.getUsername());
+            statement.setString(3, newkurir.getPassword());
+            statement.setString(4, newkurir.getEmail());
+            statement.setInt(5, newkurir.getTelp());
+            statement.setString(6, newkurir.getRole());
             statement.executeUpdate();
         } finally {
             if (statement != null) {
