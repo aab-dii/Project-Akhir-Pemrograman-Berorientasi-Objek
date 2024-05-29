@@ -109,7 +109,7 @@ public class userControl {
 
     try {
         connection = DatabaseConnection.getConnection();
-        String sql = "SELECT id, nama, password, alamat, telp, email, role FROM tbuser WHERE username = ?";
+        String sql = "SELECT * FROM tbuser WHERE username = ?";
         statement = connection.prepareStatement(sql);
         statement.setString(1, username);
         resultSet = statement.executeQuery();
@@ -176,6 +176,27 @@ public class userControl {
             }
         }
     }
-    
 
+    public static void registerKurir(kurir newkurir)throws SQLException, ClassNotFoundException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+
+        try {
+            connection = DatabaseConnection.getConnection();
+            String sql = "INSERT INTO tbuser (username, password, role) VALUES (?, ?, ?)";
+            statement = connection.prepareStatement(sql);
+
+            statement.setString(1, newkurir.getUsername());
+            statement.setString(2, newkurir.getPassword());
+            statement.setString(3, newkurir.getRole());
+            statement.executeUpdate();
+        } finally {
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
 }

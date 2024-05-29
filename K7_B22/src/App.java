@@ -97,6 +97,44 @@ public class App {
         }
     }
 
+    public static void daftarKurir() {
+        System.out.print("Masukkan Username: ");
+        String newUsername = sc.nextLine();
+
+        // Periksa apakah username sudah ada
+        boolean usernameExists = userControl.checkUsernameExists(newUsername);
+
+        // Jika username belum digunakan, tambahkan pengguna baru
+        if (!usernameExists) {
+            System.out.print("Masukkan Password: ");
+            String newPassword = sc.nextLine();
+            System.out.println("Masukkan Nama :");
+            String nama = sc.nextLine();
+            System.out.print("Masukkan email baru: ");
+            String email = sc.nextLine();
+            while (!isValidEmail(email)) {
+                System.out.println("Alamat email tidak valid. Harap masukkan alamat email yang benar.");
+                System.out.print("Masukkan email baru: ");
+                email = sc.nextLine();
+            }
+            int telp = cekinput(sc);
+
+            try {
+                kurir newKurir = new kurir(0, nama, newUsername, newPassword, email, telp, "kurir"); // Sesuaikan
+                // dengan
+                // konstruktor kelas
+                // customer
+                userControl.registerKurir(newKurir);
+                System.out.println("Pendaftaran berhasil!");
+            } catch (SQLException | ClassNotFoundException e) {
+                e.printStackTrace();
+                System.out.println("Gagal mendaftar.");
+            }
+        } else {
+            System.out.println("Username telah digunakan. Silahkan gunakan username lain.");
+        }
+    }
+
     // public static void login() {
     // System.out.print("Masukkan username: ");
     // String inputUsername = sc.nextLine();
@@ -163,8 +201,7 @@ public class App {
                 } else if (userData instanceof admin) {
                     menuAdmin((admin) userData);
                 } else if (userData instanceof kurir) {
-                    // profileKurir((kurir) userData);
-                    // menuKurir((kurir) userData);
+                    menuKurir((kurir) userData);
                 }
             } else {
                 System.out.println("Username atau password salah!");
@@ -191,7 +228,7 @@ public class App {
                     kelolaData();
                     break;
                 case "2":
-                    // kelolaKurir();
+                    kelolaKurir();
                     break;
                 case "3":
                     profileAdmin(loggedInAdmin);
@@ -218,31 +255,32 @@ public class App {
             System.out.println("Akses ditolak. Anda bukan admin.");
         }
     }
-    // public static void kelolaKurir() {
-    // String pilih = "";while(!pilih.equals("6"))
-    // {
-    // System.out.println("=====================");
-    // System.out.println("| Kelola Kurir |");
-    // System.out.println("=====================");
-    // System.out.println("| [1]. Tambah Kurir |");
-    // System.out.println("| [2]. Lihat Kurir |");
-    // System.out.println("| [3]. Update Kurir |");
-    // System.out.println("| [4]. Delete Kurir |");
-    // System.out.println("| [6]. Keluar |");
-    // System.out.println("=====================");
-    // System.out.println(">> ");
-    // pilih = sc.nextLine();
-    // switch (pilih) {
-    // case "1":
-    // tambahKurir();
-    // break;
-    // case "2":
-    // lihatKurir();
-    // break;
-    // default:
-    // break;
-    // }
-    // }}
+
+    public static void kelolaKurir() {
+        String pilih = "";
+        while (!pilih.equals("6")) {
+            System.out.println("=====================");
+            System.out.println("| Kelola Kurir |");
+            System.out.println("=====================");
+            System.out.println("| [1]. Tambah Kurir |");
+            System.out.println("| [2]. Lihat Kurir |");
+            System.out.println("| [4]. Delete Kurir |");
+            System.out.println("| [6]. Keluar |");
+            System.out.println("=====================");
+            System.out.println(">> ");
+            pilih = sc.nextLine();
+            switch (pilih) {
+                case "1":
+                    daftarKurir();
+                    break;
+                case "2":
+                    // lihatKurir();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
     // public static void tambahKurir() {
     // System.out.println("Masukkan username :");
@@ -879,42 +917,45 @@ public class App {
     }
 
     // Menu Kurir
-    // public static void menuKurir() {
-    // String pilih = "";
-    // while (!pilih.equals("4")) {
-    // System.out.println("===============================");
-    // System.out.println("| Menu Kurir |");
-    // System.out.println("===============================");
-    // System.out.println("| [1]. Tambah Pengiriman |");
-    // System.out.println("| [2]. Lihat Pengiriman |");
-    // System.out.println("| [3]. Konfirmasi Pengiriman |");
-    // System.out.println("| [4]. Keluar |");
-    // System.out.println("===============================");
-    // System.out.print(">> ");
-    // pilih = sc.nextLine();
-    // switch (pilih) {
-    // case "1":
-    // System.out.println("Tambah Pengiriman");
-    // // Tambahkan logika untuk menambahkan pengiriman
-    // break;
-    // case "2":
-    // System.out.println("Lihat Pengiriman");
-    // // Tambahkan logika untuk melihat pengiriman
-    // break;
-    // case "3":
-    // System.out.println("Konfirmasi Pengiriman");
-    // // Tambahkan logika untuk mengkonfirmasi pengiriman
-    // break;
-    // case "4":
-    // System.out.println("Keluar dari Menu Kurir");
-    // loggedIn = false;
-    // break;
-    // default:
-    // System.out.println("Input harus angka !!!");
-    // break;
-    // }
-    // }
-    // }
+    public static void menuKurir(kurir kurir) {
+        String pilih = "";
+        while (!pilih.equals("5")) {
+            System.out.println("===============================");
+            System.out.println("| Menu Kurir |");
+            System.out.println("===============================");
+            System.out.println("| [1]. Tambah Pengiriman |");
+            System.out.println("| [2]. Lihat Pengiriman |");
+            System.out.println("| [3]. Konfirmasi Pengiriman |");
+            System.out.println("| [4]. Profil |");
+            System.out.println("| [5]. Keluar |");
+            System.out.println("===============================");
+            System.out.print(">> ");
+            pilih = sc.nextLine();
+            switch (pilih) {
+                case "1":
+                    System.out.println("Tambah Pengiriman");
+                    // Tambahkan logika untuk menambahkan pengiriman
+                    break;
+                case "2":
+                    System.out.println("Lihat Pengiriman");
+                    // Tambahkan logika untuk melihat pengiriman
+                    break;
+                case "3":
+                    System.out.println("Konfirmasi Pengiriman");
+                    // Tambahkan logika untuk mengkonfirmasi pengiriman
+                    break;
+                case "4":
+                    break;
+                case "5":
+                    System.out.println("Keluar dari Menu Kurir");
+                    loggedIn = false;
+                    break;
+                default:
+                    System.out.println("Input harus angka !!!");
+                    break;
+            }
+        }
+    }
 
     // Menu Customer
     public static void menuCust(customer customer) {
@@ -979,7 +1020,7 @@ public class App {
             pilih = sc.nextLine();
             switch (pilih) {
                 case "1":
-                    
+
                     break;
                 case "2":
                     break;
@@ -990,7 +1031,7 @@ public class App {
         }
     }
 
-    public static void menuCheckOut(){
+    public static void menuCheckOut() {
         System.out.println("tes");
     }
 
