@@ -100,7 +100,7 @@ public class keranjangControl {
     
         try {
             connection = DatabaseConnection.getConnection();
-            String sql = "DELETE FROM tbproduk WHERE id = ?";
+            String sql = "DELETE FROM tbkeranjang WHERE idKeranjang = ?";
             statement = connection.prepareStatement(sql);
             
             // Mengatur parameter ID

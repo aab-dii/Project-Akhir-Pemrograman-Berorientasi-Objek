@@ -218,13 +218,13 @@ public class App {
 
     public static void menuAdmin(admin loggedInAdmin) {
         String pilih = "";
-        while (!pilih.equals("3")) {
+        while (!pilih.equals("5")) {
             System.out.println("Menu Admin");
             System.out.println(" [1]. Kelola Produk ");
             System.out.println(" [2]. Kelola Kurir ");
             System.out.println(" [3]. Profile ");
-
-            System.out.println(" [4]. Keluar");
+            System.out.println(" [4]. Kelola Pesanan ");
+            System.out.println(" [5]. Keluar");
             System.out.print(">> ");
             pilih = sc.nextLine();
             switch (pilih) {
@@ -238,10 +238,85 @@ public class App {
                     profileAdmin(loggedInAdmin);
                     break;
                 case "4":
+                    kelolaPesanan();
+                    break;
+                case "5":
                     break;
                 default:
                     break;
             }
+        }
+    }
+
+    public static void kelolaPesanan() {
+        String pilih = "";
+        while (!pilih.equals("3")) {
+            System.out.println("Menu Admin");
+            System.out.println(" [1]. Konfirmasi Pesanan ");
+            System.out.println(" [2]. Kirim Pesanan ");
+            System.out.println(" [5]. Keluar");
+            System.out.print(">> ");
+            pilih = sc.nextLine();
+            switch (pilih) {
+                case "1":
+                    konfirmasiPesanan();
+                    break;
+                case "2":
+                    kirimPesanan();
+                    break;
+                case "3":
+                    break;
+                default:
+                    break;
+            }
+        }
+
+    }
+
+    public static void konfirmasiPesanan() {
+        pesananControl.lihatPesananKonfir();
+        System.out.println("Pilih pesanan yang ingin diproses");
+        System.out.print(">> ");
+        int index = sc.nextInt() - 1;
+        sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
+        if (index < 0 || index >= pesananControl.getDataPesanan().size()) {
+            System.out.println("Nomor urut tidak valid.");
+            return;
+        }
+        pesanan psToUpdate = pesananControl.getDataPesanan().get(index);
+        String status = "Pesanan Diproses";
+        psToUpdate.setStatus(status);
+        try {
+            pesananControl.updatePesanan(psToUpdate);
+            System.out.println("Pesanan Berhasil Diproses.");
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Terjadi kesalahan saat memperbarui produk di database.");
+        }
+    }
+
+    public static void kirimPesanan() {
+        pesananControl.lihatPesananProses();
+        System.out.println("Pilih pesanan yang ingin dikirim");
+        System.out.print(">> ");
+        int index = sc.nextInt() - 1;
+        sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
+
+        if (index < 0 || index >= pesananControl.getDataPesanan().size()) {
+            System.out.println("Nomor urut tidak valid.");
+            return;
+        }
+        pesanan psToUpdate = pesananControl.getDataPesanan().get(index);
+        String status = "Pesanan Sedang Dikirim";
+        psToUpdate.setStatus(status);
+        try {
+            pesananControl.updatePesanan(psToUpdate);
+            System.out.println("Pesanan Berhasil Dikirim.");
+
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Terjadi kesalahan saat memperbarui produk di database.");
         }
     }
 
@@ -264,12 +339,12 @@ public class App {
         String pilih = "";
         while (!pilih.equals("6")) {
             System.out.println("=====================");
-            System.out.println("| Kelola Kurir |");
+            System.out.println("|   Kelola Kurir    |");
             System.out.println("=====================");
             System.out.println("| [1]. Tambah Kurir |");
-            System.out.println("| [2]. Lihat Kurir |");
+            System.out.println("| [2]. Lihat Kurir  |");
             System.out.println("| [3]. Delete Kurir |");
-            System.out.println("| [6]. Keluar |");
+            System.out.println("| [6]. Keluar       |");
             System.out.println("=====================");
             System.out.print(">> ");
             pilih = sc.nextLine();
@@ -977,6 +1052,7 @@ public class App {
             switch (pilih) {
                 case "1":
                     System.out.println("Tambah Pengiriman");
+                    tambahPengiriman();
                     // Tambahkan logika untuk menambahkan pengiriman
                     break;
                 case "2":
@@ -998,6 +1074,11 @@ public class App {
                     break;
             }
         }
+    }
+
+    public static void tambahPengiriman() {
+        pesananControl.lihatPesananDikirim();
+        System.out.println("kirim");
     }
 
     // Menu Customer
@@ -1049,7 +1130,7 @@ public class App {
             System.out.println("Terjadi kesalahan saat menampilkan pesanan.");
         }
     }
-    
+
     public static void menuBeli() {
         String pilih = "";
         while (!pilih.equals("5")) {
@@ -1059,6 +1140,15 @@ public class App {
             switch (pilih) {
                 case "1":
                     beliRt();
+                    break;
+                case "2":
+                    beliPerkakas();
+                    break;
+                case "3":
+                    beliElektronik();
+                    break;
+                case "4":
+                    beliFurniture();
                     break;
                 default:
                     break;
@@ -1098,7 +1188,13 @@ public class App {
             int idCust = keranjang.getCustId();
             int idProduk = keranjang.getIdProduk();
             int jumlah = keranjang.getJumlah();
-            pesanan newPesanan = new pesanan(0, idCust, idProduk, jumlah, "Pesanan Diproses");
+
+            System.out.println("ID Keranjang: " + idKeranjang);
+            System.out.println("ID Customer: " + idCust);
+            System.out.println("ID Produk: " + idProduk);
+            System.out.println("Jumlah: " + jumlah);
+
+            pesanan newPesanan = new pesanan(0, idCust, idProduk, jumlah, "Menunggu Konfirmasi");
             try {
                 pesananControl.tambahPesanan(newPesanan);
                 keranjangControl.hapusKeranjang(idKeranjang);
@@ -1137,7 +1233,7 @@ public class App {
 
                 rumahTangga rtBeli = productControl.getDatArt().get(index);
 
-                System.out.println("Masukkan jumlah yang inign dibeli");
+                System.out.print("Masukkan jumlah: ");
                 int jumlah = sc.nextInt();
                 sc.nextLine();
                 if (jumlah < 0 || jumlah > rtBeli.getStok()) {
@@ -1212,7 +1308,7 @@ public class App {
 
                 elektronik elBeli = productControl.getDataElektronik().get(index);
 
-                System.out.println("Masukkan jumlah yang inign dibeli");
+                System.out.print("Masukkan jumlah: ");
                 int jumlah = sc.nextInt();
 
                 if (jumlah < 0 || jumlah > elBeli.getStok()) {
@@ -1261,6 +1357,157 @@ public class App {
         }
     }
 
+    public static void beliFurniture() {
+        while (true) {
+            System.out.println("Furniture");
+            lihatElektronik();
+            System.out.println("[q]. Keluar");
+            System.out.print("Pilih ID produk yang ingin Anda beli (atau q untuk keluar):");
+
+            // Memeriksa apakah pengguna memasukkan angka atau q untuk keluar
+            if (sc.hasNextInt()) {
+                int beli = sc.nextInt();
+                sc.nextLine(); // Membersihkan karakter baris baru di buffer
+
+                if (beli == 'q') {
+                    System.out.println("Keluar dari menu pembelian.");
+                    break; // Keluar dari loop saat pengguna memilih untuk keluar
+                }
+
+                int index = sc.nextInt() - 1;
+                sc.nextLine();
+                // Mencari produk yang sesuai dengan ID yang dipilih pengguna
+                if (index < 0 || index >= productControl.getDataFurniture().size()) {
+                    System.out.println("Nomor urut tidak valid.");
+                    return;
+                }
+
+                furniture frBeli = productControl.getDataFurniture().get(index);
+
+                System.out.println("Masukkan jumlah yang inign dibeli");
+                int jumlah = sc.nextInt();
+
+                if (jumlah < 0 || jumlah > frBeli.getStok()) {
+                    System.out.println("Jumlah yang anda beli melebihi stok");
+                    break;
+                }
+
+                System.out.println(" [1]. Beli");
+                System.out.println(" [2]. Keranjang");
+                String cekBeli = sc.nextLine();
+
+                if (cekBeli.equals("1")) {
+                    pesanan newPesanan = new pesanan(0, custId, frBeli.getId(), jumlah, "Pesanan Diproses");
+                    try {
+                        pesananControl.tambahPesanan(newPesanan);
+                        System.out.println("Produk berhasil dibeli.");
+                    } catch (SQLException | ClassNotFoundException e) {
+                        e.printStackTrace();
+                        System.out.println("Terjadi kesalahan saat menambahkan produk ke keranjang.");
+                    }
+                } else if (cekBeli.equals("2")) {
+                    keranjang newKeranjang = new keranjang(0, custId, frBeli.getId(), jumlah);
+
+                    try {
+                        keranjangControl.tambahKeranjang(newKeranjang);
+                        System.out.println("Produk berhasil ditambahkan ke keranjang.");
+                    } catch (SQLException | ClassNotFoundException e) {
+                        e.printStackTrace();
+                        System.out.println("Terjadi kesalahan saat menambahkan produk ke keranjang.");
+                    }
+                } else {
+                    System.out.println("Salah Input");
+                }
+
+            } else {
+                // Menangani input yang bukan angka
+                String input = sc.nextLine();
+                if (input.equals("q")) {
+                    System.out.println("Keluar dari menu pembelian.");
+                    break; // Keluar dari loop saat pengguna memilih untuk keluar
+                } else {
+                    System.out.println(
+                            "Input tidak valid. Harap masukkan ID produk yang ingin Anda beli atau q untuk keluar.");
+                }
+            }
+        }
+    }
+
+    public static void beliPerkakas() {
+        while (true) {
+            System.out.println("Perkakas");
+            lihatElektronik();
+            System.out.println("[q]. Keluar");
+            System.out.print("Pilih ID produk yang ingin Anda beli (atau q untuk keluar):");
+
+            // Memeriksa apakah pengguna memasukkan angka atau q untuk keluar
+            if (sc.hasNextInt()) {
+                int beli = sc.nextInt();
+                sc.nextLine(); // Membersihkan karakter baris baru di buffer
+
+                if (beli == 'q') {
+                    System.out.println("Keluar dari menu pembelian.");
+                    break; // Keluar dari loop saat pengguna memilih untuk keluar
+                }
+
+                int index = sc.nextInt() - 1;
+                sc.nextLine();
+                // Mencari produk yang sesuai dengan ID yang dipilih pengguna
+                if (index < 0 || index >= productControl.getDataPerkakas().size()) {
+                    System.out.println("Nomor urut tidak valid.");
+                    return;
+                }
+
+                perkakas prBeli = productControl.getDataPerkakas().get(index);
+
+                System.out.print("Masukkan jumlah: ");
+                int jumlah = sc.nextInt();
+
+                if (jumlah < 0 || jumlah > prBeli.getStok()) {
+                    System.out.println("Jumlah yang anda beli melebihi stok");
+                    break;
+                }
+
+                System.out.println(" [1]. Beli");
+                System.out.println(" [2]. Keranjang");
+                String cekBeli = sc.nextLine();
+
+                if (cekBeli.equals("1")) {
+                    pesanan newPesanan = new pesanan(0, custId, prBeli.getId(), jumlah, "Menunggu Konfirmasi");
+                    try {
+                        pesananControl.tambahPesanan(newPesanan);
+                        System.out.println("Produk berhasil dibeli.");
+                    } catch (SQLException | ClassNotFoundException e) {
+                        e.printStackTrace();
+                        System.out.println("Terjadi kesalahan saat menambahkan produk ke keranjang.");
+                    }
+                } else if (cekBeli.equals("2")) {
+                    keranjang newKeranjang = new keranjang(0, custId, prBeli.getId(), jumlah);
+
+                    try {
+                        keranjangControl.tambahKeranjang(newKeranjang);
+                        System.out.println("Produk berhasil ditambahkan ke keranjang.");
+                    } catch (SQLException | ClassNotFoundException e) {
+                        e.printStackTrace();
+                        System.out.println("Terjadi kesalahan saat menambahkan produk ke keranjang.");
+                    }
+                } else {
+                    System.out.println("Salah Input");
+                }
+
+            } else {
+                // Menangani input yang bukan angka
+                String input = sc.nextLine();
+                if (input.equals("q")) {
+                    System.out.println("Keluar dari menu pembelian.");
+                    break; // Keluar dari loop saat pengguna memilih untuk keluar
+                } else {
+                    System.out.println(
+                            "Input tidak valid. Harap masukkan ID produk yang ingin Anda beli atau q untuk keluar.");
+                }
+            }
+        }
+    }
     // public static void lihatKeranjang() {
     // String nama = "";
     // int harga = 0;
@@ -1275,7 +1522,7 @@ public class App {
     // break;
     // }
     // }
-    // } else if (keranjang.getKode() == "elektronik") {
+    // } else if (keranjang.getKode() == "perkakasprBeli) {
     // for (elektronik elektronik : dataElektronik) {
     // if (keranjang.getIdKeranjang() == elektronik.getId()) {
     // nama = elektronik.getNama();
