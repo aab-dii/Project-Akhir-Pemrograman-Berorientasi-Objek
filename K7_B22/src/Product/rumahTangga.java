@@ -27,14 +27,14 @@ public class rumahTangga extends product implements printProduk {
     }
 
     @Override
-    public void printProductInfo() {
-        System.out.println("Nama: " + this.getNama());
-        System.out.println("Deskripsi: " + this.getDeskripsi());
-        System.out.println("Harga: " + this.getHarga());
-        System.out.println("Stok: " + this.getStok());
-        System.out.println("Bahan: " + this.getBahan());
-        System.out.println("Ukuran: " + this.getUkuran());
-        System.out.println("Merk: " + this.getMerk());
-        System.out.println("---------------");
+    public void printProductInfo(int no) {
+        System.out.println(no + "  | Nama: " + this.getNama());
+        System.out.println("   | Deskripsi: " + this.getDeskripsi());
+        System.out.println("   | Harga: " + this.getHarga());
+        System.out.println("   | Stok: " + this.getStok());
+        System.out.println("   | Bahan: " + this.getBahan());
+        System.out.println("   | Ukuran: " + this.getUkuran());
+        System.out.println("   | Merk: " + this.getMerk());
+        System.out.println("----------------------------------");
     }
 }

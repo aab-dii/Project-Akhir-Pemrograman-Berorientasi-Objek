@@ -219,7 +219,47 @@ public class productControl {
             }
         }
     }
-    
-    
 
+    public static void kurangStok(int idProduk, int jumlah) throws SQLException, ClassNotFoundException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+    
+        try {
+            connection = DatabaseConnection.getConnection();
+            
+            // Mengambil stok saat ini
+            String sql = "SELECT stok FROM tbproduk WHERE id = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, idProduk);
+            resultSet = statement.executeQuery();
+    
+            int newStok = 0; // Inisialisasi newStok
+            if (resultSet.next()) {
+                int stok = resultSet.getInt("stok");
+                newStok = stok - jumlah;
+            } else {
+                System.out.println("Produk dengan ID " + idProduk + " tidak ditemukan.");
+                return; // Keluar dari metode jika produk tidak ditemukan
+            }
+    
+            // Tutup statement sebelumnya sebelum membuat yang baru
+            statement.close();
+    
+            // Memperbarui stok
+            String sql2 = "UPDATE tbproduk SET stok = ? WHERE id = ?";
+            statement = connection.prepareStatement(sql2);
+            statement.setInt(1, newStok);
+            statement.setInt(2, idProduk);
+            statement.executeUpdate();
+    
+            System.out.println("Stok berhasil diperbarui.");
+            lihatProduk(); // Menampilkan produk untuk memastikan pembaruan stok
+        } finally {
+            if (resultSet != null) resultSet.close();
+            if (statement != null) statement.close();
+            if (connection != null) connection.close();
+        }
+    }
+    
 }

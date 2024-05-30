@@ -9,7 +9,7 @@ public class perkakas extends product implements printProduk {
 
     // Implementasi metode printProductInfo() dari interface printProduk
     @Override
-    public void printProductInfo() {
+    public void printProductInfo(int no) {
         System.out.println("ID: " + getId());
         System.out.println("Nama: " + getNama());
         System.out.println("Deskripsi: " + getDeskripsi());

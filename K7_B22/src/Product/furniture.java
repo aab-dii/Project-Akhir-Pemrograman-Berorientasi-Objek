@@ -9,7 +9,7 @@ public class furniture extends product implements printProduk {
     }
 
     @Override
-    public void printProductInfo() {
+    public void printProductInfo(int no) {
         System.out.println("ID: " + getId());
         System.out.println("Nama: " + getNama());
         System.out.println("Deskripsi: " + getDeskripsi());

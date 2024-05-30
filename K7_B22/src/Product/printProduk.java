@@ -3,5 +3,5 @@ package Product;
 
 public interface printProduk {
     
-    void printProductInfo();
+    void printProductInfo(int no);
 }

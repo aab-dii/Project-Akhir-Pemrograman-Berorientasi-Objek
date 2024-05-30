@@ -125,6 +125,7 @@ public class userControl {
             String alamatPengiriman = resultSet.getString("alamat");
             int telp = resultSet.getInt("telp");
             String email = resultSet.getString("email");
+            int saldo = resultSet.getInt("saldo");
             String role = resultSet.getString("role");
             
             // Bandingkan password yang dimasukkan oleh pengguna dengan password yang disimpan di database
@@ -132,7 +133,7 @@ public class userControl {
             if (password.equals(storedPasswordHash)) {
                 // Membuat objek user berdasarkan role
                 if ("customer".equalsIgnoreCase(role)) {
-                    return new customer(id, nama, username, storedPasswordHash, email, telp, alamatPengiriman, role);
+                    return new customer(id, nama, username, storedPasswordHash, email, telp, alamatPengiriman, saldo, role);
                 } else if ("admin".equalsIgnoreCase(role)) {
                     return new admin(id, nama, username, storedPasswordHash, email, telp, role);
                 } else if ("kurir".equalsIgnoreCase(role)) {
@@ -177,6 +178,45 @@ public class userControl {
             if (connection != null) {
                 connection.close();
             }
+        }
+    }
+
+    public static void updateSaldo(int id, int saldo) throws SQLException, ClassNotFoundException {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+    
+        try {
+            connection = DatabaseConnection.getConnection();
+            
+            // Mengambil stok saat ini
+            String sql = "SELECT saldo FROM tbuser WHERE id = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
+    
+            int newSaldo = 0; // Inisialisasi newSaldo
+            if (resultSet.next()) {
+                int stok = resultSet.getInt("saldo");
+                newSaldo = stok + saldo;
+            } else {
+                System.out.println("Produk dengan ID " + id + " tidak ditemukan.");
+                return; // Keluar dari metode jika produk tidak ditemukan
+            }
+    
+            // Tutup statement sebelumnya sebelum membuat yang baru
+            statement.close();
+    
+            // Memperbarui stok
+            String sql2 = "UPDATE tbuser SET saldo = ? WHERE id = ?";
+            statement = connection.prepareStatement(sql2);
+            statement.setInt(1, newSaldo);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+        } finally {
+            if (resultSet != null) resultSet.close();
+            if (statement != null) statement.close();
+            if (connection != null) connection.close();
         }
     }
 
@@ -278,4 +318,5 @@ public class userControl {
     public static ArrayList<kurir> getDataKurir() {
         return dataKurir;
     }
+
 }
