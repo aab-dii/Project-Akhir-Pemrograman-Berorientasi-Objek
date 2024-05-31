@@ -70,5 +70,4 @@ public abstract class product {
         this.jenis = jenis;
     }
     
-    
 }

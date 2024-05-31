@@ -968,9 +968,9 @@ public class App {
             }
         }
     }
-
+    
     public static void konfirmasiPesanan() {
-        pesananControl.lihatPesananKonfir();
+        pesananControl.lihatPesananAdmin("Menunggu Konfirmasi");
         System.out.println("Pilih pesanan yang ingin diproses");
         System.out.print(">> ");
         int index = sc.nextInt() - 1;
@@ -993,7 +993,7 @@ public class App {
     }
 
     public static void kirimPesanan() {
-        pesananControl.lihatPesananProses();
+        pesananControl.lihatPesananAdmin("Pesanan Diproses");
         System.out.println("Pilih pesanan yang ingin dikirim");
         System.out.print(">> ");
         int index = sc.nextInt() - 1;

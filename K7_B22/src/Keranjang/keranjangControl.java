@@ -58,6 +58,12 @@ public class keranjangControl {
             resultSet = statement.executeQuery();
             int no = 0;
     
+            // Header tabel
+            System.out.println("--------------------------------------------------------------------------------");
+            System.out.printf("| %-5s | %-20s | %-10s | %-10s |\n",
+                    "No", "Nama Barang", "Jumlah", "Harga");
+            System.out.println("--------------------------------------------------------------------------------");
+    
             while (resultSet.next()) {
                 int idKeranjang = resultSet.getInt("idKeranjang");
                 int idProdukK = resultSet.getInt("idProduk");
@@ -75,9 +81,9 @@ public class keranjangControl {
                 if (resultSet2.next()) {
                     String nama = resultSet2.getString("nama");
                     int harga = resultSet2.getInt("harga");
-                    System.out.println(no + "  Nama Barang: " + nama);
-                    System.out.println("   Jumlah barang: " + jumlah);
-                    System.out.println("------------------------------------");
+                    System.out.printf("| %-5d | %-20s | %-10d | %-10d |\n",
+                            no, nama, jumlah, harga * jumlah);
+                    System.out.println("--------------------------------------------------------------------------------");
                     total += jumlah * harga;
                 }
     
@@ -97,8 +103,8 @@ public class keranjangControl {
             }
         }
         return total; // Kembalikan total harga
-    }    
-
+    }
+    
     public static ArrayList<keranjang> getKeranjang() {
         return dataKeranjang;
     }
