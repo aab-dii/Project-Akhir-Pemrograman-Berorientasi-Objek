@@ -1705,16 +1705,13 @@ public class App {
     
 
     public static int cekInputInt(Scanner sc) {
-        int input = 0; // Inisialisasi input dengan nilai default
         while (true) {
             try {
-                input = cekInputInt(sc); // Mengambil input dari scanner
-                break; // Keluar dari loop jika input berhasil
+                return sc.nextInt(); // Membaca input langsung dari scanner
             } catch (InputMismatchException e) {
                 System.out.println("Input harus berupa angka. Silakan coba lagi.");
                 sc.next(); // Membersihkan buffer input setelah input tidak valid
             }
         }
-        return input; // Mengembalikan nilai input yang valid
     }
 }
