@@ -65,6 +65,8 @@ public class productControl {
                 int harga = resultSet.getInt("harga");
                 String deskripsi = resultSet.getString("deskripsi");
                 String merk = resultSet.getString("merk");
+                String bahan = resultSet.getString("bahan");
+                String ukuran = resultSet.getString("ukuran");
                 String jenis = resultSet.getString("jenis");
 
                 switch (jenis.toLowerCase()) {
@@ -73,7 +75,7 @@ public class productControl {
                         dataPerkakas.add(newPerkakas);
                         break;
                     case "furniture":
-                        furniture newFurniture = new furniture(id, nama, deskripsi, harga, stok, merk, jenis);
+                        furniture newFurniture = new furniture(id, nama, deskripsi, harga, stok, merk, bahan, ukuran, jenis);
                         dataFurniture.add(newFurniture);
                         break;
                     case "elektronik":
@@ -86,7 +88,7 @@ public class productControl {
                     case "rumahtangga":
                         // String bahan = resultSet.getString("bahan");
                         // String ukuran = resultSet.getString("ukuran");
-                        rumahTangga newRumahTangga = new rumahTangga(id, nama, deskripsi, harga, stok, "", "", merk, jenis);
+                        rumahTangga newRumahTangga = new rumahTangga(id, nama, deskripsi, harga, stok, bahan, ukuran, merk, jenis);
                         datArt.add(newRumahTangga);
                         break;
                     default:

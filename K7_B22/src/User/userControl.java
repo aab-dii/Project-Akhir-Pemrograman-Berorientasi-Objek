@@ -1,7 +1,5 @@
 package User;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import Connection.DatabaseConnection;
-import Product.rumahTangga;
 
 public class userControl {
     private static ArrayList<kurir> dataKurir = new ArrayList<>();
@@ -123,7 +120,7 @@ public class userControl {
             String nama = resultSet.getString("nama");
             String storedPasswordHash = resultSet.getString("password"); // Mengambil password yang sudah di-hash
             String alamatPengiriman = resultSet.getString("alamat");
-            int telp = resultSet.getInt("telp");
+            String telp = resultSet.getString("telp");
             String email = resultSet.getString("email");
             int saldo = resultSet.getInt("saldo");
             String role = resultSet.getString("role");
@@ -237,7 +234,7 @@ public class userControl {
             statement.setString(2, newkurir.getUsername());
             statement.setString(3, newkurir.getPassword());
             statement.setString(4, newkurir.getEmail());
-            statement.setInt(5, newkurir.getTelp());
+            statement.setString(5, newkurir.getTelp());
             statement.setString(6, newkurir.getRole());
             statement.executeUpdate();
         } finally {
@@ -266,7 +263,7 @@ public class userControl {
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String nama = resultSet.getString("nama");
-                int telp = resultSet.getInt("telp");
+                String telp = resultSet.getString("telp");
                 String email = resultSet.getString("email");
                 String username = resultSet.getString("username");
                 String password = resultSet.getString("password");

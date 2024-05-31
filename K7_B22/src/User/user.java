@@ -1,10 +1,10 @@
 package User;
 
 public abstract class user {
-    protected int id, telp;
-    protected String nama, username, password, email, role;
+    protected int id;
+    protected String nama, username, password, telp, email, role;
 
-    public user(int id, String nama, String username, String password, String email, int telp, String role){
+    public user(int id, String nama, String username, String password, String email, String telp, String role){
         this.id = id;
         this.nama = nama;
         this.username = username;
@@ -22,11 +22,11 @@ public abstract class user {
         this.id = id;
     }
 
-    public int getTelp() {
+    public String getTelp() {
         return telp;
     }
 
-    public void setTelp(int telp) {
+    public void setTelp(String telp) {
         this.telp = telp;
     }
 

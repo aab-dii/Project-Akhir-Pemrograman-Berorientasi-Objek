@@ -4,7 +4,7 @@ public class customer extends user {
     private String alamatPengiriman;
     private int saldo;
 
-    public customer(int id,String nama, String username, String password, String email, int telp, String alamatPengiriman, int saldo, String role){
+    public customer(int id,String nama, String username, String password, String email, String telp, String alamatPengiriman, int saldo, String role){
         super(id, nama, username, password, email, telp, "customer");
         this.alamatPengiriman = alamatPengiriman;
         this.saldo = saldo;

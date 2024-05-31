@@ -36,13 +36,10 @@ public class elektronik extends product implements printProduk{
     
     @Override
     public void printProductInfo(int no) {
-        System.out.println("ID: " + getId());
-        System.out.println("Nama: " + getNama());
-        System.out.println("Deskripsi: " + getDeskripsi());
-        System.out.println("Harga: " + getHarga());
-        System.out.println("Stok: " + getStok());
-        System.out.println("Merk: " + getMerk());
-        System.out.println("------------------------------------");
+        System.out.printf("| %-5d | %-20s | %-20s | %-10d | %-10d | %-10s | %-10s | %-10s | %-10s |\n",
+                no, getNama(), getDeskripsi(), getHarga(), getStok(), getMerk(), getTipe(), getModel(), getWarna());
+        System.out.println(
+                "------------------------------------------------------------------------------------------------------------------------------------");
     }
     
 }

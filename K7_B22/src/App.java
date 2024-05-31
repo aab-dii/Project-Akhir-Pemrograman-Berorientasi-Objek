@@ -27,18 +27,6 @@ public class App {
     static int custId = 0;
     static String username = "";
     static boolean exit = true;
-    static String storedPasswordHash = "";
-
-    // static ArrayList<customer> dataCust = new ArrayList<>();
-    // static ArrayList<kurir> dataKurir = new ArrayList<>();
-    // static ArrayList<admin> dataAdmin = new ArrayList<>();
-
-    // static ArrayList<keranjang> dataKeranjang = new ArrayList<>();
-
-    // static ArrayList<rumahTangga> datArt = new ArrayList<>();
-    // static ArrayList<elektronik> dataElektronik = new ArrayList<>();
-    // static ArrayList<furniture> dataFurniture = new ArrayList<>();
-    // static ArrayList<perkakas> dataPerkakas = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
         productControl.lihatProduk();
@@ -71,19 +59,18 @@ public class App {
     }
 
     public static void daftarCust() {
-        System.out.print("Masukkan Username: ");
-        String newUsername = sc.nextLine();
+        String newUsername = cekInputStr(sc, "Masukkan Username :");
 
         // Periksa apakah username sudah ada
         boolean usernameExists = userControl.checkUsernameExists(newUsername);
 
         // Jika username belum digunakan, tambahkan pengguna baru
         if (!usernameExists) {
-            System.out.print("Masukkan Password: ");
-            String newPassword = sc.nextLine();
+            
+            String newPassword = cekInputStr(sc, "Masukkan Password : ");
 
             try {
-                customer newCustomer = new customer(0, "", newUsername, newPassword, "", 0, "", 0, "customer"); // Sesuaikan
+                customer newCustomer = new customer(0, "", newUsername, newPassword, "", "", "", 0, "customer"); // Sesuaikan
                                                                                                                 // dengan
                 // konstruktor kelas
                 // customer
@@ -99,19 +86,15 @@ public class App {
     }
 
     public static void daftarKurir() {
-        System.out.print("Masukkan Username: ");
-        String newUsername = sc.nextLine();
+        String newUsername = cekInputStr(sc, "Masukkan Username :");
 
         // Periksa apakah username sudah ada
         boolean usernameExists = userControl.checkUsernameExists(newUsername);
 
         // Jika username belum digunakan, tambahkan pengguna baru
         if (!usernameExists) {
-            System.out.print("Masukkan Password: ");
-            String newPassword = sc.nextLine();
-            sc.nextLine();
-            System.out.print("Masukkan Nama :");
-            String nama = sc.nextLine();
+            String newPassword = cekInputStr(sc, "Masukkan Password : ");
+            String nama = cekInputStr(sc,"Masukkan Nama : ");
             System.out.print("Masukkan email: ");
             String email = sc.nextLine();
             while (!isValidEmail(email)) {
@@ -120,13 +103,11 @@ public class App {
                 email = sc.nextLine();
             }
             System.out.print("Masukkan Nomor Telepon :");
-            int telp = cekinput(sc);
+            int telp = cekInputInt(sc);
+            String telpp = String.valueOf(telp);
 
             try {
-                kurir newKurir = new kurir(0, nama, newUsername, newPassword, email, telp, "kurir"); // Sesuaikan
-                // dengan
-                // konstruktor kelas
-                // customer
+                kurir newKurir = new kurir(0, nama, newUsername, newPassword, email, telpp, "kurir"); 
                 userControl.registerKurir(newKurir);
                 System.out.println("Pendaftaran berhasil!");
             } catch (SQLException | ClassNotFoundException e) {
@@ -185,10 +166,8 @@ public class App {
     // }
 
     public static void login() {
-        System.out.print("Masukkan username: ");
-        String inputUsername = sc.nextLine();
-        System.out.print("Masukkan password: ");
-        String inputPassword = sc.nextLine();
+        String inputUsername = cekInputStr(sc, "Masukkan Username : ");
+        String inputPassword = cekInputStr(sc, "Masukkan Password : ");
 
         try {
             user userData = userControl.checkCredentials(inputUsername, inputPassword);
@@ -245,6 +224,7 @@ public class App {
                 case "5":
                     break;
                 default:
+                    System.out.println("Pilihan Tidak Tersedia");
                     break;
             }
         }
@@ -294,56 +274,11 @@ public class App {
                 case "3":
                     hapusKurir();
                 default:
+                    System.out.println("Pilihan Tidak Tersedia");
                     break;
             }
         }
     }
-
-    // public static void tambahKurir() {
-    // System.out.println("Masukkan username :");
-    // String username = sc.nextLine();System.out.println("Masukkan password :");
-    // String password = sc.nextLine();System.out.println("Masukkan Nama :");
-    // String nama = sc.nextLine();System.out.println("Masukkan Email :");
-    // String email = sc.nextLine();System.out.println("Masukkan Nomor Telepon :");
-    // int nomor = sc.nextInt();
-
-    // boolean usernameExists = false;
-
-    // for(kurir kurir:dataKurir)
-    // {
-    // if (kurir.getUsername().equals(username)) {
-    // System.out.println("Username telah digunakan, Silahkan gunakan username
-    // lain");
-    // usernameExists = true;
-    // break; // Keluar dari loop karena username sudah ditemukan
-    // }
-    // }
-
-    // if(!usernameExists)
-    // {
-    // kurir newKurir = new kurir(
-    // dataKurir.size() + 1,
-    // nama,
-    // username,
-    // password,
-    // email,
-    // nomor);
-
-    // dataKurir.add(newKurir);
-    // System.out.println("Pendaftaran berhasil!");
-    // }}
-
-    // public static void lihatKurir() {
-    // for(
-
-    // kurir kurir:dataKurir)
-    // {
-    // System.out.println("Nama : " + kurir.getNama());
-    // System.out.println("Email : " + kurir.getEmail());
-    // System.out.println("No. Telp : " + kurir.getTelp());
-    // System.out.println("Username : " + kurir.getUsername());
-    // System.out.println("Password : " + kurir.getPassword());
-    // }}
 
     public static void kelolaProduk() {
         String pilih = "";
@@ -377,7 +312,7 @@ public class App {
                     loggedIn = false;
                     break;
                 default:
-                    System.out.println("Input harus angka !!!");
+                    System.out.println("Pilihan Tidak Tersedia");
                     break;
             }
         }
@@ -392,7 +327,7 @@ public class App {
             System.out.println("|        Tambah Produk        |");
             System.out.println("===============================");
             printData();
-            System.out.println(">> ");
+            System.out.print(">> ");
             pilih = sc.nextLine();
             switch (pilih) {
                 case "1":
@@ -408,6 +343,7 @@ public class App {
                     tambahFurnitur();
                     break;
                 default:
+                    System.out.println("Pilihan Tidak Tersedia");
                     break;
             }
         }
@@ -415,20 +351,16 @@ public class App {
 
     public static void tambahRt() {
         System.out.println("Masukkan data untuk Peralatan Rumah Tangga:");
-        System.out.print("Nama: ");
-        String nama = sc.nextLine();
-        System.out.print("Deskripsi: ");
-        String deskripsi = sc.nextLine();
+        String nama = cekInputStr(sc, "Nama Produk : ");
+        String deskripsi = cekInputStr(sc, "Deskripsi : ");
         System.out.print("Harga: ");
-        int harga = Integer.parseInt(sc.nextLine());
+        int harga = cekInputInt(sc);
         System.out.print("Stok: ");
-        int stok = Integer.parseInt(sc.nextLine());
-        System.out.print("Bahan: ");
-        String bahan = sc.nextLine();
-        System.out.print("Ukuran: ");
-        String ukuran = sc.nextLine();
-        System.out.print("Merk: ");
-        String merk = sc.nextLine();
+        int stok = cekInputInt(sc);
+        sc.nextLine();
+        String merk = cekInputStr(sc, "Merk : ");
+        String bahan = cekInputStr(sc, "Bahan : ");
+        String ukuran = cekInputStr(sc, "Ukuran : ");
 
         // Buat objek product dengan jenis rumahTangga
         product newProduct = new rumahTangga(0, nama, deskripsi, harga, stok, bahan, ukuran, merk, "rumahTangga");
@@ -444,23 +376,17 @@ public class App {
 
     public static void tambahElektronik() {
         System.out.println("Masukkan data untuk Elektronik:");
-        System.out.print("Nama:");
-
-        String nama = sc.nextLine();
-        System.out.print("Deskripsi: ");
-        String deskripsi = sc.nextLine();
+        String nama = cekInputStr(sc, "Nama Produk : ");
+        String deskripsi = cekInputStr(sc, "Deskripsi : ");
         System.out.print("Harga: ");
-        int harga = Integer.parseInt(sc.nextLine());
+        int harga = cekInputInt(sc);
         System.out.print("Stok: ");
-        int stok = Integer.parseInt(sc.nextLine());
-        System.out.print("Merk: ");
-        String merk = sc.nextLine();
-        System.out.println("Tipe: ");
-        String tipe = sc.nextLine();
-        System.out.println("Model: ");
-        String model = sc.nextLine();
-        System.out.println("Warna: ");
-        String warna = sc.nextLine();
+        int stok = cekInputInt(sc);
+        sc.nextLine();
+        String merk = cekInputStr(sc, "Merk : ");
+        String tipe = cekInputStr(sc, "Tipe : ");
+        String model = cekInputStr(sc, "Model : ");
+        String warna = cekInputStr(sc, "Warna : ");
 
         product newProduct = new elektronik(0, nama, deskripsi, harga, stok, merk, tipe, model, warna, "elektronik");
         try {
@@ -474,18 +400,18 @@ public class App {
 
     public static void tambahFurnitur() {
         System.out.println("Masukkan data untuk Furniture:");
-        System.out.print("Nama: ");
-        String nama = sc.nextLine();
-        System.out.print("Deskripsi: ");
-        String deskripsi = sc.nextLine();
+        String nama = cekInputStr(sc, "Nama Produk : ");
+        String deskripsi = cekInputStr(sc, "Deskripsi : ");
         System.out.print("Harga: ");
-        int harga = Integer.parseInt(sc.nextLine());
+        int harga = cekInputInt(sc);
         System.out.print("Stok: ");
-        int stok = Integer.parseInt(sc.nextLine());
-        System.out.print("Merk: ");
-        String merk = sc.nextLine();
+        int stok = cekInputInt(sc);
+        sc.nextLine();
+        String merk = cekInputStr(sc, "Merk : ");
+        String bahan = cekInputStr(sc, "Bahan : ");
+        String ukuran = cekInputStr(sc, "Ukuran : ");
 
-        product newProduct = new furniture(0, nama, deskripsi, harga, stok, merk, "furnitur");
+        product newProduct = new furniture(0, nama, deskripsi, harga, stok, merk,bahan,ukuran, "furnitur");
         try {
             productControl.tambahProduk(newProduct); // Panggil metode untuk menambahkan produk ke database
             System.out.println("Data Furnitur berhasil ditambahkan.");
@@ -497,17 +423,14 @@ public class App {
 
     public static void tambahPerkakas() {
         System.out.println("Masukkan data untuk Perkakas:");
-        System.out.print("Nama: ");
-
-        String nama = sc.nextLine();
-        System.out.print("Deskripsi: ");
-        String deskripsi = sc.nextLine();
+        String nama = cekInputStr(sc, "Nama Produk : ");
+        String deskripsi = cekInputStr(sc, "Deskripsi : ");
         System.out.print("Harga: ");
-        int harga = Integer.parseInt(sc.nextLine());
+        int harga = cekInputInt(sc);
         System.out.print("Stok: ");
-        int stok = Integer.parseInt(sc.nextLine());
-        System.out.print("Merk: ");
-        String merk = sc.nextLine();
+        int stok = cekInputInt(sc);
+        sc.nextLine();
+        String merk = cekInputStr(sc, "Merk : ");
 
         product newProduct = new perkakas(0, nama, deskripsi, harga, stok, merk, "perkakas");
 
@@ -529,7 +452,6 @@ public class App {
             System.out.println("|         Lihat Produk        |");
             System.out.println("===============================");
             printData();
-            printData();
             System.out.print(">> ");
             pilih = sc.nextLine();
             switch (pilih) {
@@ -546,6 +468,7 @@ public class App {
                     lihatFurniture();
                     break;
                 default:
+                    System.out.println("Pilihan Tidak Tersedia");
                     break;
             }
         }
@@ -553,6 +476,12 @@ public class App {
 
     public static void lihatRumahTangga() {
         int no = 0;
+        System.out.println(
+                    "--------------------------------------------------------------------------------------------------------------------------------");
+                    System.out.printf("| %-5s | %-20s | %-20s | %-10s | %-10s | %-10s | %-10s | %-10s |\n",
+                    "No", "Nama Produk", "Deskripsi", "Harga", "Stok", "Merk", "Bahan", "Ukuran");
+                    System.out.println(
+                "--------------------------------------------------------------------------------------------------------------------------------");
         for (rumahTangga rt : productControl.getDatArt()) {
             no++;
             rt.printProductInfo(no);
@@ -560,6 +489,12 @@ public class App {
     }
 
     public static void lihatPerkakas() {
+        System.out.println(
+                    "--------------------------------------------------------------------------------------------------------------------------------");
+                    System.out.printf("| %-5s | %-20s | %-20s | %-10s | %-10s | %-10s |\n",
+                    "No", "Nama Produk", "Deskripsi", "Harga", "Stok", "Merk");
+                    System.out.println(
+                "--------------------------------------------------------------------------------------------------------------------------------");
         int no = 0;
         for (perkakas pk : productControl.getDataPerkakas()) {
             no++;
@@ -568,6 +503,12 @@ public class App {
     }
 
     public static void lihatElektronik() {
+        System.out.println(
+                    "------------------------------------------------------------------------------------------------------------------------------------");
+                    System.out.printf("| %-5s | %-20s | %-20s | %-10s | %-10s | %-10s | %-10s | %-10s | %-10s |\n",
+                    "No", "Nama Produk", "Deskripsi", "Harga", "Stok", "Merk", "Tipe", "Model", "Warna");
+                    System.out.println(
+                "------------------------------------------------------------------------------------------------------------------------------------");
         int no = 0;
         for (elektronik el : productControl.getDataElektronik()) {
             no++;
@@ -576,6 +517,12 @@ public class App {
     }
 
     public static void lihatFurniture() {
+        System.out.println(
+                    "--------------------------------------------------------------------------------------------------------------------------------");
+                    System.out.printf("| %-5s | %-20s | %-20s | %-10s | %-10s | %-10s | %-10s | %-10s |\n",
+                    "No", "Nama Produk", "Deskripsi", "Harga", "Stok", "Merk", "Bahan", "Ukuran");
+                    System.out.println(
+                "--------------------------------------------------------------------------------------------------------------------------------");
         int no = 0;
         for (furniture fn : productControl.getDataFurniture()) {
             no++;
@@ -609,6 +556,7 @@ public class App {
                     break;
 
                 default:
+                    System.out.println("Pilihan Tidak Tersedia");
                     break;
             }
         }
@@ -618,31 +566,28 @@ public class App {
         // rumahTangga rtToUpdate = null;
         lihatRumahTangga();
         System.out.println("Data berapa yang ingin diubah");
-        int index = sc.nextInt() - 1;
+        int index = cekInputInt(sc) - 1;
         sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
 
         if (index < 0 || index >= productControl.getDatArt().size()) {
-            System.out.println("Nomor urut tidak valid.");
+            System.out.println("Produk Tidak Ada.");
             return;
         }
 
         rumahTangga rtToUpdate = productControl.getDatArt().get(index);
 
         // Meminta input dari pengguna untuk memperbarui atribut produk
-        System.out.print("Nama: ");
-        String nama = sc.nextLine();
-        System.out.print("Deskripsi: ");
-        String deskripsi = sc.nextLine();
+        System.out.println("Masukkan data untuk Peralatan Rumah Tangga:");
+        String nama = cekInputStr(sc, "Nama Produk : ");
+        String deskripsi = cekInputStr(sc, "Deskripsi : ");
         System.out.print("Harga: ");
-        int harga = Integer.parseInt(sc.nextLine());
+        int harga = cekInputInt(sc);
         System.out.print("Stok: ");
-        int stok = Integer.parseInt(sc.nextLine());
-        System.out.print("Bahan: ");
-        String bahan = sc.nextLine();
-        System.out.print("Ukuran: ");
-        String ukuran = sc.nextLine();
-        System.out.print("Merk: ");
-        String merk = sc.nextLine();
+        int stok = cekInputInt(sc);
+        sc.nextLine();
+        String merk = cekInputStr(sc, "Merk : ");
+        String bahan = cekInputStr(sc, "Bahan : ");
+        String ukuran = cekInputStr(sc, "Ukuran : ");
 
         // Mengubah atribut produk yang sesuai dengan input baru
         rtToUpdate.setNama(nama);
@@ -667,32 +612,27 @@ public class App {
         // elektronik elektronikToUpdate = null;
         lihatElektronik();
         System.out.println("Data berapa yang ingin diubah");
-        int index = sc.nextInt() - 1;
+        int index = cekInputInt(sc) - 1;
         sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
 
         if (index < 0 || index >= productControl.getDataElektronik().size()) {
-            System.out.println("Nomor urut tidak valid.");
+            System.out.println("Produk Tidak Ada.");
             return;
         }
 
         elektronik elektronikToUpdate = productControl.getDataElektronik().get(index);
 
-        System.out.print("Nama: ");
-        String nama = sc.nextLine();
-        System.out.print("Deskripsi: ");
-        String deskripsi = sc.nextLine();
+        String nama = cekInputStr(sc, "Nama Produk : ");
+        String deskripsi = cekInputStr(sc, "Deskripsi : ");
         System.out.print("Harga: ");
-        int harga = Integer.parseInt(sc.nextLine());
+        int harga = cekInputInt(sc);
         System.out.print("Stok: ");
-        int stok = Integer.parseInt(sc.nextLine());
-        System.out.print("Merk: ");
-        String merk = sc.nextLine();
-        System.out.print("Tipe: ");
-        String tipe = sc.nextLine();
-        System.out.print("Model: ");
-        String model = sc.nextLine();
-        System.out.print("Warna: ");
-        String warna = sc.nextLine();
+        int stok = cekInputInt(sc);
+        sc.nextLine();
+        String merk = cekInputStr(sc, "Merk : ");
+        String tipe = cekInputStr(sc, "Tipe : ");
+        String model = cekInputStr(sc, "Model : ");
+        String warna = cekInputStr(sc, "Warna : ");
 
         // Mengubah atribut produk yang sesuai dengan input baru
         elektronikToUpdate.setNama(nama);
@@ -716,26 +656,24 @@ public class App {
     public static void ubahPerkakas() {
         lihatPerkakas();
         System.out.println("Data berapa yang ingin diubah");
-        int index = sc.nextInt() - 1;
+        int index = cekInputInt(sc) - 1;
         sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
 
         if (index < 0 || index >= productControl.getDataPerkakas().size()) {
-            System.out.println("Nomor urut tidak valid.");
+            System.out.println("Produk Tidak Ada.");
             return;
         }
 
         perkakas perkakasToUpdate = productControl.getDataPerkakas().get(index);
 
-        System.out.print("Nama: ");
-        String nama = sc.nextLine();
-        System.out.print("Deskripsi: ");
-        String deskripsi = sc.nextLine();
+        String nama = cekInputStr(sc, "Nama Produk : ");
+        String deskripsi = cekInputStr(sc, "Deskripsi : ");
         System.out.print("Harga: ");
-        int harga = Integer.parseInt(sc.nextLine());
+        int harga = cekInputInt(sc);
         System.out.print("Stok: ");
-        int stok = Integer.parseInt(sc.nextLine());
-        System.out.print("Merk: ");
-        String merk = sc.nextLine();
+        int stok = cekInputInt(sc);
+        sc.nextLine();
+        String merk = cekInputStr(sc, "Merk : ");
 
         // Mengubah atribut produk yang sesuai dengan input baru
         perkakasToUpdate.setNama(nama);
@@ -756,26 +694,26 @@ public class App {
     public static void ubahFurniture() {
         lihatFurniture();
         System.out.println("Data berapa yang ingin diubah");
-        int index = sc.nextInt() - 1;
+        int index = cekInputInt(sc) - 1;
         sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
 
         if (index < 0 || index >= productControl.getDataPerkakas().size()) {
-            System.out.println("Nomor urut tidak valid.");
+            System.out.println("Produk Tidak Ada.");
             return;
         }
 
         furniture furnitureToUpdate = productControl.getDataFurniture().get(index);
 
-        System.out.print("Nama: ");
-        String nama = sc.nextLine();
-        System.out.print("Deskripsi: ");
-        String deskripsi = sc.nextLine();
+        String nama = cekInputStr(sc, "Nama Produk : ");
+        String deskripsi = cekInputStr(sc, "Deskripsi : ");
         System.out.print("Harga: ");
-        int harga = Integer.parseInt(sc.nextLine());
+        int harga = cekInputInt(sc);
         System.out.print("Stok: ");
-        int stok = Integer.parseInt(sc.nextLine());
-        System.out.print("Merk: ");
-        String merk = sc.nextLine();
+        int stok = cekInputInt(sc);
+        sc.nextLine();
+        String merk = cekInputStr(sc, "Merk : ");
+        String bahan = cekInputStr(sc, "Bahan : ");
+        String ukuran = cekInputStr(sc, "Ukuran : ");
 
         // Mengubah atribut produk yang sesuai dengan input baru
         furnitureToUpdate.setNama(nama);
@@ -783,6 +721,8 @@ public class App {
         furnitureToUpdate.setHarga(harga);
         furnitureToUpdate.setStok(stok);
         furnitureToUpdate.setMerk(merk);
+        furnitureToUpdate.setBahan(bahan);
+        furnitureToUpdate.setUkuran(ukuran);
 
         try {
             productControl.ubahProduk(furnitureToUpdate);
@@ -817,8 +757,8 @@ public class App {
                 case "4":
                     hapusFurnitur();
                     break;
-
                 default:
+                    System.out.println("Pilihan Tidak Tersedia");
                     break;
             }
         }
@@ -829,11 +769,11 @@ public class App {
         lihatRumahTangga();
         System.out.println("Data berapa yang ingin dihapus");
 
-        int index = sc.nextInt() - 1;
+        int index = cekInputInt(sc) - 1;
         sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
 
         if (index < 0 || index >= productControl.getDatArt().size()) {
-            System.out.println("Nomor urut tidak valid.");
+            System.out.println("Produk Tidak Ada.");
             return;
         }
 
@@ -858,12 +798,12 @@ public class App {
         System.out.println("Data berapa yang ingin dihapus");
 
         // Baca nomor urut produk yang akan dihapus dari input pengguna
-        int index = sc.nextInt() - 1;
+        int index = cekInputInt(sc) - 1;
         sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
 
         // Periksa apakah nomor urut valid
         if (index < 0 || index >= productControl.getDataElektronik().size()) {
-            System.out.println("Nomor urut tidak valid.");
+            System.out.println("Produk Tidak Ada.");
             return;
         }
 
@@ -889,12 +829,12 @@ public class App {
         System.out.println("Data berapa yang ingin dihapus");
 
         // Baca nomor urut produk yang akan dihapus dari input pengguna
-        int index = sc.nextInt() - 1;
+        int index = cekInputInt(sc) - 1;
         sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
 
         // Periksa apakah nomor urut valid
         if (index < 0 || index >= productControl.getDataPerkakas().size()) {
-            System.out.println("Nomor urut tidak valid.");
+            System.out.println("Produk Tidak Ada.");
             return;
         }
 
@@ -920,12 +860,12 @@ public class App {
         System.out.println("Data berapa yang ingin dihapus");
 
         // Baca nomor urut produk yang akan dihapus dari input pengguna
-        int index = sc.nextInt() - 1;
+        int index = cekInputInt(sc) - 1;
         sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
 
         // Periksa apakah nomor urut valid
         if (index < 0 || index >= productControl.getDataFurniture().size()) {
-            System.out.println("Nomor urut tidak valid.");
+            System.out.println("Produk Tidak Ada.");
             return;
         }
 
@@ -961,22 +901,21 @@ public class App {
                 case "2":
                     kirimPesanan();
                     break;
-                case "3":
-                    break;
                 default:
+                    System.out.println("Pilihan Tidak Tersedia");
                     break;
             }
         }
     }
-    
+
     public static void konfirmasiPesanan() {
-        pesananControl.lihatPesananAdmin("Menunggu Konfirmasi");
+        pesananControl.lihatPesanan("Menunggu Konfirmasi");
         System.out.println("Pilih pesanan yang ingin diproses");
         System.out.print(">> ");
-        int index = sc.nextInt() - 1;
+        int index = cekInputInt(sc) - 1;
         sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
         if (index < 0 || index >= pesananControl.getDataPesanan().size()) {
-            System.out.println("Nomor urut tidak valid.");
+            System.out.println("Produk Tidak Ada.");
             return;
         }
         pesanan psToUpdate = pesananControl.getDataPesanan().get(index);
@@ -993,14 +932,14 @@ public class App {
     }
 
     public static void kirimPesanan() {
-        pesananControl.lihatPesananAdmin("Pesanan Diproses");
+        pesananControl.lihatPesanan("Pesanan Diproses");
         System.out.println("Pilih pesanan yang ingin dikirim");
         System.out.print(">> ");
-        int index = sc.nextInt() - 1;
+        int index = cekInputInt(sc) - 1;
         sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
 
         if (index < 0 || index >= pesananControl.getDataPesanan().size()) {
-            System.out.println("Nomor urut tidak valid.");
+            System.out.println("Produk Tidak Ada.");
             return;
         }
         pesanan psToUpdate = pesananControl.getDataPesanan().get(index);
@@ -1031,11 +970,11 @@ public class App {
         lihatKurir();
         System.out.println("Pilih kurir yang ingin dihapus");
 
-        int index = sc.nextInt() - 1;
+        int index = cekInputInt(sc) - 1;
         sc.nextLine();
 
         if (index < 0 || index >= userControl.getDataKurir().size()) {
-            System.out.println("Nomor urut tidak valid.");
+            System.out.println("Produk Tidak Ada.");
             return;
         }
         kurir krToDelete = userControl.getDataKurir().get(index);
@@ -1070,7 +1009,7 @@ public class App {
                     break;
                 case "2":
                     System.out.println("Lihat Pengiriman");
-                    // Tambahkan logika untuk melihat pengiriman
+                    pesananControl.lihatPesanan("Pesanan Sedang Dikirim");
                     break;
                 case "3":
                     System.out.println("Konfirmasi Pengiriman");
@@ -1090,7 +1029,7 @@ public class App {
     }
 
     public static void tambahPengiriman() {
-        pesananControl.lihatPesananDikirim();
+        pesananControl.lihatPesanan("Pesanan Sedang Dikirim");
         System.out.println("kirim");
     }
 
@@ -1134,7 +1073,7 @@ public class App {
                     loggedIn = false;
                     break;
                 default:
-                    System.out.println("Input harus angka !!!");
+                    System.out.println("Pilihan Tidak Tersedia");
                     break;
             }
         }
@@ -1223,6 +1162,7 @@ public class App {
                     beliFurniture(customer);
                     break;
                 default:
+                    System.out.println("Pilihan Tida Tersedia");
                     break;
             }
         }
@@ -1264,7 +1204,7 @@ public class App {
 
     public static void menuCheckout(customer customer, pesanan newPesanan, int total) {
         try {
-            if (customer.getNama() == null && customer.getAlamatPengiriman() == null && customer.getTelp() == 0) {
+            if (customer.getNama() == null && customer.getAlamatPengiriman() == null && customer.getTelp() == null) {
                 System.out.println("Mohon melengkapi data terlebih dahulu");
                 return;
             }
@@ -1288,7 +1228,7 @@ public class App {
 
     public static void menuCheckOutKr(customer customer) {
         try {
-            if (customer.getNama() == null && customer.getAlamatPengiriman() == null && customer.getTelp() == 0) {
+            if (customer.getNama() == null && customer.getAlamatPengiriman() == null && customer.getTelp() == null) {
                 System.out.println("Mohon melengkapi data terlebih dahulu");
                 return;
             }
@@ -1329,11 +1269,11 @@ public class App {
             System.out.println("Peralatan Rumah Tangga");
             lihatRumahTangga();
             System.out.println("[q]. Keluar");
-            System.out.print("Pilih ID produk yang ingin Anda beli (atau q untuk keluar):");
+            System.out.print("Pilih produk yang ingin Anda beli (atau q untuk keluar): ");
 
             // Memeriksa apakah pengguna memasukkan angka atau q untuk keluar
             if (sc.hasNextInt()) {
-                int beli = sc.nextInt();
+                int beli = cekInputInt(sc);
                 sc.nextLine(); // Membersihkan karakter baris baru di buffer
 
                 if (beli == 'q') {
@@ -1341,26 +1281,28 @@ public class App {
                     break; // Keluar dari loop saat pengguna memilih untuk keluar
                 }
 
-                int index = sc.nextInt() - 1;
+                int index = cekInputInt(sc) - 1;
                 sc.nextLine();
                 // Mencari produk yang sesuai dengan ID yang dipilih pengguna
                 if (index < 0 || index >= productControl.getDatArt().size()) {
-                    System.out.println("Nomor urut tidak valid.");
+                    System.out.println("Produk Tidak Ada.");
                     return;
                 }
 
                 rumahTangga rtBeli = productControl.getDatArt().get(index);
 
                 System.out.print("Masukkan jumlah: ");
-                int jumlah = sc.nextInt();
+                int jumlah = cekInputInt(sc);
                 sc.nextLine();
                 if (jumlah < 0 || jumlah > rtBeli.getStok()) {
                     System.out.println("Jumlah yang anda beli melebihi stok");
                     break;
                 }
-                System.out.println(" [1]. Beli");
-                System.out.println(" [2]. Keranjang");
-                System.out.println(">> ");
+                System.out.println("==================");
+                System.out.println("| [1]. Beli      |");
+                System.out.println("| [2]. Keranjang |");
+                System.out.println("==================");
+                System.out.print(">> ");
                 String cekBeli = sc.nextLine();
 
                 int total = 0;
@@ -1381,7 +1323,7 @@ public class App {
                     }
                     System.out.println("Produk berhasil ditambahkan ke keranjang.");
                 } else {
-                    System.out.println("Input Salah");
+                    System.out.println("Pilihan Tidak Tersedia");
                 }
 
             } else {
@@ -1403,11 +1345,11 @@ public class App {
             System.out.println("Elektronik");
             lihatElektronik();
             System.out.println("[q]. Keluar");
-            System.out.print("Pilih ID produk yang ingin Anda beli (atau q untuk keluar):");
+            System.out.print("Pilih produk yang ingin Anda beli (atau q untuk keluar): ");
 
             // Memeriksa apakah pengguna memasukkan angka atau q untuk keluar
             if (sc.hasNextInt()) {
-                int beli = sc.nextInt();
+                int beli = cekInputInt(sc);
                 sc.nextLine(); // Membersihkan karakter baris baru di buffer
 
                 if (beli == 'q') {
@@ -1415,27 +1357,29 @@ public class App {
                     break; // Keluar dari loop saat pengguna memilih untuk keluar
                 }
 
-                int index = sc.nextInt() - 1;
+                int index = cekInputInt(sc) - 1;
                 sc.nextLine();
                 // Mencari produk yang sesuai dengan ID yang dipilih pengguna
                 if (index < 0 || index >= productControl.getDataElektronik().size()) {
-                    System.out.println("Nomor urut tidak valid.");
+                    System.out.println("Produk tidak ada.");
                     return;
                 }
 
                 elektronik elBeli = productControl.getDataElektronik().get(index);
 
                 System.out.print("Masukkan jumlah: ");
-                int jumlah = sc.nextInt();
+                int jumlah = cekInputInt(sc);
 
                 if (jumlah < 0 || jumlah > elBeli.getStok()) {
                     System.out.println("Jumlah yang anda beli melebihi stok");
                     break;
                 }
 
-                System.out.println(" [1]. Beli");
-                System.out.println(" [2]. Keranjang");
-                System.out.println(">> ");
+                System.out.println("==================");
+                System.out.println("| [1]. Beli      |");
+                System.out.println("| [2]. Keranjang |");
+                System.out.println("==================");
+                System.out.print(">> ");
                 String cekBeli = sc.nextLine();
 
                 int total = 0;
@@ -1454,7 +1398,7 @@ public class App {
                     }
                     System.out.println("Produk berhasil ditambahkan ke keranjang.");
                 } else {
-                    System.out.println("Salah Input");
+                    System.out.println("Pilihan Tidak Tersedia");
                 }
 
             } else {
@@ -1476,11 +1420,11 @@ public class App {
             System.out.println("Furniture");
             lihatElektronik();
             System.out.println("[q]. Keluar");
-            System.out.print("Pilih ID produk yang ingin Anda beli (atau q untuk keluar):");
+            System.out.print("Pilih produk yang ingin Anda beli (atau q untuk keluar): ");
 
             // Memeriksa apakah pengguna memasukkan angka atau q untuk keluar
             if (sc.hasNextInt()) {
-                int beli = sc.nextInt();
+                int beli = cekInputInt(sc);
                 sc.nextLine(); // Membersihkan karakter baris baru di buffer
 
                 if (beli == 'q') {
@@ -1488,27 +1432,29 @@ public class App {
                     break; // Keluar dari loop saat pengguna memilih untuk keluar
                 }
 
-                int index = sc.nextInt() - 1;
+                int index = cekInputInt(sc) - 1;
                 sc.nextLine();
                 // Mencari produk yang sesuai dengan ID yang dipilih pengguna
                 if (index < 0 || index >= productControl.getDataFurniture().size()) {
-                    System.out.println("Nomor urut tidak valid.");
+                    System.out.println("Produk Tidak Ada.");
                     return;
                 }
 
                 furniture frBeli = productControl.getDataFurniture().get(index);
 
                 System.out.println("Masukkan jumlah yang inign dibeli");
-                int jumlah = sc.nextInt();
+                int jumlah = cekInputInt(sc);
 
                 if (jumlah < 0 || jumlah > frBeli.getStok()) {
                     System.out.println("Jumlah yang anda beli melebihi stok");
                     break;
                 }
 
-                System.out.println(" [1]. Beli");
-                System.out.println(" [2]. Keranjang");
-                System.out.println(">> ");
+                System.out.println("==================");
+                System.out.println("| [1]. Beli      |");
+                System.out.println("| [2]. Keranjang |");
+                System.out.println("==================");
+                System.out.print(">> ");
                 String cekBeli = sc.nextLine();
 
                 int total = 0;
@@ -1528,7 +1474,7 @@ public class App {
                     }
                     System.out.println("Produk berhasil ditambahkan ke keranjang.");
                 } else {
-                    System.out.println("Salah Input");
+                    System.out.println("Pilihan Tidak Tersedia");
                 }
 
             } else {
@@ -1550,11 +1496,11 @@ public class App {
             System.out.println("Perkakas");
             lihatElektronik();
             System.out.println("[q]. Keluar");
-            System.out.print("Pilih ID produk yang ingin Anda beli (atau q untuk keluar):");
+            System.out.print("Pilih produk yang ingin Anda beli (atau q untuk keluar): ");
 
             // Memeriksa apakah pengguna memasukkan angka atau q untuk keluar
             if (sc.hasNextInt()) {
-                int beli = sc.nextInt();
+                int beli = cekInputInt(sc);
                 sc.nextLine(); // Membersihkan karakter baris baru di buffer
 
                 if (beli == 'q') {
@@ -1562,18 +1508,18 @@ public class App {
                     break; // Keluar dari loop saat pengguna memilih untuk keluar
                 }
 
-                int index = sc.nextInt() - 1;
+                int index = cekInputInt(sc) - 1;
                 sc.nextLine();
                 // Mencari produk yang sesuai dengan ID yang dipilih pengguna
                 if (index < 0 || index >= productControl.getDataPerkakas().size()) {
-                    System.out.println("Nomor urut tidak valid.");
+                    System.out.println("Produk Tidak Ada.");
                     return;
                 }
 
                 perkakas prBeli = productControl.getDataPerkakas().get(index);
 
                 System.out.print("Masukkan jumlah: ");
-                int jumlah = sc.nextInt();
+                int jumlah = cekInputInt(sc);
 
                 if (jumlah < 0 || jumlah > prBeli.getStok()) {
                     System.out.println("Jumlah yang anda beli melebihi stok");
@@ -1602,7 +1548,7 @@ public class App {
                     }
                     System.out.println("Produk berhasil ditambahkan ke keranjang.");
                 } else {
-                    System.out.println("Salah Input");
+                    System.out.println("Pilihan Tidak Tersedia");
                 }
 
             } else {
@@ -1634,6 +1580,7 @@ public class App {
                     ubahProfile(customer);
                     break;
                 default:
+                    System.out.println("Pilihan Tidak Tersedia");
                     break;
             }
         }
@@ -1674,27 +1621,24 @@ public class App {
 
             switch (pilih) {
                 case "1":
-                    System.out.print("Masukkan username baru: ");
-                    nilaiBaru = sc.nextLine();
+                    nilaiBaru = cekInputStr(sc, "Masukkan Username Baru : ");
                     kolom = "username";
                     customer.setUsername(nilaiBaru); // Ubah username pelanggan
                     break;
                 case "2":
-                    System.out.print("Masukkan password baru: ");
-                    nilaiBaru = sc.nextLine();
+                    nilaiBaru = cekInputStr(sc, "Masukkan Password Baru : ");
                     kolom = "password";
                     customer.setPassword(nilaiBaru); // Ubah password pelanggan
                     break;
                 case "3":
-                    System.out.print("Masukkan nama baru: ");
-                    nilaiBaru = sc.nextLine();
+                    nilaiBaru = cekInputStr(sc, "Masukkan Nama Baru : ");
                     kolom = "nama";
                     customer.setNama(nilaiBaru); // Ubah nama pelanggan
                     break;
                 case "4":
                     System.out.print("Masukkan nomor telepon baru: ");
-                    int telpBaru = cekinput(sc);
-                    nilaiBaru = String.valueOf(telpBaru);
+                    int telp = cekInputInt(sc);
+                    String telpBaru = String.valueOf(telp);
                     kolom = "telp";
                     customer.setTelp(telpBaru); // Ubah nomor telepon pelanggan
                     break;
@@ -1710,8 +1654,7 @@ public class App {
                     customer.setEmail(nilaiBaru);
                     break;
                 case "6":
-                    System.out.print("Masukkan alamat baru: ");
-                    nilaiBaru = sc.nextLine();
+                    nilaiBaru = cekInputStr(sc,"Masukkan Alamat Baru : ");
                     kolom = "alamat";
                     customer.setAlamatPengiriman(nilaiBaru); // Ubah alamat pengiriman pelanggan
                     break;
@@ -1746,11 +1689,26 @@ public class App {
         return email.contains("@") && email.contains(".com");
     }
 
-    public static int cekinput(Scanner sc) {
+    public static String cekInputStr(Scanner scanner, String prompt) {
+        String input;
+        while (true) {
+            System.out.print(prompt);
+            input = scanner.nextLine().trim();
+            if (input.isEmpty()) {
+                System.out.println("Input tidak boleh kosong atau hanya spasi. Silakan coba lagi.");
+            } else {
+                break;
+            }
+        }
+        return input;
+    }
+    
+
+    public static int cekInputInt(Scanner sc) {
         int input = 0; // Inisialisasi input dengan nilai default
         while (true) {
             try {
-                input = sc.nextInt(); // Mengambil input dari scanner
+                input = cekInputInt(sc); // Mengambil input dari scanner
                 break; // Keluar dari loop jika input berhasil
             } catch (InputMismatchException e) {
                 System.out.println("Input harus berupa angka. Silakan coba lagi.");

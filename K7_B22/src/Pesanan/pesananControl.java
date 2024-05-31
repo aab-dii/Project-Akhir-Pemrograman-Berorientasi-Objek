@@ -42,7 +42,7 @@ public class pesananControl {
         }
     }
 
-    public static void lihatPesananAdmin(String statuss) {
+    public static void lihatPesanan(String statuss) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -114,7 +114,6 @@ public class pesananControl {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-        int total = 0;
         dataPesanan.clear();
     
         try {
