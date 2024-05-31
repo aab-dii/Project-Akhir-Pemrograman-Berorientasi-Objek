@@ -181,7 +181,7 @@ public class userControl {
         }
     }
 
-    public static void updateSaldo(int id, int saldo) throws SQLException, ClassNotFoundException {
+    public static void updateSaldo(int id, int saldo, boolean topUp) throws SQLException, ClassNotFoundException {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -189,7 +189,7 @@ public class userControl {
         try {
             connection = DatabaseConnection.getConnection();
             
-            // Mengambil stok saat ini
+            // Mengambil saldo saat ini
             String sql = "SELECT saldo FROM tbuser WHERE id = ?";
             statement = connection.prepareStatement(sql);
             statement.setInt(1, id);
@@ -197,17 +197,21 @@ public class userControl {
     
             int newSaldo = 0; // Inisialisasi newSaldo
             if (resultSet.next()) {
-                int stok = resultSet.getInt("saldo");
-                newSaldo = stok + saldo;
+                int currentSaldo = resultSet.getInt("saldo");
+                if (topUp) {
+                    newSaldo = currentSaldo + saldo;
+                } else {
+                    newSaldo = saldo;
+                }
             } else {
-                System.out.println("Produk dengan ID " + id + " tidak ditemukan.");
-                return; // Keluar dari metode jika produk tidak ditemukan
+                System.out.println("User dengan ID " + id + " tidak ditemukan.");
+                return; // Keluar dari metode jika user tidak ditemukan
             }
     
             // Tutup statement sebelumnya sebelum membuat yang baru
             statement.close();
     
-            // Memperbarui stok
+            // Memperbarui saldo
             String sql2 = "UPDATE tbuser SET saldo = ? WHERE id = ?";
             statement = connection.prepareStatement(sql2);
             statement.setInt(1, newSaldo);
@@ -219,7 +223,7 @@ public class userControl {
             if (connection != null) connection.close();
         }
     }
-
+    
     public static void registerKurir(kurir newkurir)throws SQLException, ClassNotFoundException {
         Connection connection = null;
         PreparedStatement statement = null;
