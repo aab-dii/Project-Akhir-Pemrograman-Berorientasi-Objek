@@ -1,5 +1,7 @@
 import java.util.Scanner;
 
+import Antar.antar;
+import Antar.antarControl;
 import Product.rumahTangga;
 import Product.elektronik;
 import Product.furniture;
@@ -987,7 +989,8 @@ public class App {
     }
 
     // Menu Kurir
-    public static void menuKurir(kurir kurir) {
+    public static void menuKurir(kurir kurir) throws ClassNotFoundException, SQLException {
+        antarControl.perbaruiArrayAntar();
         String pilih = "";
         while (!pilih.equals("5")) {
             System.out.println("===============================");
@@ -1009,13 +1012,16 @@ public class App {
                     break;
                 case "2":
                     System.out.println("Lihat Pengiriman");
-                    pesananControl.lihatPesanan("Pesanan Sedang Dikirim");
+                    antarControl.tampilkanAntar();
+                    //pesananControl.lihatPesanan("Pesanan Sedang Dikirim");
                     break;
                 case "3":
                     System.out.println("Konfirmasi Pengiriman");
+                    konfirmasiAntar();
                     // Tambahkan logika untuk mengkonfirmasi pengiriman
                     break;
                 case "4":
+                    System.out.println("Profil Kurir");
                     break;
                 case "5":
                     System.out.println("Keluar dari Menu Kurir");
@@ -1028,9 +1034,41 @@ public class App {
         }
     }
 
-    public static void tambahPengiriman() {
+    public static void tambahPengiriman() throws ClassNotFoundException, SQLException {
         pesananControl.lihatPesanan("Pesanan Sedang Dikirim");
-        System.out.println("kirim");
+        System.out.println("Pilih pesanan yang ingin diantarkan");
+        System.out.print(">> ");
+        int index = cekInputInt(sc) - 1;
+        sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
+        if (index < 0 || index >= pesananControl.getDataPesanan().size()) {
+            System.out.println("Produk Tidak Ada.");
+            return;
+        }
+        pesanan ambildata = pesananControl.getDataPesanan().get(index);
+        int idbarang = ambildata.getIdProduk();
+        int iduser = ambildata.getIdCust();
+        int idpesan = ambildata.getIdPesanan();
+        antarControl.tambahAntar(idbarang, iduser, idpesan);
+        antarControl.perbaruiArrayAntar();
+        //antar newantar = new antar(1,idbarang, iduser, idpesan);
+        //antarControl.tambahAntar(antar newantar);
+        //System.out.println("kirim");
+    }
+    public static void konfirmasiAntar() throws ClassNotFoundException, SQLException{
+        antarControl.perbaruiArrayAntar();
+        antarControl.tampilkanAntar();
+        System.out.println("Pilih pesanan yang telah diantarkan");
+        System.out.print(">> ");
+        int index = cekInputInt(sc) - 1;
+        sc.nextLine(); // Menangkap karakter baris baru yang tersisa di dalam buffer
+        if (index < 0 || index >= antarControl.getDataAntar().size()) {
+            System.out.println("Produk Tidak Ada.");
+            return;
+        }
+        antar ambildata = antarControl.getDataAntar().get(index);
+        int idpesan = ambildata.getIdPesanan();
+        antarControl.hapusAntar(idpesan);
+        
     }
 
     // Menu Customer
