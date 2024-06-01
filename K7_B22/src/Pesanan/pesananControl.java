@@ -5,10 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.sql.Date;
+
 
 import Connection.DatabaseConnection;
-import Keranjang.keranjang;
-import User.customer;
 
 public class pesananControl {
     private static ArrayList<pesanan> dataPesanan = new ArrayList<>();
@@ -19,13 +19,14 @@ public class pesananControl {
 
         try {
             connection = DatabaseConnection.getConnection();
-            String sql = "INSERT INTO tbpesanan (idCust, idProduk, jumlah, status) VALUES (?, ?, ?, ?)";
+            String sql = "INSERT INTO tbpesanan (idCust, idProduk, jumlah, status, tanggalPesanan) VALUES (?, ?, ?, ?, ?)";
             statement = connection.prepareStatement(sql);
 
             statement.setInt(1, newPesanan.getIdCust());
             statement.setInt(2, newPesanan.getIdProduk());
             statement.setInt(3, newPesanan.getJumlah());
             statement.setString(4, newPesanan.getStatus());
+            statement.setDate(5, newPesanan.getTanggalPesanan());
 
             statement.executeUpdate();
 
@@ -64,11 +65,11 @@ public class pesananControl {
             dataPesanan.clear();
 
             System.out.println(
-                    "--------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                    "------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
                     System.out.printf("| %-5s | %-20s | %-10s | %-30s | %-20s | %-20s | %-15s | %-10s |\n",
                     "No", "Nama Barang", "Jumlah", "Status", "Nama Pemesan", "Alamat", "Telepon", "Harga");
                     System.out.println(
-                "--------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                "-----------------------------------------------------------------------------------------------------------------------------------------------------------------------");
                 
             while (resultSet.next()) {
                 int idPesanan = resultSet.getInt("idPesanan");
@@ -76,6 +77,7 @@ public class pesananControl {
                 int idProdukK = resultSet.getInt("idProduk");
                 int jumlah = resultSet.getInt("jumlah");
                 String status = resultSet.getString("status");
+                Date date = resultSet.getDate("date");
 
                 // Informasi tambahan dari tbuser dan tbproduk
                 String namaPemesan = resultSet.getString("namaPemesan");
@@ -84,14 +86,14 @@ public class pesananControl {
                 String namaProduk = resultSet.getString("namaProduk");
                 int harga = resultSet.getInt("harga");
 
-                pesanan newPesanan = new pesanan(idPesanan, idCust, idProdukK, jumlah, status);
+                pesanan newPesanan = new pesanan(idPesanan, idCust, idProdukK, jumlah, status, date);
                 dataPesanan.add(newPesanan);
 
                 no++;
                 System.out.printf("| %-5d | %-20s | %-10d | %-30s | %-20s | %-20s | %-15s | %-10d |\n",
                         no, namaProduk, jumlah, status, namaPemesan, alamatPemesan, noTeleponPemesan, harga * jumlah);
                 System.out.println(
-                    "--------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                    "-----------------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
             }
         } catch (SQLException | ClassNotFoundException e) {
@@ -125,10 +127,10 @@ public class pesananControl {
             int no = 0;
     
             // Header tabel
-            System.out.println("----------------------------------------------------------------------------------");
-            System.out.printf("| %-5s | %-20s | %-10s | %-10s | %-20s |\n",
-                    "No", "Nama Barang", "Jumlah", "Harga", "Status");
-            System.out.println("----------------------------------------------------------------------------------");
+            System.out.println("--------------------------------------------------------------------------------------------");
+            System.out.printf("| %-5s | %-20s | %-10s | %-10s | %-20s | %-20s |\n",
+                    "No", "Nama Barang", "Jumlah", "Harga", "Tanggal" ,"Status");
+            System.out.println("--------------------------------------------------------------------------------------------");
     
             while (resultSet.next()) {
                 int idPesanan = resultSet.getInt("idPesanan");
@@ -136,8 +138,9 @@ public class pesananControl {
                 int idProdukK = resultSet.getInt("idProduk");
                 int jumlah = resultSet.getInt("jumlah");
                 String status = resultSet.getString("status");
+                Date date = resultSet.getDate("tanggalPesanan");
     
-                pesanan newPesanan = new pesanan(idPesanan, idCust, idProdukK, jumlah, status);
+                pesanan newPesanan = new pesanan(idPesanan, idCust, idProdukK, jumlah, status, date);
                 dataPesanan.add(newPesanan);
     
                 String sql2 = "SELECT nama, harga FROM tbproduk WHERE id = ?";
@@ -149,9 +152,9 @@ public class pesananControl {
                 if (resultSet2.next()) {
                     String nama = resultSet2.getString("nama");
                     int harga = resultSet2.getInt("harga");
-                    System.out.printf("| %-5d | %-20s | %-10d | %-10d | %-20s |\n",
-                            no, nama, jumlah, harga * jumlah, status);
-                    System.out.println("----------------------------------------------------------------------------------");
+                    System.out.printf("| %-5d | %-20s | %-10d | %-10d | %-20s | %-20s |\n",
+                            no, nama, jumlah, harga * jumlah, date, status);
+                    System.out.println("--------------------------------------------------------------------------------------------");
                 }
                 resultSet2.close();
                 statement2.close();

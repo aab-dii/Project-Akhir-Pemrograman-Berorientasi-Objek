@@ -14,7 +14,9 @@ import Pesanan.pesanan;
 import Pesanan.pesananControl;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.InputMismatchException;
+import java.sql.Date;
 
 import User.customer;
 import User.admin;
@@ -23,6 +25,8 @@ import User.user;
 import User.userControl;
 
 public class App {
+    static LocalDate localDate = LocalDate.now();
+    static Date sqlDate = Date.valueOf(localDate);
     static Scanner sc = new Scanner(System.in);
     static boolean loggedIn = false;
 
@@ -1402,7 +1406,7 @@ public class App {
                 int idProduk = keranjang.getIdProduk();
                 int jumlah = keranjang.getJumlah();
 
-                pesanan newPesanan = new pesanan(0, idCust, idProduk, jumlah, "Menunggu Konfirmasi");
+                pesanan newPesanan = new pesanan(0, idCust, idProduk, jumlah, "Menunggu Konfirmasi", sqlDate);
 
                 try {
                     pesananControl.tambahPesanan(newPesanan);
@@ -1464,7 +1468,7 @@ public class App {
 
                 int total = 0;
                 if (cekBeli.equals("1")) {
-                    pesanan newPesanan = new pesanan(0, custId, rtBeli.getId(), jumlah, "Menunggu Konfirmasi");
+                    pesanan newPesanan = new pesanan(0, custId, rtBeli.getId(), jumlah, "Menunggu Konfirmasi" ,sqlDate);
                     total = rtBeli.getHarga() * jumlah;
                     menuCheckout(customer, newPesanan, total);
 
@@ -1541,7 +1545,7 @@ public class App {
 
                 int total = 0;
                 if (cekBeli.equals("1")) {
-                    pesanan newPesanan = new pesanan(0, custId, elBeli.getId(), jumlah, "Menunggu Konfirmasi");
+                    pesanan newPesanan = new pesanan(0, custId, elBeli.getId(), jumlah, "Menunggu Konfirmasi", sqlDate);
                     total = elBeli.getHarga() * jumlah;
                     menuCheckout(customer, newPesanan, total);
                 } else if (cekBeli.equals("2")) {
@@ -1616,7 +1620,7 @@ public class App {
 
                 int total = 0;
                 if (cekBeli.equals("1")) {
-                    pesanan newPesanan = new pesanan(0, custId, frBeli.getId(), jumlah, "Menunggu Konfirmasi");
+                    pesanan newPesanan = new pesanan(0, custId, frBeli.getId(), jumlah, "Menunggu Konfirmasi",sqlDate);
                     total = frBeli.getHarga() * jumlah;
                     menuCheckout(customer, newPesanan, total);
                 } else if (cekBeli.equals("2")) {
@@ -1690,7 +1694,7 @@ public class App {
 
                 int total = 0;
                 if (cekBeli.equals("1")) {
-                    pesanan newPesanan = new pesanan(0, custId, prBeli.getId(), jumlah, "Menunggu Konfirmasi");
+                    pesanan newPesanan = new pesanan(0, custId, prBeli.getId(), jumlah, "Menunggu Konfirmasi",sqlDate);
                     total = prBeli.getHarga() * jumlah;
                     menuCheckout(customer, newPesanan, total);
                 } else if (cekBeli.equals("2")) {

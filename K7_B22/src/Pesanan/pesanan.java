@@ -1,14 +1,17 @@
 package Pesanan;
+import java.sql.Date;
 
 public class pesanan {
     private int idPesanan, idCust, idProduk, jumlah;
     private String status;
-    public pesanan(int idPesanan, int idCust, int idProduk, int jumlah, String status) {
+    private Date tanggalPesanan;
+    public pesanan(int idPesanan, int idCust, int idProduk, int jumlah, String status ,Date tanggalPesanan) {
         this.idPesanan = idPesanan;
         this.idCust = idCust;
         this.idProduk = idProduk;
         this.jumlah = jumlah;
         this.status = status;
+        this.tanggalPesanan = tanggalPesanan;
     }
     
     public int getJumlah() {
@@ -44,5 +47,13 @@ public class pesanan {
         this.status = status;
     }
 
+    public Date getTanggalPesanan() {
+        return tanggalPesanan;
+    }
+
+    public void setTanggalPesanan(Date tanggalPesanan) {
+        this.tanggalPesanan = tanggalPesanan;
+    }
+    
     
 }
