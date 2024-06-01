@@ -552,10 +552,10 @@ public class App {
                     ubahRt();
                     break;
                 case "2":
-                    ubahElektronik();
+                    ubahPerkakas();
                     break;
                 case "3":
-                    ubahPerkakas();
+                    ubahElektronik();
                     break;
                 case "4":
                     ubahFurniture();
