@@ -58,7 +58,7 @@ public class App {
                     System.out.println("Terimakasih Telah Menggunakan Program Kami");
                     break;
                 default:
-                    System.out.println("Input harus angka !!!");
+                    System.out.println("Pilihan Tidak Tersedia");
                     break;
             }
         }
@@ -77,9 +77,7 @@ public class App {
 
             try {
                 customer newCustomer = new customer(0, "", newUsername, newPassword, "", "", "", 0, "customer"); // Sesuaikan
-                                                                                                                 // dengan
-                // konstruktor kelas
-                // customer
+                                                                                                            
                 userControl.registerCustomer(newCustomer);
                 System.out.println("Pendaftaran berhasil!");
             } catch (SQLException | ClassNotFoundException e) {
@@ -111,7 +109,7 @@ public class App {
             System.out.print("Masukkan Nomor Telepon :");
             int telp = cekInputInt(sc);
             String telpp = String.valueOf(telp);
-
+            sc.nextLine();
             try {
                 kurir newKurir = new kurir(0, nama, newUsername, newPassword, email, telpp, "kurir");
                 userControl.registerKurir(newKurir);
@@ -1432,69 +1430,69 @@ public class App {
         }
     }
 
-    // public static void lihatRumahTangga(int numover) {
-    //     int no = 0;
-    //     System.out.println(
-    //             "--------------------------------------------------------------------------------------------------------------------------------");
-    //     System.out.printf("| %-5s | %-20s | %-20s | %-10s | %-10s | %-10s | %-10s | %-10s |\n",
-    //             "No", "Nama Produk", "Deskripsi", "Harga", "Stok", "Merk", "Bahan", "Ukuran");
-    //     System.out.println(
-    //             "--------------------------------------------------------------------------------------------------------------------------------");
-    //     for (rumahTangga rt : productControl.getDatArt()) {
-    //         if (rt.getStok() != 0) {
-    //             no++;
-    //             rt.printProductInfo(no);
-    //         }
-    //     }
-    // }
+    public static void lihatRumahTangga(int numover) {
+        int no = 0;
+        System.out.println(
+                "--------------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("| %-5s | %-20s | %-20s | %-10s | %-10s | %-10s | %-10s | %-10s |\n",
+                "No", "Nama Produk", "Deskripsi", "Harga", "Stok", "Merk", "Bahan", "Ukuran");
+        System.out.println(
+                "--------------------------------------------------------------------------------------------------------------------------------");
+        for (rumahTangga rt : productControl.getDatArt()) {
+            if (rt.getStok() != 0) {
+                no++;
+                rt.printProductInfo(no);
+            }
+        }
+    }
     
-    // public static void lihatPerkakas(int numover) {
-    //     System.out.println(
-    //             "--------------------------------------------------------------------------------------------------------------------------------");
-    //     System.out.printf("| %-5s | %-20s | %-20s | %-10s | %-10s | %-10s |\n",
-    //             "No", "Nama Produk", "Deskripsi", "Harga", "Stok", "Merk");
-    //     System.out.println(
-    //             "--------------------------------------------------------------------------------------------------------------------------------");
-    //     int no = 0;
-    //     for (perkakas pk : productControl.getDataPerkakas()) {
-    //         if (pk.getStok() != 0) {
-    //             no++;
-    //             pk.printProductInfo(no);
-    //         }
-    //     }
-    // }
+    public static void lihatPerkakas(int numover) {
+        System.out.println(
+                "--------------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("| %-5s | %-20s | %-20s | %-10s | %-10s | %-10s |\n",
+                "No", "Nama Produk", "Deskripsi", "Harga", "Stok", "Merk");
+        System.out.println(
+                "--------------------------------------------------------------------------------------------------------------------------------");
+        int no = 0;
+        for (perkakas pk : productControl.getDataPerkakas()) {
+            if (pk.getStok() != 0) {
+                no++;
+                pk.printProductInfo(no);
+            }
+        }
+    }
     
-    // public static void lihatElektronik(int numover) {
-    //     System.out.println(
-    //             "------------------------------------------------------------------------------------------------------------------------------------");
-    //     System.out.printf("| %-5s | %-20s | %-20s | %-10s | %-10s | %-10s | %-10s | %-10s | %-10s |\n",
-    //             "No", "Nama Produk", "Deskripsi", "Harga", "Stok", "Merk", "Tipe", "Model", "Warna");
-    //     System.out.println(
-    //             "------------------------------------------------------------------------------------------------------------------------------------");
-    //     int no = 0;
-    //     for (elektronik el : productControl.getDataElektronik()) {
-    //         if (el.getStok() != 0) {
-    //             no++;
-    //             el.printProductInfo(no);
-    //         }
-    //     }
-    // }
+    public static void lihatElektronik(int numover) {
+        System.out.println(
+                "------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("| %-5s | %-20s | %-20s | %-10s | %-10s | %-10s | %-10s | %-10s | %-10s |\n",
+                "No", "Nama Produk", "Deskripsi", "Harga", "Stok", "Merk", "Tipe", "Model", "Warna");
+        System.out.println(
+                "------------------------------------------------------------------------------------------------------------------------------------");
+        int no = 0;
+        for (elektronik el : productControl.getDataElektronik()) {
+            if (el.getStok() != 0) {
+                no++;
+                el.printProductInfo(no);
+            }
+        }
+    }
     
-    // public static void lihatFurniture(int numover) {
-    //     System.out.println(
-    //             "--------------------------------------------------------------------------------------------------------------------------------");
-    //     System.out.printf("| %-5s | %-20s | %-20s | %-10s | %-10s | %-10s | %-10s | %-10s |\n",
-    //             "No", "Nama Produk", "Deskripsi", "Harga", "Stok", "Merk", "Bahan", "Ukuran");
-    //     System.out.println(
-    //             "--------------------------------------------------------------------------------------------------------------------------------");
-    //     int no = 0;
-    //     for (furniture fn : productControl.getDataFurniture()) {
-    //         if (fn.getStok() != 0) {
-    //             no++;
-    //             fn.printProductInfo(no);
-    //         }
-    //     }
-    // }
+    public static void lihatFurniture(int numover) {
+        System.out.println(
+                "--------------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("| %-5s | %-20s | %-20s | %-10s | %-10s | %-10s | %-10s | %-10s |\n",
+                "No", "Nama Produk", "Deskripsi", "Harga", "Stok", "Merk", "Bahan", "Ukuran");
+        System.out.println(
+                "--------------------------------------------------------------------------------------------------------------------------------");
+        int no = 0;
+        for (furniture fn : productControl.getDataFurniture()) {
+            if (fn.getStok() != 0) {
+                no++;
+                fn.printProductInfo(no);
+            }
+        }
+    }
     
 
     public static void beliRt(customer customer) {
@@ -1886,6 +1884,7 @@ public class App {
                     } else {
                         System.out.println("Nomor Telepon Telah Digunakan");
                     }
+                    sc.nextLine();
                     break;
                 case "5":
                     System.out.print("Masukkan email baru: ");

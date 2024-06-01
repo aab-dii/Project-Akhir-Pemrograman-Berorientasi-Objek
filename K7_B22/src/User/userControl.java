@@ -34,29 +34,6 @@ public class userControl {
         }
     }
 
-    // public static String hashPass(String password) {
-    //     try {
-    //         // Buat instance MessageDigest dengan algoritma SHA-256
-    //         MessageDigest digest = MessageDigest.getInstance("SHA-256");
-    //         // Ubah password menjadi array byte
-    //         byte[] encodedhash = digest.digest(password.getBytes());
-    //         // Ubah array byte menjadi representasi hex
-    //         StringBuilder hexString = new StringBuilder(2 * encodedhash.length);
-    //         for (byte b : encodedhash) {
-    //             String hex = Integer.toHexString(0xff & b);
-    //             if (hex.length() == 1) {
-    //                 hexString.append('0');
-    //             }
-    //             hexString.append(hex);
-    //         }
-    //         System.out.println(hexString.toString());
-    //         return hexString.toString();
-    //     } catch (NoSuchAlgorithmException e) {
-    //         e.printStackTrace();
-    //         return null;
-    //     }
-    // }
-
     public static boolean checkDataExists(String kolom, String username) {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -65,10 +42,9 @@ public class userControl {
 
         try {
             connection = DatabaseConnection.getConnection();
-            String sql = "SELECT * FROM tbuser WHERE ? = ?";
+            String sql = "SELECT * FROM tbuser WHERE "+ kolom+ "= ?";
             statement = connection.prepareStatement(sql);
-            statement.setString(1, kolom);
-            statement.setString(2, username);
+            statement.setString(1, username);
             resultSet = statement.executeQuery();
 
             // Jika ada baris hasil, berarti username sudah ada
