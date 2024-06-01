@@ -21,7 +21,7 @@ public class productControl {
 
         try {
             connection = DatabaseConnection.getConnection();
-            String sql = "INSERT INTO tbproduk (nama, stok, harga, deskripsi, merk, jenis) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO tbproduk (nama, stok, harga, deskripsi, merk, jenis, tipe, model, warna) VALUES (?, ?, ?, ?, ?, ?, ?, ?,? )";
             statement = connection.prepareStatement(sql);
 
             statement.setString(1, newProduct.getNama());
@@ -30,6 +30,34 @@ public class productControl {
             statement.setString(4, newProduct.getDeskripsi());
             statement.setString(5, newProduct.getMerk());
             statement.setString(6, newProduct.getJenis());
+            if (newProduct instanceof furniture) {
+                furniture f = (furniture) newProduct;
+                statement.setString(7, f.getBahan());
+                statement.setString(8, f.getUkuran());
+                statement.setString(9, null);
+                statement.setString(10, null);
+                statement.setString(11, null);
+            } else if (newProduct instanceof rumahTangga) {
+                rumahTangga r = (rumahTangga) newProduct;
+                statement.setString(7, r.getBahan());
+                statement.setString(8, r.getUkuran());
+                statement.setString(9, null);
+                statement.setString(10, null);
+                statement.setString(11, null);
+            } else if (newProduct instanceof elektronik) {
+                elektronik e = (elektronik) newProduct;
+                statement.setString(7, null);
+                statement.setString(8, null);
+                statement.setString(9, e.getTipe());
+                statement.setString(10, e.getModel());
+                statement.setString(11, e.getWarna());
+            } else {
+                statement.setString(7, null);
+                statement.setString(8, null);
+                statement.setString(9, null);
+                statement.setString(10, null);
+                statement.setString(11, null);
+            }
             statement.executeUpdate();
             lihatProduk();
         } finally {
@@ -79,10 +107,10 @@ public class productControl {
                         dataFurniture.add(newFurniture);
                         break;
                     case "elektronik":
-                        // String tipe = resultSet.getString("tipe");
-                        // String model = resultSet.getString("model");
-                        // String warna = resultSet.getString("warna");
-                        elektronik newElektronik = new elektronik(id, nama, deskripsi, harga, stok, merk, "", "model", "warna", jenis);
+                        String tipe = resultSet.getString("tipe");
+                        String model = resultSet.getString("model");
+                        String warna = resultSet.getString("warna");
+                        elektronik newElektronik = new elektronik(id, nama, deskripsi, harga, stok, merk, tipe, model, warna, jenis);
                         dataElektronik.add(newElektronik);
                         break;
                     case "rumahtangga":
