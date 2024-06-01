@@ -143,6 +143,81 @@ public class productControl {
             }
         }
     }
+
+    public static void lihatProduk(int numover) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DatabaseConnection.getConnection();
+            String sql = "SELECT * FROM tbproduk WHERE stok > 0";
+            statement = connection.prepareStatement(sql);
+            resultSet = statement.executeQuery();
+
+            datArt.clear();
+            dataElektronik.clear();
+            dataFurniture.clear();
+            dataPerkakas.clear();
+
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String nama = resultSet.getString("nama");
+                int stok = resultSet.getInt("stok");
+                int harga = resultSet.getInt("harga");
+                String deskripsi = resultSet.getString("deskripsi");
+                String merk = resultSet.getString("merk");
+                String bahan = resultSet.getString("bahan");
+                String ukuran = resultSet.getString("ukuran");
+                String jenis = resultSet.getString("jenis");
+
+                switch (jenis.toLowerCase()) {
+                    case "perkakas":
+                        perkakas newPerkakas = new perkakas(id, nama, deskripsi, harga, stok, merk, jenis);
+                        dataPerkakas.add(newPerkakas);
+                        break;
+                    case "furniture":
+                        furniture newFurniture = new furniture(id, nama, deskripsi, harga, stok, merk, bahan, ukuran, jenis);
+                        dataFurniture.add(newFurniture);
+                        break;
+                    case "elektronik":
+                        String tipe = resultSet.getString("tipe");
+                        String model = resultSet.getString("model");
+                        String warna = resultSet.getString("warna");
+                        elektronik newElektronik = new elektronik(id, nama, deskripsi, harga, stok, merk, tipe, model, warna, jenis);
+                        dataElektronik.add(newElektronik);
+                        break;
+                    case "rumahtangga":
+                        // String bahan = resultSet.getString("bahan");
+                        // String ukuran = resultSet.getString("ukuran");
+                        rumahTangga newRumahTangga = new rumahTangga(id, nama, deskripsi, harga, stok, bahan, ukuran, merk, jenis);
+                        datArt.add(newRumahTangga);
+                        break;
+                    default:
+                        System.out.println("Jenis produk tidak dikenal: " + jenis);
+                }
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("Terjadi kesalahan saat mengambil produk dari database.");
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println("Terjadi kesalahan saat menutup koneksi ke database.");
+            }
+        }
+    }
+
     public static ArrayList<rumahTangga> getDatArt() {
         return datArt;
     }
