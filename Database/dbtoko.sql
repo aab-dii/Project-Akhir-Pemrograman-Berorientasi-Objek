@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.0.32, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.37, for Win64 (x86_64)
 --
 -- Host: localhost    Database: dbtoko
 -- ------------------------------------------------------
--- Server version	8.0.32
+-- Server version	8.0.37
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -29,7 +29,7 @@ CREATE TABLE `tbantar` (
   `id_pesanan` int DEFAULT NULL,
   `id_kurir` int DEFAULT NULL,
   PRIMARY KEY (`id_antar`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,6 @@ CREATE TABLE `tbantar` (
 
 LOCK TABLES `tbantar` WRITE;
 /*!40000 ALTER TABLE `tbantar` DISABLE KEYS */;
-INSERT INTO `tbantar` VALUES (4,14,8,55,13),(5,14,8,56,15),(6,14,8,62,15);
 /*!40000 ALTER TABLE `tbantar` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -82,7 +81,7 @@ CREATE TABLE `tbpesanan` (
   `status` varchar(100) NOT NULL,
   `tanggalPesanan` date DEFAULT NULL,
   PRIMARY KEY (`idPesanan`)
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -91,7 +90,6 @@ CREATE TABLE `tbpesanan` (
 
 LOCK TABLES `tbpesanan` WRITE;
 /*!40000 ALTER TABLE `tbpesanan` DISABLE KEYS */;
-INSERT INTO `tbpesanan` VALUES (53,8,14,123,'Pesanan telah sampai',NULL),(54,8,14,20,'Pesanan telah sampai',NULL),(55,8,14,20,'Sedang Diantar Kurir',NULL),(56,8,14,30,'Sedang Diantar Kurir',NULL),(57,8,14,20,'Menunggu Konfirmasi',NULL),(58,8,14,30,'Menunggu Konfirmasi',NULL),(59,8,14,20,'Menunggu Konfirmasi',NULL),(60,8,14,20,'Menunggu Konfirmasi',NULL),(61,8,14,20,'Menunggu Konfirmasi',NULL),(62,8,14,10,'Sedang Diantar Kurir',NULL),(63,8,14,10,'Menunggu Konfirmasi',NULL),(64,8,14,10,'Menunggu Konfirmasi',NULL),(65,8,14,10,'Menunggu Konfirmasi',NULL),(66,14,14,1,'Menunggu Konfirmasi',NULL),(67,14,14,1,'Menunggu Konfirmasi',NULL),(68,8,14,10,'Menunggu Konfirmasi','2024-06-01');
 /*!40000 ALTER TABLE `tbpesanan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,7 +114,7 @@ CREATE TABLE `tbproduk` (
   `model` varchar(100) DEFAULT NULL,
   `warna` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +123,7 @@ CREATE TABLE `tbproduk` (
 
 LOCK TABLES `tbproduk` WRITE;
 /*!40000 ALTER TABLE `tbproduk` DISABLE KEYS */;
-INSERT INTO `tbproduk` VALUES (2,'k1',1,1.00,'k1','1','perkakas',NULL,NULL,NULL,NULL,NULL),(4,'f1',1,1.00,'f1','1','furniture',NULL,NULL,NULL,NULL,NULL),(14,'123',81,123.00,'123','123','rumahtangga',NULL,NULL,NULL,NULL,NULL),(16,'qwer',132,123.00,'qwer','123','perkakas',NULL,NULL,NULL,NULL,NULL),(17,'rty',123,123.00,'132','123','elektronik',NULL,NULL,NULL,NULL,NULL),(18,'ghj',123,123.00,'123','123','furniture',NULL,NULL,NULL,NULL,NULL),(19,' ',1,1.00,' ',' ','rumahtangga',NULL,NULL,NULL,NULL,NULL),(20,' ',22,1.00,'1 ','2','rumahtangga',NULL,NULL,NULL,NULL,NULL),(21,'1',1,1.00,'1','1','rumahtangga',NULL,NULL,NULL,NULL,NULL),(22,'1',1,1.00,'1','1','rumahtangga',NULL,NULL,NULL,NULL,NULL),(23,'123',123,123.00,'123','123','rumahtangga',NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `tbproduk` VALUES (29,'sapu',50,20000.00,'sapu besar','kaki lima','rumahtangga','sabut','1 meter',NULL,NULL,NULL),(30,'kemoceng',30,15000.00,'pembersih meja','hujan lebat','rumahtangga','serat sintesis','50 cm',NULL,NULL,NULL),(31,'palu',60,100000.00,'palu besi','mr yid','perkakas',NULL,NULL,NULL,NULL,NULL),(32,'tangga',2,80000.00,'tangga menuju surga','istiqomah','perkakas',NULL,NULL,NULL,NULL,NULL),(33,'lampu',32,140000.00,'menerangi hari-harimu','semangat','elektronik',NULL,NULL,'penerangan','AMBRT 100','putih'),(34,'kipas turbo',15,120000.00,'menerbangkan mimpi','moto','elektronik',NULL,NULL,'tornado','TRN 10','hitam'),(35,'lemari',2,350000.00,'menyimpan kenangan indah','kayu','furniture','atom kayu','4 meter',NULL,NULL,NULL),(36,'kursi',7,200000.00,'saksi bisu begadang','tolak IPI','furniture','besi kuat','200 cm',NULL,NULL,NULL);
 /*!40000 ALTER TABLE `tbproduk` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -147,7 +145,7 @@ CREATE TABLE `tbuser` (
   `role` varchar(100) NOT NULL,
   `saldo` int DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -156,7 +154,7 @@ CREATE TABLE `tbuser` (
 
 LOCK TABLES `tbuser` WRITE;
 /*!40000 ALTER TABLE `tbuser` DISABLE KEYS */;
-INSERT INTO `tbuser` VALUES (5,'admin','admin','admin123','admin@gmail.com','812312345',NULL,'admin',NULL),(6,NULL,'123','8023fd0ad4203dfc402481e651de11392c84c51f5336de1d56a9c1dffef732b1',NULL,NULL,NULL,'customer',NULL),(7,NULL,'abdi','8023fd0ad4203dfc402481e651de11392c84c51f5336de1d56a9c1dffef732b1',NULL,NULL,NULL,'customer',NULL),(8,'abdi','abdul','123','abdi@gmail.com','123','jl, amsangaji','customer',123770),(9,NULL,'aku','123',NULL,NULL,NULL,'customer',NULL),(12,'abdi','tes2','123','abdi@gmail.com','123',NULL,'kurir',NULL),(13,'123','qwe','qwe','kurir@gmail.com','123',NULL,'kurir',NULL),(14,'abdel','abdel','123','a@gmail.com','213','123','customer',100000),(15,'123','qwer','qwer','123@gmail.com','123',NULL,'kurir',NULL);
+INSERT INTO `tbuser` VALUES (5,'admin','admin','admin123','admin@gmail.com','812312345',NULL,'admin',NULL),(17,'saya laju','silaju','123','laju@mail.com','6812654',NULL,'kurir',NULL),(18,'menyala abangkuh','simenyala','123','menyala@mail.com','6282341',NULL,'kurir',NULL),(19,NULL,'abdul','123',NULL,NULL,NULL,'customer',NULL);
 /*!40000 ALTER TABLE `tbuser` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -169,4 +167,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-01 16:42:22
+-- Dump completed on 2024-06-01 22:58:00
