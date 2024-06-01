@@ -34,35 +34,12 @@ public class App {
     static String username = "";
     static boolean exit = true;
 
-    public static void main(String[] args) throws Exception {
-        productControl.lihatProduk();
-        String pilih = "";
-        while (!pilih.equals("3")) {
-            System.out.println("===============================================");
-            System.out.println("| SISTEM PENDATAAN RUMAH TANGGA DAN AKSESORIS |");
-            System.out.println("===============================================");
-            System.out.println("| [1]. Daftar                                 |");
-            System.out.println("| [2]. Login                                  |");
-            System.out.println("| [3]. Keluar                                 |");
-            System.out.println("===============================================");
-            System.out.print(">> ");
-            pilih = sc.nextLine();
-            switch (pilih) {
-                case "1":
-                    daftarCust();
-                    break;
-                case "2":
-                    login();
-                    break;
-                case "3":
-                    System.out.println("Terimakasih Telah Menggunakan Program Kami");
-                    break;
-                default:
-                    System.out.println("Pilihan Tidak Tersedia");
-                    break;
-            }
-        }
-    }
+    static final String pesan = "Terimakasih Telah Menggunakan Program Kami\n\n" +
+                             "Dibuat Oleh :\n" +
+                             "1. Abdullah Azam\n" +
+                             "2. Ahmad Nur Fauzan\n" +
+                             "3. Muhammad Abdillah\n" +
+                             "4. Tommy Candra Gunawan";
 
     public static void daftarCust() {
         String newUsername = cekInputStr(sc, "Masukkan Username :");
@@ -1959,6 +1936,36 @@ public class App {
             } catch (InputMismatchException e) {
                 System.out.println("Input harus berupa angka. Silakan coba lagi.");
                 sc.next(); // Membersihkan buffer input setelah input tidak valid
+            }
+        }
+    }
+
+    public static void main(String[] args) throws Exception {
+        productControl.lihatProduk();
+        String pilih = "";
+        while (!pilih.equals("3")) {
+            System.out.println("===============================================");
+            System.out.println("| SISTEM PENDATAAN RUMAH TANGGA DAN AKSESORIS |");
+            System.out.println("===============================================");
+            System.out.println("| [1]. Daftar                                 |");
+            System.out.println("| [2]. Login                                  |");
+            System.out.println("| [3]. Keluar                                 |");
+            System.out.println("===============================================");
+            System.out.print(">> ");
+            pilih = sc.nextLine();
+            switch (pilih) {
+                case "1":
+                    daftarCust();
+                    break;
+                case "2":
+                    login();
+                    break;
+                case "3":
+                    System.out.println(pesan);
+                    break;
+                default:
+                    System.out.println("Pilihan Tidak Tersedia");
+                    break;
             }
         }
     }

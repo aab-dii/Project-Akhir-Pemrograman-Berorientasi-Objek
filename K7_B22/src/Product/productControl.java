@@ -187,8 +187,6 @@ public class productControl {
                         dataElektronik.add(newElektronik);
                         break;
                     case "rumahtangga":
-                        // String bahan = resultSet.getString("bahan");
-                        // String ukuran = resultSet.getString("ukuran");
                         rumahTangga newRumahTangga = new rumahTangga(id, nama, deskripsi, harga, stok, bahan, ukuran, merk, jenis);
                         datArt.add(newRumahTangga);
                         break;
@@ -272,43 +270,6 @@ public class productControl {
             // Mengeksekusi pernyataan SQL untuk menghapus produk
             statement.executeUpdate();
             lihatProduk();
-            // Hapus objek dari ArrayList berdasarkan jenisnya
-            // switch (jenis.toLowerCase()) {
-            //     case "perkakas":
-            //         for (perkakas perkakas : dataPerkakas) {
-            //             if (perkakas.getId() == id) {
-            //                 dataPerkakas.remove(perkakas);
-            //                 break;
-            //             }
-            //         }
-            //         break;
-            //     case "furniture":
-            //         for (furniture furniture : dataFurniture) {
-            //             if (furniture.getId() == id) {
-            //                 dataFurniture.remove(furniture);
-            //                 break;
-            //             }
-            //         }
-            //         break;
-            //     case "elektronik":
-            //         for (elektronik elektronik : dataElektronik) {
-            //             if (elektronik.getId() == id) {
-            //                 dataElektronik.remove(elektronik);
-            //                 break;
-            //             }
-            //         }
-            //         break;
-            //     case "rumahtangga":
-            //         for (rumahTangga rt : datArt) {
-            //             if (rt.getId() == id) {
-            //                 datArt.remove(rt);
-            //                 break;
-            //             }
-            //         }
-            //         break;
-            //     default:
-            //         System.out.println("Jenis produk tidak dikenal: " + jenis);
-            // }
             System.out.println("Produk dengan ID " + id + " berhasil dihapus.");
         } catch (SQLException e) {
             e.printStackTrace();
