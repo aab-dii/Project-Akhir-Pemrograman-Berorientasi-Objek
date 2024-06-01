@@ -13,7 +13,6 @@ public class productControl {
     private static ArrayList<elektronik> dataElektronik = new ArrayList<>();
     private static ArrayList<furniture> dataFurniture = new ArrayList<>();
     private static ArrayList<perkakas> dataPerkakas = new ArrayList<>();
-    private static ArrayList<product> dataProduk = new ArrayList<>();
 
     public static void tambahProduk(product newProduct) throws SQLException, ClassNotFoundException {
         Connection connection = null;
