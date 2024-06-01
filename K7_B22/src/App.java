@@ -1455,8 +1455,8 @@ public class App {
                 System.out.print("Masukkan jumlah: ");
                 int jumlah = cekInputInt(sc);
                 sc.nextLine();
-                if (jumlah < 0 || jumlah > rtBeli.getStok()) {
-                    System.out.println("Jumlah yang anda beli melebihi stok");
+                if (jumlah <= 0 || jumlah > rtBeli.getStok()) {
+                    System.out.println("Jumlah yang anda beli melebihi stok atau 0");
                     break;
                 }
                 System.out.println("==================");
@@ -1531,8 +1531,8 @@ public class App {
                 System.out.print("Masukkan jumlah: ");
                 int jumlah = cekInputInt(sc);
 
-                if (jumlah < 0 || jumlah > elBeli.getStok()) {
-                    System.out.println("Jumlah yang anda beli melebihi stok");
+                if (jumlah <= 0 || jumlah > elBeli.getStok()) {
+                    System.out.println("Jumlah yang anda beli melebihi stok atau 0");
                     break;
                 }
 
@@ -1606,8 +1606,8 @@ public class App {
                 System.out.println("Masukkan jumlah yang inign dibeli");
                 int jumlah = cekInputInt(sc);
 
-                if (jumlah < 0 || jumlah > frBeli.getStok()) {
-                    System.out.println("Jumlah yang anda beli melebihi stok");
+                if (jumlah <= 0 || jumlah > frBeli.getStok()) {
+                    System.out.println("Jumlah yang anda beli melebihi stok atau 0");
                     break;
                 }
 
@@ -1682,8 +1682,8 @@ public class App {
                 System.out.print("Masukkan jumlah: ");
                 int jumlah = cekInputInt(sc);
 
-                if (jumlah < 0 || jumlah > prBeli.getStok()) {
-                    System.out.println("Jumlah yang anda beli melebihi stok");
+                if (jumlah <= 0 || jumlah > prBeli.getStok()) {
+                    System.out.println("Jumlah yang anda beli melebihi stok atau 0");
                     break;
                 }
 
