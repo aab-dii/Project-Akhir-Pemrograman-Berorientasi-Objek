@@ -755,10 +755,10 @@ public class App {
                     hapusRt();
                     break;
                 case "2":
-                    ubahPerkakas();
+                    hapusPerkakas();
                     break;
                 case "3":
-                    ubahElektronik();
+                    hapusElektronik();
                     break;
                 case "4":
                     hapusFurnitur();

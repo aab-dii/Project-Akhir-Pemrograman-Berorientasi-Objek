@@ -123,7 +123,6 @@ public class productControl {
                         System.out.println("Jenis produk tidak dikenal: " + jenis);
                 }
             }
-            System.out.println("Produk berhasil dimuat dari database.");
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
             System.out.println("Terjadi kesalahan saat mengambil produk dari database.");
