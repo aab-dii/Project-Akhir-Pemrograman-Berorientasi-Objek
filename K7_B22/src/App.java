@@ -1119,7 +1119,6 @@ public class App {
             System.out.println("| [3]. Nama                    |");
             System.out.println("| [4]. No. Telpon              |");
             System.out.println("| [5]. Email                   |");
-            System.out.println("| [6]. Alamat                  |");
             System.out.println("================================");
             System.out.print(">> ");
             String pilih = sc.nextLine();
@@ -1931,6 +1930,7 @@ public class App {
         System.out.println("| [4]. Furniture              |");
         System.out.println("| [5]. Keluar                 |");
         System.out.println("===============================");
+        System.out.print(">> ");
     }
 
     // Error Handling
