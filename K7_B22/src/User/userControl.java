@@ -251,10 +251,13 @@ public class userControl {
                 kurir newKurir = new kurir(id, nama,username,password, email,telp,"kurir");
                 dataKurir.add(newKurir);
 
-                System.out.println("Nama: " + nama);
-                System.out.println("Telepon: " + telp);
-                System.out.println("Email: " + email);
+                int no = 1;
+                System.out.println("No      : " + no);
+                System.out.println("Nama    : " + nama);
+                System.out.println("Telepon : " + telp);
+                System.out.println("Email   : " + email);
                 System.out.println("-------------------------------");
+                no++;
             }
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();

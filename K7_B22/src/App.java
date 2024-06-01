@@ -254,6 +254,7 @@ public class App {
                     break;
                 case "3":
                     hapusKurir();
+                    break;
                 default:
                     System.out.println("Pilihan Tidak Tersedia");
                     break;
