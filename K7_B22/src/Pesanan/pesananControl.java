@@ -64,11 +64,11 @@ public class pesananControl {
             dataPesanan.clear();
 
             System.out.println(
-                    "----------------------------------------------------------------------------------------------------------------------------------------------------");
-                    System.out.printf("| %-5s | %-20s | %-10s | %-20s | %-20s | %-20s | %-15s | %-10s |\n",
+                    "--------------------------------------------------------------------------------------------------------------------------------------------------------------");
+                    System.out.printf("| %-5s | %-20s | %-10s | %-30s | %-20s | %-20s | %-15s | %-10s |\n",
                     "No", "Nama Barang", "Jumlah", "Status", "Nama Pemesan", "Alamat", "Telepon", "Harga");
                     System.out.println(
-                "----------------------------------------------------------------------------------------------------------------------------------------------------");
+                "--------------------------------------------------------------------------------------------------------------------------------------------------------------");
                 
             while (resultSet.next()) {
                 int idPesanan = resultSet.getInt("idPesanan");
@@ -88,10 +88,10 @@ public class pesananControl {
                 dataPesanan.add(newPesanan);
 
                 no++;
-                System.out.printf("| %-5d | %-20s | %-10d | %-20s | %-20s | %-20s | %-15s | %-10d |\n",
+                System.out.printf("| %-5d | %-20s | %-10d | %-30s | %-20s | %-20s | %-15s | %-10d |\n",
                         no, namaProduk, jumlah, status, namaPemesan, alamatPemesan, noTeleponPemesan, harga * jumlah);
                 System.out.println(
-                    "----------------------------------------------------------------------------------------------------------------------------------------------------");
+                    "--------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
             }
         } catch (SQLException | ClassNotFoundException e) {
@@ -169,67 +169,6 @@ public class pesananControl {
         }
     }
     
-
-    public static void lihatPesananDikirim() {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        int total = 0;
-        dataPesanan.clear();
-
-        try {
-            connection = DatabaseConnection.getConnection();
-            String sql = "SELECT * FROM tbpesanan WHERE status = 'Pesanan Sedang Dikirim'";
-            statement = connection.prepareStatement(sql);
-            resultSet = statement.executeQuery();
-            int no = 0;
-            dataPesanan.clear();
-
-            while (resultSet.next()) {
-                int idPesanan = resultSet.getInt("idPesanan");
-                int idCust = resultSet.getInt("idCust");
-                int idProdukK = resultSet.getInt("idProduk");
-                int jumlah = resultSet.getInt("jumlah");
-                String status = resultSet.getString("status");
-
-                pesanan newPesanan = new pesanan(idPesanan, idCust, idProdukK, jumlah, status);
-                dataPesanan.add(newPesanan);
-
-                String sql2 = "SELECT nama,harga FROM tbproduk WHERE id = ?";
-                PreparedStatement statement2 = connection.prepareStatement(sql2);
-                statement2.setInt(1, idProdukK);
-                ResultSet resultSet2 = statement2.executeQuery();
-
-                no++;
-                if (resultSet2.next()) {
-                    String nama = resultSet2.getString("nama");
-                    int harga = resultSet2.getInt("harga");
-                    System.out.println(no + "  Nama Barang: " + nama);
-                    System.out.println("   Jumlah barang: " + jumlah);
-                    System.out.println("   Status: " + status);
-                    System.out.println("------------------------------------");
-                    total += jumlah * harga;
-                }
-                resultSet2.close();
-                statement2.close();
-            }
-            System.out.println("Total Harga : Rp. " + total);
-        } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (resultSet != null)
-                    resultSet.close();
-                if (statement != null)
-                    statement.close();
-                if (connection != null)
-                    connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     public static ArrayList<pesanan> getDataPesanan() {
         return dataPesanan;
     }

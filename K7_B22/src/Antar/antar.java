@@ -1,15 +1,14 @@
 package Antar;
 
 public class antar {
-    private int id_antar;
-    private int idProduks;
-    private int idPelanggan;
-    private int idPesanan;
-    public antar(int id_antar,int idProduks, int idPelanggan, int idPesanan){
+    private int id_antar, idProduks, idPelanggan, idPesanan, idKurir;
+    public antar(int id_antar,int idProduks, int idPelanggan, int idPesanan, int idKurir) {
         this.id_antar = id_antar;
         this.idProduks = idProduks;
         this.idPelanggan = idPelanggan;
         this.idPesanan = idPesanan;
+        this.idKurir = idKurir;
+
     }
     public int getIdProduks() {
         return idProduks;
@@ -35,4 +34,17 @@ public class antar {
     public void setIdAntar(int id_antar) {
         this.id_antar = id_antar;
     }
+    public int getId_antar() {
+        return id_antar;
+    }
+    public void setId_antar(int id_antar) {
+        this.id_antar = id_antar;
+    }
+    public int getIdKurir() {
+        return idKurir;
+    }
+    public void setIdKurir(int idKurir) {
+        this.idKurir = idKurir;
+    }
+    
 }

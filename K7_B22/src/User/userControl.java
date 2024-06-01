@@ -57,7 +57,7 @@ public class userControl {
     //     }
     // }
 
-    public static boolean checkUsernameExists(String username) {
+    public static boolean checkDataExists(String kolom, String username) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -65,9 +65,10 @@ public class userControl {
 
         try {
             connection = DatabaseConnection.getConnection();
-            String sql = "SELECT * FROM tbuser WHERE username = ?";
+            String sql = "SELECT * FROM tbuser WHERE ? = ?";
             statement = connection.prepareStatement(sql);
-            statement.setString(1, username);
+            statement.setString(1, kolom);
+            statement.setString(2, username);
             resultSet = statement.executeQuery();
 
             // Jika ada baris hasil, berarti username sudah ada
@@ -101,6 +102,8 @@ public class userControl {
         }
         return usernameExists;
     }
+
+    
 
     public static user checkCredentials(String username, String password)
         throws SQLException, ClassNotFoundException {

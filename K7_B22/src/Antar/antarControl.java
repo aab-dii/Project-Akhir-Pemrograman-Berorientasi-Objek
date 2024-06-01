@@ -9,51 +9,55 @@ import Connection.DatabaseConnection;
 
 public class antarControl {
     private static ArrayList<antar> dataAntar = new ArrayList<antar>();
-    public static void tambahAntar(int id_produk, int id_pelanggan, int id_pesanan) throws SQLException, ClassNotFoundException {
+
+    public static void tambahAntar(antar antar) throws SQLException, ClassNotFoundException {
         Connection connection = null;
         PreparedStatement statement = null;
-        PreparedStatement statement1 = null;
-        
+        PreparedStatement updateStatement = null;
+    
         try {
             // Menghubungkan ke database
             connection = DatabaseConnection.getConnection();
-            String sql = "select * from tbantar where id_pesanan = ?";
-            statement1 = connection.prepareStatement(sql);
-            statement1.setInt(1, id_pesanan);
-            ResultSet rowdetect = statement1.executeQuery();
-            if (rowdetect.next()) {
-                System.out.println("Barang sudah anda ambil");
-                return;
-            }
-            // Query untuk memasukkan data
-            String query = "INSERT INTO tbantar (id_barang, id_user, id_pesanan) VALUES (?, ?, ?)";
-
-            // Menyiapkan statement SQL
+    
+            // Query untuk memasukkan data ke dalam tbantar
+            String query = "INSERT INTO tbantar (id_barang, id_user, id_pesanan, id_kurir) VALUES (?, ?, ?, ?)";
+    
+            // Menyiapkan statement SQL untuk memasukkan data
             statement = connection.prepareStatement(query);
-
-            // Mengisi nilai parameter dengan data dari objek newAntar
-            statement.setInt(1, id_produk);
-            statement.setInt(2, id_pelanggan);
-            statement.setInt(3, id_pesanan);
+            statement.setInt(1, antar.getIdProduks());
+            statement.setInt(2, antar.getIdPelanggan());
+            statement.setInt(3, antar.getIdPesanan());
+            statement.setInt(4, antar.getIdKurir());
             
-            // Menjalankan pernyataan SQL
+            // Menjalankan pernyataan SQL untuk memasukkan data
             statement.executeUpdate();
-
-            // Menambahkan data baru ke dalam ArrayList jika berhasil
-            //dataAntar.add(newAntar);
-            System.out.println("Data berhasil ditambahkan ke dalam database.");
-
+    
+            // Query untuk mengubah status pada tbpesanan
+            String updateQuery = "UPDATE tbpesanan SET status = 'Sedang Diantar Kurir' WHERE idPesanan = ?";
+    
+            // Menyiapkan statement SQL untuk memperbarui status
+            updateStatement = connection.prepareStatement(updateQuery);
+            updateStatement.setInt(1, antar.getIdPesanan());
+            
+            // Menjalankan pernyataan SQL untuk memperbarui status
+            updateStatement.executeUpdate();
+    
+            System.out.println("Data berhasil ditambahkan ke dalam database dan status pesanan diperbarui.");
+    
         } finally {
             // Menutup statement dan koneksi
             if (statement != null) {
                 statement.close();
             }
+            if (updateStatement != null) {
+                updateStatement.close();
+            }
             if (connection != null) {
                 connection.close();
             }
         }
-        
     }
+    
     public static void hapusAntar(int id) throws SQLException, ClassNotFoundException {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -102,7 +106,7 @@ public class antarControl {
             }
         }
     }
-    public static void perbaruiArrayAntar() throws SQLException, ClassNotFoundException {
+    public static void perbaruiArrayAntar(int idKurir) throws SQLException, ClassNotFoundException {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -112,10 +116,11 @@ public class antarControl {
             connection = DatabaseConnection.getConnection();
     
             // Query untuk mengambil semua data antar
-            String query = "SELECT * FROM tbantar";
+            String query = "SELECT * FROM tbantar WHERE id_kurir = ?";
     
             // Menyiapkan statement SQL
             statement = connection.prepareStatement(query);
+            statement.setInt(1, idKurir);
     
             // Menjalankan pernyataan SQL dan mendapatkan hasilnya
             resultSet = statement.executeQuery();
@@ -129,8 +134,9 @@ public class antarControl {
                 int id_barang = resultSet.getInt("id_barang");
                 int id_user = resultSet.getInt("id_user");
                 int id_pesanan = resultSet.getInt("id_pesanan");
+                int id_kurir = resultSet.getInt("id_kurir");
     
-                antar a = new antar(id_antar, id_barang, id_user, id_pesanan);
+                antar a = new antar(id_antar, id_barang, id_user, id_pesanan, id_kurir);
                 dataAntar.add(a);
             }
     
@@ -153,17 +159,67 @@ public class antarControl {
         return dataAntar;
     }
 
-    public static void tampilkanAntar() {
+    public static void tampilkanAntar() throws SQLException, ClassNotFoundException {
         ArrayList<antar> dataAntar = getDataAntar();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+    
         System.out.println("Data Antar:");
-        System.out.println("--------------------------------------------------");
-        System.out.printf("| %-5s | %-10s | %-10s | %-10s |\n", "Index", "ID Antar", "ID Barang", "ID Pesanan");
-        System.out.println("--------------------------------------------------");
-        for (int i = 0; i < dataAntar.size(); i++) {
-            antar a = dataAntar.get(i);
-            System.out.printf("| %-5d | %-10d | %-10d | %-10d |\n", i+1, a.getIdAntar(), a.getIdProduks(), a.getIdPesanan());
+        System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("| %-5s | %-20s | %-10s | %-20s | %-30s | %-15s |\n", "Index", "Nama Produk", "Jumlah", "Nama Customer", "Alamat", "Telepon");
+        System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
+    
+        try {
+            connection = DatabaseConnection.getConnection();
+            for (int i = 0; i < dataAntar.size(); i++) {
+                antar a = dataAntar.get(i);
+    
+                // Mengambil data dari tbuser
+                String userSql = "SELECT nama, alamat, telp FROM tbuser WHERE id = ?";
+                statement = connection.prepareStatement(userSql);
+                statement.setInt(1, a.getIdPelanggan());
+                resultSet = statement.executeQuery();
+    
+                String namaUser = "", alamat = "", telp = "";
+                if (resultSet.next()) {
+                    namaUser = resultSet.getString("nama");
+                    alamat = resultSet.getString("alamat");
+                    telp = resultSet.getString("telp");
+                }
+    
+                // Mengambil data dari tbproduk
+                String produkSql = "SELECT nama FROM tbproduk WHERE id = ?";
+                statement = connection.prepareStatement(produkSql);
+                statement.setInt(1, a.getIdProduks());
+                resultSet = statement.executeQuery();
+    
+                String namaProduk = "";
+                if (resultSet.next()) {
+                    namaProduk = resultSet.getString("nama");
+                }
+    
+                // Mengambil data dari tbpesanan
+                String pesananSql = "SELECT jumlah FROM tbpesanan WHERE idPesanan = ?";
+                statement = connection.prepareStatement(pesananSql);
+                statement.setInt(1, a.getIdPesanan());
+                resultSet = statement.executeQuery();
+    
+                int jumlah = 0;
+                if (resultSet.next()) {
+                    jumlah = resultSet.getInt("jumlah");
+                }
+    
+                System.out.printf("| %-5d | %-20s | %-10d | %-20s | %-30s | %-15s |\n", i + 1, namaProduk, jumlah, namaUser, alamat, telp);
+                if (resultSet != null) resultSet.close();
+                if (statement != null) statement.close();
+            }
+        } finally {
+            if (resultSet != null) resultSet.close();
+            if (statement != null) statement.close();
+            if (connection != null) connection.close();
         }
-        System.out.println("--------------------------------------------------");
+        System.out.println("---------------------------------------------------------------------------------------------------------------------------------");
     }
     
 }

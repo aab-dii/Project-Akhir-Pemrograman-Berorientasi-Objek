@@ -64,16 +64,16 @@ public class App {
         String newUsername = cekInputStr(sc, "Masukkan Username :");
 
         // Periksa apakah username sudah ada
-        boolean usernameExists = userControl.checkUsernameExists(newUsername);
+        boolean dataExists = userControl.checkDataExists("username", newUsername);
 
         // Jika username belum digunakan, tambahkan pengguna baru
-        if (!usernameExists) {
-            
+        if (!dataExists) {
+
             String newPassword = cekInputStr(sc, "Masukkan Password : ");
 
             try {
                 customer newCustomer = new customer(0, "", newUsername, newPassword, "", "", "", 0, "customer"); // Sesuaikan
-                                                                                                                // dengan
+                                                                                                                 // dengan
                 // konstruktor kelas
                 // customer
                 userControl.registerCustomer(newCustomer);
@@ -91,12 +91,12 @@ public class App {
         String newUsername = cekInputStr(sc, "Masukkan Username :");
 
         // Periksa apakah username sudah ada
-        boolean usernameExists = userControl.checkUsernameExists(newUsername);
+        boolean dataExists = userControl.checkDataExists("username", newUsername);
 
         // Jika username belum digunakan, tambahkan pengguna baru
-        if (!usernameExists) {
+        if (!dataExists) {
             String newPassword = cekInputStr(sc, "Masukkan Password : ");
-            String nama = cekInputStr(sc,"Masukkan Nama : ");
+            String nama = cekInputStr(sc, "Masukkan Nama : ");
             System.out.print("Masukkan email: ");
             String email = sc.nextLine();
             while (!isValidEmail(email)) {
@@ -109,7 +109,7 @@ public class App {
             String telpp = String.valueOf(telp);
 
             try {
-                kurir newKurir = new kurir(0, nama, newUsername, newPassword, email, telpp, "kurir"); 
+                kurir newKurir = new kurir(0, nama, newUsername, newPassword, email, telpp, "kurir");
                 userControl.registerKurir(newKurir);
                 System.out.println("Pendaftaran berhasil!");
             } catch (SQLException | ClassNotFoundException e) {
@@ -413,7 +413,7 @@ public class App {
         String bahan = cekInputStr(sc, "Bahan : ");
         String ukuran = cekInputStr(sc, "Ukuran : ");
 
-        product newProduct = new furniture(0, nama, deskripsi, harga, stok, merk,bahan,ukuran, "furnitur");
+        product newProduct = new furniture(0, nama, deskripsi, harga, stok, merk, bahan, ukuran, "furnitur");
         try {
             productControl.tambahProduk(newProduct); // Panggil metode untuk menambahkan produk ke database
             System.out.println("Data Furnitur berhasil ditambahkan.");
@@ -479,10 +479,10 @@ public class App {
     public static void lihatRumahTangga() {
         int no = 0;
         System.out.println(
-                    "--------------------------------------------------------------------------------------------------------------------------------");
-                    System.out.printf("| %-5s | %-20s | %-20s | %-10s | %-10s | %-10s | %-10s | %-10s |\n",
-                    "No", "Nama Produk", "Deskripsi", "Harga", "Stok", "Merk", "Bahan", "Ukuran");
-                    System.out.println(
+                "--------------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("| %-5s | %-20s | %-20s | %-10s | %-10s | %-10s | %-10s | %-10s |\n",
+                "No", "Nama Produk", "Deskripsi", "Harga", "Stok", "Merk", "Bahan", "Ukuran");
+        System.out.println(
                 "--------------------------------------------------------------------------------------------------------------------------------");
         for (rumahTangga rt : productControl.getDatArt()) {
             no++;
@@ -492,10 +492,10 @@ public class App {
 
     public static void lihatPerkakas() {
         System.out.println(
-                    "--------------------------------------------------------------------------------------------------------------------------------");
-                    System.out.printf("| %-5s | %-20s | %-20s | %-10s | %-10s | %-10s |\n",
-                    "No", "Nama Produk", "Deskripsi", "Harga", "Stok", "Merk");
-                    System.out.println(
+                "--------------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("| %-5s | %-20s | %-20s | %-10s | %-10s | %-10s |\n",
+                "No", "Nama Produk", "Deskripsi", "Harga", "Stok", "Merk");
+        System.out.println(
                 "--------------------------------------------------------------------------------------------------------------------------------");
         int no = 0;
         for (perkakas pk : productControl.getDataPerkakas()) {
@@ -506,10 +506,10 @@ public class App {
 
     public static void lihatElektronik() {
         System.out.println(
-                    "------------------------------------------------------------------------------------------------------------------------------------");
-                    System.out.printf("| %-5s | %-20s | %-20s | %-10s | %-10s | %-10s | %-10s | %-10s | %-10s |\n",
-                    "No", "Nama Produk", "Deskripsi", "Harga", "Stok", "Merk", "Tipe", "Model", "Warna");
-                    System.out.println(
+                "------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("| %-5s | %-20s | %-20s | %-10s | %-10s | %-10s | %-10s | %-10s | %-10s |\n",
+                "No", "Nama Produk", "Deskripsi", "Harga", "Stok", "Merk", "Tipe", "Model", "Warna");
+        System.out.println(
                 "------------------------------------------------------------------------------------------------------------------------------------");
         int no = 0;
         for (elektronik el : productControl.getDataElektronik()) {
@@ -520,10 +520,10 @@ public class App {
 
     public static void lihatFurniture() {
         System.out.println(
-                    "--------------------------------------------------------------------------------------------------------------------------------");
-                    System.out.printf("| %-5s | %-20s | %-20s | %-10s | %-10s | %-10s | %-10s | %-10s |\n",
-                    "No", "Nama Produk", "Deskripsi", "Harga", "Stok", "Merk", "Bahan", "Ukuran");
-                    System.out.println(
+                "--------------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("| %-5s | %-20s | %-20s | %-10s | %-10s | %-10s | %-10s | %-10s |\n",
+                "No", "Nama Produk", "Deskripsi", "Harga", "Stok", "Merk", "Bahan", "Ukuran");
+        System.out.println(
                 "--------------------------------------------------------------------------------------------------------------------------------");
         int no = 0;
         for (furniture fn : productControl.getDataFurniture()) {
@@ -990,7 +990,7 @@ public class App {
 
     // Menu Kurir
     public static void menuKurir(kurir kurir) throws ClassNotFoundException, SQLException {
-        antarControl.perbaruiArrayAntar();
+        antarControl.perbaruiArrayAntar(kurir.getId());
         String pilih = "";
         while (!pilih.equals("5")) {
             System.out.println("===============================");
@@ -1007,21 +1007,22 @@ public class App {
             switch (pilih) {
                 case "1":
                     System.out.println("Tambah Pengiriman");
-                    tambahPengiriman();
+                    tambahPengiriman(kurir);
                     // Tambahkan logika untuk menambahkan pengiriman
                     break;
                 case "2":
                     System.out.println("Lihat Pengiriman");
                     antarControl.tampilkanAntar();
-                    //pesananControl.lihatPesanan("Pesanan Sedang Dikirim");
+                    // pesananControl.lihatPesanan("Pesanan Sedang Dikirim");
                     break;
                 case "3":
                     System.out.println("Konfirmasi Pengiriman");
-                    konfirmasiAntar();
+                    konfirmasiAntar(kurir);
                     // Tambahkan logika untuk mengkonfirmasi pengiriman
                     break;
                 case "4":
                     System.out.println("Profil Kurir");
+                    menuProfile(kurir);
                     break;
                 case "5":
                     System.out.println("Keluar dari Menu Kurir");
@@ -1034,7 +1035,7 @@ public class App {
         }
     }
 
-    public static void tambahPengiriman() throws ClassNotFoundException, SQLException {
+    public static void tambahPengiriman(kurir kurir) throws ClassNotFoundException, SQLException {
         pesananControl.lihatPesanan("Pesanan Sedang Dikirim");
         System.out.println("Pilih pesanan yang ingin diantarkan");
         System.out.print(">> ");
@@ -1045,17 +1046,17 @@ public class App {
             return;
         }
         pesanan ambildata = pesananControl.getDataPesanan().get(index);
-        int idbarang = ambildata.getIdProduk();
-        int iduser = ambildata.getIdCust();
-        int idpesan = ambildata.getIdPesanan();
-        antarControl.tambahAntar(idbarang, iduser, idpesan);
-        antarControl.perbaruiArrayAntar();
-        //antar newantar = new antar(1,idbarang, iduser, idpesan);
-        //antarControl.tambahAntar(antar newantar);
-        //System.out.println("kirim");
+        antar newAntar = new antar(0, ambildata.getIdProduk(), ambildata.getIdCust(), ambildata.getIdPesanan(),
+                kurir.getId());
+        antarControl.tambahAntar(newAntar);
+        antarControl.perbaruiArrayAntar(kurir.getId());
+        // antar newantar = new antar(1,idbarang, iduser, idpesan);
+        // antarControl.tambahAntar(antar newantar);
+        // System.out.println("kirim");
     }
-    public static void konfirmasiAntar() throws ClassNotFoundException, SQLException{
-        antarControl.perbaruiArrayAntar();
+
+    public static void konfirmasiAntar(kurir kurir) throws ClassNotFoundException, SQLException {
+        antarControl.perbaruiArrayAntar(kurir.getId());
         antarControl.tampilkanAntar();
         System.out.println("Pilih pesanan yang telah diantarkan");
         System.out.print(">> ");
@@ -1068,7 +1069,125 @@ public class App {
         antar ambildata = antarControl.getDataAntar().get(index);
         int idpesan = ambildata.getIdPesanan();
         antarControl.hapusAntar(idpesan);
-        
+
+    }
+
+    public static void menuProfile(kurir kurir) {
+        String pilih = "";
+        while (!pilih.equals("2")) {
+            profileKurir(kurir);
+            System.out.println("=====================");
+            System.out.println("| [1]. Ubah Profile |");
+            System.out.println("| [2]. Keluar       |");
+            System.out.println("=====================");
+            System.out.print(">> ");
+            pilih = sc.nextLine();
+            switch (pilih) {
+                case "1":
+                    ubahProfile(kurir);
+                    break;
+                default:
+                    System.out.println("Pilihan Tidak Tersedia");
+                    break;
+            }
+        }
+    }
+
+    public static void profileKurir(kurir kurir) {
+        // Mengecek apakah pelanggan sudah login
+        if (kurir != null) {
+            System.out.println("| Profil");
+            System.out.println("| Username : " + kurir.getUsername());
+            System.out.println("| Password : " + kurir.getPassword());
+            System.out.println("| Nama     : " + kurir.getNama());
+            System.out.println("| No. Telp : " + kurir.getTelp());
+            System.out.println("| Email    : " + kurir.getEmail());
+        } else {
+            System.out.println("Anda belum login.");
+        }
+    }
+
+    public static void ubahProfile(kurir kurir) {
+        if (kurir != null) {
+            System.out.println("================================");
+            System.out.println("| Pilih data yang ingin diubah |");
+            System.out.println("================================");
+            System.out.println("| [1]. Username                |");
+            System.out.println("| [2]. Password                |");
+            System.out.println("| [3]. Nama                    |");
+            System.out.println("| [4]. No. Telpon              |");
+            System.out.println("| [5]. Email                   |");
+            System.out.println("| [6]. Alamat                  |");
+            System.out.println("================================");
+            System.out.print(">> ");
+            String pilih = sc.nextLine();
+
+            String kolom = "";
+            String nilaiBaru = "";
+
+            switch (pilih) {
+                case "1":
+                    nilaiBaru = cekInputStr(sc, "Masukkan Username Baru : ");
+                    boolean dataExists = userControl.checkDataExists("username", nilaiBaru);
+                    if (!dataExists) {
+                        kolom = "username";
+                        kurir.setUsername(nilaiBaru);
+                    } else {
+                        System.out.println("Username Telah Digunakan");
+                    }
+                    break;
+                case "2":
+                    nilaiBaru = cekInputStr(sc, "Masukkan Password Baru : ");
+                    kolom = "password";
+                    kurir.setPassword(nilaiBaru);
+                    break;
+                case "3":
+                    nilaiBaru = cekInputStr(sc, "Masukkan Nama Baru : ");
+                    kolom = "nama";
+                    kurir.setNama(nilaiBaru);
+                    break;
+                case "4":
+                    System.out.print("Masukkan nomor telepon baru: ");
+                    int telp = cekInputInt(sc);
+                    String telpBaru = String.valueOf(telp);
+                    dataExists = userControl.checkDataExists("telp", telpBaru);
+                    if (!dataExists) {
+                        kolom = "telp";
+                        kurir.setTelp(telpBaru);
+                    } else {
+                        System.out.println("Nomor Telepon Telah Digunakan");
+                    }
+                    break;
+                case "5":
+                    System.out.print("Masukkan email baru: ");
+                    nilaiBaru = sc.nextLine();
+                    kolom = "email";
+                    while (!isValidEmail(nilaiBaru)) {
+                        System.out.println("Alamat email tidak valid. Harap masukkan alamat email yang benar.");
+                        System.out.print("Masukkan email baru: ");
+                        nilaiBaru = sc.nextLine();
+                    }
+                    dataExists = userControl.checkDataExists("email", nilaiBaru);
+                    if (!dataExists) {
+                        kurir.setEmail(nilaiBaru);
+                    } else {
+                        System.out.println("Email Telah Digunakan");
+                    }
+                    break;
+                default:
+                    System.out.println("Pilihan tidak valid.");
+                    return;
+            }
+            try {
+                userControl.updateCustomer(kurir.getId(), kolom, nilaiBaru);
+                System.out.println("Profil pelanggan berhasil diubah.");
+            } catch (SQLException | ClassNotFoundException e) {
+                e.printStackTrace();
+                System.out.println("Terjadi kesalahan saat memperbarui profil pelanggan.");
+            }
+        } else {
+            System.out.println("Pelanggan tidak ditemukan.");
+        }
     }
 
     // Menu Customer
@@ -1660,25 +1779,35 @@ public class App {
             switch (pilih) {
                 case "1":
                     nilaiBaru = cekInputStr(sc, "Masukkan Username Baru : ");
-                    kolom = "username";
-                    customer.setUsername(nilaiBaru); // Ubah username pelanggan
+                    boolean dataExists = userControl.checkDataExists("username", nilaiBaru);
+                    if (!dataExists) {
+                        kolom = "username";
+                        customer.setUsername(nilaiBaru);
+                    } else {
+                        System.out.println("Username Telah Digunakan");
+                    }
                     break;
                 case "2":
                     nilaiBaru = cekInputStr(sc, "Masukkan Password Baru : ");
                     kolom = "password";
-                    customer.setPassword(nilaiBaru); // Ubah password pelanggan
+                    customer.setPassword(nilaiBaru);
                     break;
                 case "3":
                     nilaiBaru = cekInputStr(sc, "Masukkan Nama Baru : ");
                     kolom = "nama";
-                    customer.setNama(nilaiBaru); // Ubah nama pelanggan
+                    customer.setNama(nilaiBaru);
                     break;
                 case "4":
                     System.out.print("Masukkan nomor telepon baru: ");
                     int telp = cekInputInt(sc);
                     String telpBaru = String.valueOf(telp);
-                    kolom = "telp";
-                    customer.setTelp(telpBaru); // Ubah nomor telepon pelanggan
+                    dataExists = userControl.checkDataExists("telp", telpBaru);
+                    if (!dataExists) {
+                        kolom = "telp";
+                        customer.setTelp(telpBaru);
+                    } else {
+                        System.out.println("Nomor Telepon Telah Digunakan");
+                    }
                     break;
                 case "5":
                     System.out.print("Masukkan email baru: ");
@@ -1689,10 +1818,15 @@ public class App {
                         System.out.print("Masukkan email baru: ");
                         nilaiBaru = sc.nextLine();
                     }
-                    customer.setEmail(nilaiBaru);
+                    dataExists = userControl.checkDataExists("email", nilaiBaru);
+                    if (!dataExists) {
+                        customer.setEmail(nilaiBaru);
+                    } else {
+                        System.out.println("Email Telah Digunakan");
+                    }
                     break;
                 case "6":
-                    nilaiBaru = cekInputStr(sc,"Masukkan Alamat Baru : ");
+                    nilaiBaru = cekInputStr(sc, "Masukkan Alamat Baru : ");
                     kolom = "alamat";
                     customer.setAlamatPengiriman(nilaiBaru); // Ubah alamat pengiriman pelanggan
                     break;
@@ -1740,7 +1874,6 @@ public class App {
         }
         return input;
     }
-    
 
     public static int cekInputInt(Scanner sc) {
         while (true) {
