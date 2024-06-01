@@ -77,7 +77,7 @@ public class pesananControl {
                 int idProdukK = resultSet.getInt("idProduk");
                 int jumlah = resultSet.getInt("jumlah");
                 String status = resultSet.getString("status");
-                Date date = resultSet.getDate("date");
+                Date date = resultSet.getDate("tanggalPesanan");
 
                 // Informasi tambahan dari tbuser dan tbproduk
                 String namaPemesan = resultSet.getString("namaPemesan");
