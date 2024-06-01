@@ -531,8 +531,10 @@ public class App {
                 "--------------------------------------------------------------------------------------------------------------------------------");
         int no = 0;
         for (furniture fn : productControl.getDataFurniture()) {
-            no++;
-            fn.printProductInfo(no);
+            if (fn.getStok() != 0) {
+                no++;
+                fn.printProductInfo(no);
+            }
         }
     }
 
@@ -1579,7 +1581,7 @@ public class App {
     public static void beliFurniture(customer customer) {
         while (true) {
             System.out.println("Furniture");
-            lihatElektronik();
+            lihatFurniture();
             System.out.println("[q]. Keluar");
             System.out.print("Pilih produk yang ingin Anda beli (atau q untuk keluar): ");
 
@@ -1655,7 +1657,7 @@ public class App {
     public static void beliPerkakas(customer customer) {
         while (true) {
             System.out.println("Perkakas");
-            lihatElektronik();
+            lihatPerkakas();
             System.out.println("[q]. Keluar");
             System.out.print("Pilih produk yang ingin Anda beli (atau q untuk keluar): ");
 
