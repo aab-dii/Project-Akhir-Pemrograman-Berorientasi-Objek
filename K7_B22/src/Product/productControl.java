@@ -21,7 +21,7 @@ public class productControl {
 
         try {
             connection = DatabaseConnection.getConnection();
-            String sql = "INSERT INTO tbproduk (nama, stok, harga, deskripsi, merk, jenis, tipe, model, warna) VALUES (?, ?, ?, ?, ?, ?, ?, ?,? )";
+            String sql = "INSERT INTO tbproduk (nama, stok, harga, deskripsi, merk, jenis, bahan, ukuran, tipe, model, warna) VALUES (? , ?, ?, ?, ?, ?, ?, ?, ?, ?,? )";
             statement = connection.prepareStatement(sql);
 
             statement.setString(1, newProduct.getNama());

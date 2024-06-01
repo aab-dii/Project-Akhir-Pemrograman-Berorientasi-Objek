@@ -29,7 +29,7 @@ public class rumahTangga extends product implements printProduk {
 
     @Override
     public void printProductInfo(int no) {
-        System.out.printf("| %-5d | %-20s | %-20s | %-10d | %-10d | %-10s | %-10s | %-10d |\n",
+        System.out.printf("| %-5d | %-20s | %-20s | %-10d | %-10d | %-10s | %-10s | %-10s |\n",
                 no, getNama(), getDeskripsi(), getHarga(), getStok(), getMerk(), getBahan(), getUkuran());
         System.out.println(
                 "--------------------------------------------------------------------------------------------------------------------------------");
