@@ -531,10 +531,8 @@ public class App {
                 "--------------------------------------------------------------------------------------------------------------------------------");
         int no = 0;
         for (furniture fn : productControl.getDataFurniture()) {
-            if (fn.getStok() != 0) {
                 no++;
                 fn.printProductInfo(no);
-            }
         }
     }
 
@@ -1424,13 +1422,77 @@ public class App {
             e.printStackTrace();
             System.out.println("Terjadi kesalahan saat melakukan checkout.");
         }
-
     }
+
+    public static void lihatRumahTangga(int numover) {
+        int no = 0;
+        System.out.println(
+                "--------------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("| %-5s | %-20s | %-20s | %-10s | %-10s | %-10s | %-10s | %-10s |\n",
+                "No", "Nama Produk", "Deskripsi", "Harga", "Stok", "Merk", "Bahan", "Ukuran");
+        System.out.println(
+                "--------------------------------------------------------------------------------------------------------------------------------");
+        for (rumahTangga rt : productControl.getDatArt()) {
+            if (rt.getStok() != 0) {
+                no++;
+                rt.printProductInfo(no);
+            }
+        }
+    }
+    
+    public static void lihatPerkakas(int numover) {
+        System.out.println(
+                "--------------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("| %-5s | %-20s | %-20s | %-10s | %-10s | %-10s |\n",
+                "No", "Nama Produk", "Deskripsi", "Harga", "Stok", "Merk");
+        System.out.println(
+                "--------------------------------------------------------------------------------------------------------------------------------");
+        int no = 0;
+        for (perkakas pk : productControl.getDataPerkakas()) {
+            if (pk.getStok() != 0) {
+                no++;
+                pk.printProductInfo(no);
+            }
+        }
+    }
+    
+    public static void lihatElektronik(int numover) {
+        System.out.println(
+                "------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("| %-5s | %-20s | %-20s | %-10s | %-10s | %-10s | %-10s | %-10s | %-10s |\n",
+                "No", "Nama Produk", "Deskripsi", "Harga", "Stok", "Merk", "Tipe", "Model", "Warna");
+        System.out.println(
+                "------------------------------------------------------------------------------------------------------------------------------------");
+        int no = 0;
+        for (elektronik el : productControl.getDataElektronik()) {
+            if (el.getStok() != 0) {
+                no++;
+                el.printProductInfo(no);
+            }
+        }
+    }
+    
+    public static void lihatFurniture(int numover) {
+        System.out.println(
+                "--------------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("| %-5s | %-20s | %-20s | %-10s | %-10s | %-10s | %-10s | %-10s |\n",
+                "No", "Nama Produk", "Deskripsi", "Harga", "Stok", "Merk", "Bahan", "Ukuran");
+        System.out.println(
+                "--------------------------------------------------------------------------------------------------------------------------------");
+        int no = 0;
+        for (furniture fn : productControl.getDataFurniture()) {
+            if (fn.getStok() != 0) {
+                no++;
+                fn.printProductInfo(no);
+            }
+        }
+    }
+    
 
     public static void beliRt(customer customer) {
         while (true) {
             System.out.println("Peralatan Rumah Tangga");
-            lihatRumahTangga();
+            lihatRumahTangga(1);
             System.out.println("[q]. Keluar");
             System.out.print("Pilih produk yang ingin Anda beli (atau q untuk keluar): ");
 
@@ -1506,7 +1568,7 @@ public class App {
     public static void beliElektronik(customer customer) {
         while (true) {
             System.out.println("Elektronik");
-            lihatElektronik();
+            lihatElektronik(1);
             System.out.println("[q]. Keluar");
             System.out.print("Pilih produk yang ingin Anda beli (atau q untuk keluar): ");
 
@@ -1532,7 +1594,7 @@ public class App {
 
                 System.out.print("Masukkan jumlah: ");
                 int jumlah = cekInputInt(sc);
-
+                sc.nextLine();
                 if (jumlah <= 0 || jumlah > elBeli.getStok()) {
                     System.out.println("Jumlah yang anda beli melebihi stok atau 0");
                     break;
@@ -1581,7 +1643,7 @@ public class App {
     public static void beliFurniture(customer customer) {
         while (true) {
             System.out.println("Furniture");
-            lihatFurniture();
+            lihatFurniture(1);
             System.out.println("[q]. Keluar");
             System.out.print("Pilih produk yang ingin Anda beli (atau q untuk keluar): ");
 
@@ -1607,7 +1669,7 @@ public class App {
 
                 System.out.println("Masukkan jumlah yang inign dibeli");
                 int jumlah = cekInputInt(sc);
-
+                sc.nextLine();
                 if (jumlah <= 0 || jumlah > frBeli.getStok()) {
                     System.out.println("Jumlah yang anda beli melebihi stok atau 0");
                     break;
@@ -1657,7 +1719,7 @@ public class App {
     public static void beliPerkakas(customer customer) {
         while (true) {
             System.out.println("Perkakas");
-            lihatPerkakas();
+            lihatPerkakas(1);
             System.out.println("[q]. Keluar");
             System.out.print("Pilih produk yang ingin Anda beli (atau q untuk keluar): ");
 
@@ -1683,15 +1745,17 @@ public class App {
 
                 System.out.print("Masukkan jumlah: ");
                 int jumlah = cekInputInt(sc);
-
+                sc.nextLine();
                 if (jumlah <= 0 || jumlah > prBeli.getStok()) {
                     System.out.println("Jumlah yang anda beli melebihi stok atau 0");
                     break;
                 }
 
-                System.out.println(" [1]. Beli");
-                System.out.println(" [2]. Keranjang");
-                System.out.println(">> ");
+                System.out.println("==================");
+                System.out.println("| [1]. Beli      |");
+                System.out.println("| [2]. Keranjang |");
+                System.out.println("==================");
+                System.out.print(">> ");
                 String cekBeli = sc.nextLine();
 
                 int total = 0;
